@@ -35,7 +35,7 @@ export default function Login() {
       </View>
 
       <View style={styles.button}>
-        <Button title="Login" />
+        <Button color="#003399" title="Login" />
       </View>
       <TouchableOpacity>
         <Text style={styles.forgotPassword}>Forgot your password?</Text>
@@ -58,12 +58,14 @@ export const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   title: {
+    fontFamily: "Rubik-Bold",
     fontSize: Dimensions.get("window").width * 0.1,
     marginTop: Dimensions.get("window").height * 0.08,
     marginBottom: Dimensions.get("window").height * 0.02,
     color: "#C38E13",
   },
   input: {
+    fontFamily: "Rubik",
     fontSize: Dimensions.get("window").width * 0.08,
     height: Dimensions.get("window").height * 0.1,
   },
@@ -73,6 +75,7 @@ export const styles = StyleSheet.create({
     marginTop: Dimensions.get("window").width * 0.1,
   },
   forgotPassword: {
+    fontFamily: "Rubik",
     color: "#C38E13",
     marginTop: Dimensions.get("window").width * 0.02,
   },

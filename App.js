@@ -1,23 +1,45 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
+import AppLoading from "expo-app-loading";
+import { useFonts } from "expo-font";
 
-import Login from "./src/screens/login"
+import Login from "./src/screens/login-screen";
+import Dashboard from "./src/screens/dashboard-screen";
+
+// import { Login, Dashboard } from "./src/screens"
+
+import CardNotification from "./src/components/card-notification";
+import CardDocument from "./src/components/card-document";
 
 export default function App() {
+  let [fontsLoaded] = useFonts({
+    Rubik: require("./assets/fonts/Rubik.ttf"),
+    "Rubik-Bold": require("./assets/fonts/Rubik-Bold.ttf"),
+    "Rubik-Italic": require("./assets/fonts/Rubik-Italic.ttf"),
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
   return (
-    <View style={styles.container}>
-      {/* <Text>Open up App.js to start working on your app!</Text> */}
-      <Login/>
-      <StatusBar style="auto" />
-    </View>
+    <ScrollView>
+      <View style={styles.container}>
+        {/* <Login/> */}
+        <Dashboard/>
+        <CardNotification />
+        <CardDocument/>
+        <StatusBar style="auto" />
+      </View>
+    </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
