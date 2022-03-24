@@ -64,7 +64,6 @@ export const styles = StyleSheet.create({
   iconName: {
     fontFamily: "Rubik-Bold",
     color: "white",
-    opacity: 0.75,
   },
   contentBody: {
     flex: 1,
