@@ -11,6 +11,7 @@ import Dashboard from "./src/screens/dashboard-screen";
 import CardNotification from "./src/components/card-notification";
 import CardDocument from "./src/components/card-document";
 import Search from "./src/components/search";
+import Filter from "./src/components/filter-date"
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -27,10 +28,11 @@ export default function App() {
     <ScrollView>
       <View style={styles.container}>
         {/* <Login/> */}
-        <Dashboard/>
+        <Dashboard />
         <CardNotification />
-        <CardDocument/>
-        <Search/>
+        <CardDocument />
+        <Search />
+        <Filter />
         <StatusBar style="auto" />
       </View>
     </ScrollView>
