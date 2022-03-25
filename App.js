@@ -14,6 +14,7 @@ import Search from "./src/components/search";
 import Filter from "./src/components/filter-date"
 import CardName from "./src/components/card-name";
 import CardSendMassage from "./src/components/card-send-massage";
+import CardReceiveMassage from "./src/components/card-receive-massage"
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -37,6 +38,7 @@ export default function App() {
         <Filter />
         <CardName />
         <CardSendMassage />
+        <CardReceiveMassage />
         <StatusBar style="auto" />
       </View>
     </ScrollView>
