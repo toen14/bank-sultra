@@ -12,6 +12,7 @@ import CardNotification from "./src/components/card-notification";
 import CardDocument from "./src/components/card-document";
 import Search from "./src/components/search";
 import Filter from "./src/components/filter-date"
+import CardName from "./src/components/card-name";
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -33,6 +34,7 @@ export default function App() {
         <CardDocument />
         <Search />
         <Filter />
+        <CardName />
         <StatusBar style="auto" />
       </View>
     </ScrollView>
