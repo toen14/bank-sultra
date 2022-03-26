@@ -11,10 +11,11 @@ import Dashboard from "./src/screens/dashboard-screen";
 import CardNotification from "./src/components/card-notification";
 import CardDocument from "./src/components/card-document";
 import Search from "./src/components/search";
-import Filter from "./src/components/filter-date"
+import Filter from "./src/components/filter-date";
 import CardName from "./src/components/card-name";
 import CardSendMassage from "./src/components/card-send-massage";
-import CardReceiveMassage from "./src/components/card-receive-massage"
+import CardReceiveMassage from "./src/components/card-receive-massage";
+import CardDDebtor from "./src/components/card-debtor";
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -39,6 +40,7 @@ export default function App() {
         <CardName />
         <CardSendMassage />
         <CardReceiveMassage />
+        <CardDDebtor />
         <StatusBar style="auto" />
       </View>
     </ScrollView>
