@@ -17,6 +17,7 @@ import CardSendMassage from "./src/components/card-send-massage";
 import CardReceiveMassage from "./src/components/card-receive-massage";
 import CardDDebtor from "./src/components/card-debtor";
 import CardUser from "./src/components/card-user";
+import CardBranch from "./src/components/card-branch";
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -43,6 +44,7 @@ export default function App() {
         <CardReceiveMassage />
         <CardDDebtor />
         <CardUser />
+        <CardBranch />
         <StatusBar style="auto" />
       </View>
     </ScrollView>
