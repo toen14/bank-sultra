@@ -13,8 +13,8 @@ import CardDocument from "./src/components/card-document";
 import Search from "./src/components/search";
 import Filter from "./src/components/filter-date";
 import CardName from "./src/components/card-name";
-import CardSendMassage from "./src/components/card-send-massage";
-import CardReceiveMassage from "./src/components/card-receive-massage";
+import CardSendMessage from "./src/components/card-send-message";
+import CardReceiveMessage from "./src/components/card-receive-message";
 import CardDDebtor from "./src/components/card-debtor";
 import CardUser from "./src/components/card-user";
 import CardBranch from "./src/components/card-branch";
@@ -40,8 +40,8 @@ export default function App() {
         <Search />
         <Filter />
         <CardName />
-        <CardSendMassage />
-        <CardReceiveMassage />
+        <CardSendMessage />
+        <CardReceiveMessage />
         <CardDDebtor />
         <CardUser />
         <CardBranch />

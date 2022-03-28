@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, TextInput, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
-export default function CardSendMassage(props) {
+export default function CardSendMessage(props) {
   const [massage, setMassage] = useState("");
 
   return (

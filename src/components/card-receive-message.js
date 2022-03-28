@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Dimensions, StyleSheet } from "react-native";
 
-export default function CardReceiveMassage(props) {
+export default function CardReceiveMessage(props) {
   return (
     <View style={styles.container}>
       <View style={styles.top}>
