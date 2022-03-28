@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import {
   View,
-  Dimensions,
-  TextInput,
   StyleSheet,
-  Text,
-  Button,
-  TouchableOpacity,
 } from "react-native";
 
 import CardPrimary from "../components/card-primary";
@@ -17,25 +12,37 @@ export default function Dashboard() {
 
   return (
     <View style={styles.container}>
-      <CardPrimary
-        icon="book" title="Total Document"
-        style={{ ...styles.card, ...styles.cardFirst }}
-      />
-      <CardPrimary
-        icon="check-square" title="Done"
-        iconColor={styles.cardSecond.backgroundColor}
-        style={{ ...styles.card, ...styles.cardSecond }}
-      />
-      <CardPrimary
-        iconColor={styles.cardThird.backgroundColor}
-        icon="hourglass-half" title="Progress"
-        style={{ ...styles.card, ...styles.cardThird }}
-      />
-      <CardPrimary
-        iconColor={styles.cardFourth.backgroundColor}
-        icon="info-circle" title="Pending"
-        style={{ ...styles.card, ...styles.cardFourth }}
-      />
+      <View style={styles.cardWrapper}>
+        <CardPrimary
+          icon="book"
+          title="Total Document"
+          style={{ ...styles.card, ...styles.cardFirst }}
+        />
+      </View>
+      <View style={styles.cardWrapper}>
+        <CardPrimary
+          icon="check-square"
+          title="Done"
+          iconColor={styles.cardSecond.backgroundColor}
+          style={{ ...styles.card, ...styles.cardSecond }}
+        />
+      </View>
+      <View style={styles.cardWrapper}>
+        <CardPrimary
+          iconColor={styles.cardThird.backgroundColor}
+          icon="hourglass-half"
+          title="Progress"
+          style={{ ...styles.card, ...styles.cardThird }}
+        />
+      </View>
+      <View style={styles.cardWrapper}>
+        <CardPrimary
+          iconColor={styles.cardFourth.backgroundColor}
+          icon="info-circle"
+          title="Pending"
+          style={{ ...styles.card, ...styles.cardFourth }}
+        />
+      </View>
     </View>
   );
 }
@@ -44,7 +51,9 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    // width: Dimensions.get("window").width * 0.9,
+  },
+  cardWrapper: {
+    width: "90%",
   },
   card: {
     marginVertical: 5,

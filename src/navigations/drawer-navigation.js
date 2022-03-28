@@ -1,0 +1,66 @@
+import React from "react";
+import { View, Dimensions, Text } from "react-native";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { FontAwesome } from "@expo/vector-icons";
+
+import Dashboard from "../screens/dashboard-screen";
+import Document from "../screens/document-screen";
+
+const Drawer = createDrawerNavigator();
+
+export default function DrawerNavigation() {
+  return (
+    <Drawer.Navigator
+      screenOptions={{ drawerActiveTintColor: "#45A820" }}
+      initialRouteName="Dashboard"
+    >
+      <Drawer.Screen
+        options={{
+          drawerLabel: (props) => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome
+                name="home"
+                size={Dimensions.get("window").width * 0.085}
+                color={props.focused ? props.color : "#C4C4C4"}
+              />
+              <Text
+                style={{
+                  marginLeft: 5,
+                  color: "#C4C4C4",
+                }}
+              >
+                Dashboard
+              </Text>
+            </View>
+          ),
+        }}
+        name="Dashboard"
+        component={Dashboard}
+      />
+      <Drawer.Screen
+        options={{
+          drawerLabel: (props) => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome
+                name="bank"
+                size={Dimensions.get("window").width * 0.065}
+                color={props.focused ? props.color : "#C4C4C4"}
+              />
+              <Text
+                style={{
+                  marginLeft: 5,
+                  color: "#C4C4C4",
+                }}
+              >
+                Daftar Berkas
+              </Text>
+            </View>
+          ),
+          headerTitle: "Daftar Berkas",
+        }}
+        name="Document"
+        component={Document}
+      />
+    </Drawer.Navigator>
+  );
+}

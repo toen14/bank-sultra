@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 
 import Search from "../components/search";
 import Filter from "../components/filter-date";
@@ -7,17 +7,12 @@ import CardDocument from "../components/card-document";
 
 export default function Document() {
   return (
-    <View style={{ width: "90%", alignItems: "center" }}>
-      <View style={{ flexDirection: "row", width: "100%" }}>
-        <View
-          style={{
-            width: "65%",
-            marginRight: Dimensions.get("window").width * 0.01,
-          }}
-        >
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <View style={styles.search}>
           <Search />
         </View>
-        <View style={{ width: "35%" }}>
+        <View style={styles.filter}>
           <Filter />
         </View>
       </View>
@@ -64,8 +59,24 @@ export default function Document() {
 }
 
 export const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+    alignItems: "center",
+  },
+  header: {
+    flexDirection: "row",
+    width: "90%",
+  },
+  search: {
+    width: "65%",
+    marginRight: Dimensions.get("window").width * 0.01,
+  },
+  filter: {
+    width: "35%",
+  },
   cardDocumentContainer: {
     marginTop: "2%",
-    width: "100%",
+    width: "91%",
+    alignItems: "center",
   },
 });
