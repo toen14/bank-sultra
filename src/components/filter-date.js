@@ -13,7 +13,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 export default function Filter(props) {
   const [isFilter, setFilter] = useState(false);
   const [date, setDate] = useState(new Date());
-  const [filterText, setFilterText] = useState('Filter')
+  const [filterText, setFilterText] = useState("Filter");
 
   const cantSearch = (
     <TouchableOpacity onPress={() => setFilter(true)}>
@@ -24,7 +24,9 @@ export default function Filter(props) {
           size={Dimensions.get("window").width * 0.095}
           color={props.iconColor ?? "#C4C4C4"}
         />
-        <Text style={styles.textSearch}>{filterText}</Text>
+        <View style={styles.textSearchContainer}>
+          <Text style={styles.textSearch}>{filterText}</Text>
+        </View>
       </View>
       {isFilter && (
         <DateTimePicker
@@ -65,11 +67,11 @@ export default function Filter(props) {
 
 export const styles = StyleSheet.create({
   container: {
-    width: "80%",
     height: Dimensions.get("window").width * 0.15,
     flexDirection: "row",
+    minWidth: Dimensions.get("window").width * 0.3,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     overflow: "hidden",
     backgroundColor: "#F1EEEE",
     borderWidth: 1,
@@ -81,12 +83,14 @@ export const styles = StyleSheet.create({
     elevation: 1.5,
   },
   icon: {
+    marginLeft: "5%",
+  },
+  textSearchContainer: {
     flex: 1,
-    marginLeft: 15,
   },
   textSearch: {
-    flex: 5,
     color: "#C4C4C4",
+    alignSelf: "center",
   },
   inputSearch: {
     alignSelf: "center",

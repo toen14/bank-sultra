@@ -18,6 +18,7 @@ import CardReceiveMessage from "./src/components/card-receive-message";
 import CardDDebtor from "./src/components/card-debtor";
 import CardUser from "./src/components/card-user";
 import CardBranch from "./src/components/card-branch";
+import Document from "./src/screens/document-screen";
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -45,6 +46,7 @@ export default function App() {
         <CardDDebtor />
         <CardUser />
         <CardBranch />
+        <Document />
         <StatusBar style="auto" />
       </View>
     </ScrollView>

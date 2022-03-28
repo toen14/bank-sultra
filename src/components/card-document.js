@@ -4,7 +4,7 @@ import { View, Dimensions, StyleSheet, Text } from "react-native";
 export default function CardDocument(props) {
   return (
     <View style={styles.container}>
-      <View style={styles.left}>
+      <View style={{...styles.left, ...props.color}}>
         <Text style={styles.no}>{props.no ?? 'no'}</Text>
       </View>
       <View style={styles.right}>
@@ -16,7 +16,7 @@ export default function CardDocument(props) {
           <Text style={styles.dot}>
             . . .
           </Text>
-          <View style={styles.stick}>
+          <View style={{...styles.stick, ...props.color}}>
             <Text style={styles.status}>{props.status ?? "status"}</Text>
           </View>
         </View>
@@ -27,7 +27,7 @@ export default function CardDocument(props) {
 
 export const styles = StyleSheet.create({
   container: {
-    width: "80%",
+    width: "100%",
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,

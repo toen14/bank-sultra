@@ -50,7 +50,7 @@ export default function Search(props) {
 
 export const styles = StyleSheet.create({
   container: {
-    width: "80%",
+    width: "100%",
     height: Dimensions.get("window").width * 0.15,
     flexDirection: "row",
     alignItems: "center",
@@ -67,11 +67,12 @@ export const styles = StyleSheet.create({
   },
   icon: {
     flex: 1,
-    marginLeft: 15,
+    marginLeft: "5%",
   },
   textSearch: {
     flex: 5,
     color: "#C4C4C4",
+    marginLeft: "5%",
   },
   inputSearch: {
     alignSelf: "center",
