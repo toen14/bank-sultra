@@ -29,7 +29,7 @@ export default function CardBranch(props) {
 
 export const styles = StyleSheet.create({
   container: {
-    width: "80%",
+    width: "100%",
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.15,
     shadowRadius: 2,
-    elevation: 1.5,
+    elevation: 1,
   },
   left: {
     flex: 1,
