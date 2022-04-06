@@ -111,6 +111,16 @@ export default function DrawerNavigation() {
         name="User"
         component={User}
       />
+      {/* <Drawer.Screen
+        options={{
+          drawerLabel: (props) => null,
+          drawerIcon: () => null,
+          headerPressColor: 'white',
+          drawerActiveTintColor: 'white',
+        }}
+        name="Profile"
+        component={User}
+      /> */}
     </Drawer.Navigator>
   );
 }

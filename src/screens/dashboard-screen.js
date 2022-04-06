@@ -48,7 +48,8 @@ export default function Dashboard(props) {
       <View
         style={{
           width: "100%",
-          height: '32%',
+          // height: '32%',
+          flex: 1,
         }}
       >
         <Bottom navigation={props.navigation} />

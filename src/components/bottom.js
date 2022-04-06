@@ -13,7 +13,7 @@ export default function Bottom(props) {
     <View style={styles.container}>
       <TouchableOpacity
         style={{ ...styles.button }}
-        onPress={() => props.navigation?.jumpTo("Dashboard")}
+        onPress={() => props.navigation?.navigate("Dashboard")}
       >
         <FontAwesome
           name="home"
@@ -55,7 +55,10 @@ export default function Bottom(props) {
           </View>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={{ ...styles.button }}>
+      <TouchableOpacity
+        style={{ ...styles.button }}
+        onPress={() => props.navigation?.navigate("Profile")}
+      >
         <FontAwesome
           name="user"
           size={Dimensions.get("window").width / 10.666666666666666}

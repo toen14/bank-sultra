@@ -1,11 +1,29 @@
 import "react-native-gesture-handler"; // https://reactnavigation.org/docs/drawer-navigator#installation
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View, Text, Dimensions } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 
 import DrawerNavigation from "./src/navigations/drawer-navigation";
+
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Profile from "./src/screens/profile-screen";
+
+const Stack = createNativeStackNavigator();
+
+function MyStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Home" component={DrawerNavigation} />
+      <Stack.Screen
+        options={{ headerShown: true }}
+        name="Profile"
+        component={Profile}
+      />
+    </Stack.Navigator>
+  );
+}
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -20,9 +38,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <DrawerNavigation />
+      <MyStack />
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({});
