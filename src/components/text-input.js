@@ -8,7 +8,7 @@ export default function TextInput(props) {
       <View style={styles.iconContainer}>
         <FontAwesome
           name={props.icon ?? "at"}
-          size={Dimensions.get("window").width * 0.09}
+          size={30}
           color={props.iconColor ?? "#404040"}
         />
       </View>
