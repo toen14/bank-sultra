@@ -31,10 +31,10 @@ export default function Bottom(props) {
       <View style={{ ...styles.button }}>
         <TouchableOpacity
           style={{
-            top: -32,
+            top: -44,
             justifyContent: "center",
             alignItems: "center",
-            marginHorizontal: 30,
+            marginHorizontal: 50,
           }}
         >
           <View
@@ -49,7 +49,7 @@ export default function Bottom(props) {
           >
             <FontAwesome
               name="plus"
-              size={Dimensions.get("window").width / 6.4}
+              size={Dimensions.get("window").width / 10}
               color="white"
             />
           </View>
