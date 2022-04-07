@@ -36,6 +36,7 @@ export default function Bottom(props) {
             alignItems: "center",
             marginHorizontal: 50,
           }}
+          onPress={() => props.navigation?.navigate("AddDebtor")}
         >
           <View
             style={{

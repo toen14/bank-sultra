@@ -9,6 +9,7 @@ import DrawerNavigation from "./src/navigations/drawer-navigation";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Profile from "./src/screens/profile-screen";
+import AddDebtor from "./src/screens/add-debtor-screen";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,11 @@ function MyStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={DrawerNavigation} />
+      <Stack.Screen
+        options={{ headerShown: true, headerTitle: 'Tambah Debitur' }}
+        name="AddDebtor"
+        component={AddDebtor}
+      />
       <Stack.Screen
         options={{ headerShown: true }}
         name="Profile"
