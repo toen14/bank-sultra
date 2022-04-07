@@ -8,7 +8,7 @@ import Bottom from "../components/bottom";
 export default function User(props) {
   return (
     <View style={styles.container}>
-      <View style={{ width: "100%", height: "68%" }}>
+      <View style={{ width: "100%", flex: 1 }}>
         <ScrollView>
           <View style={styles.header}>
             <View style={styles.search}>
@@ -17,32 +17,16 @@ export default function User(props) {
           </View>
           <View style={{ alignSelf: "center" }}>
             <View style={styles.cardBranchContainer}>
-              <CardUser
-                no="1"
-                name="Rizik"
-                role="Administrator"
-              />
+              <CardUser no="1" name="Rizik" role="Administrator" />
             </View>
             <View style={styles.cardBranchContainer}>
-              <CardUser
-                no="2"
-                name="Samarah"
-                role="Admin Pusat"
-              />
+              <CardUser no="2" name="Samarah" role="Admin Pusat" />
             </View>
             <View style={styles.cardBranchContainer}>
-              <CardUser
-                no="3"
-                name="Lisa"
-                role="Apraisal"
-              />
+              <CardUser no="3" name="Lisa" role="Apraisal" />
             </View>
             <View style={styles.cardBranchContainer}>
-              <CardUser
-                no="4"
-                name="Munarman"
-                role="Notaris"
-              />
+              <CardUser no="4" name="Munarman" role="Notaris" />
             </View>
           </View>
         </ScrollView>
@@ -51,7 +35,6 @@ export default function User(props) {
       <View
         style={{
           width: "100%",
-          height: "32%",
           marginTop: 5,
         }}
       >
@@ -64,7 +47,7 @@ export default function User(props) {
 export const styles = StyleSheet.create({
   container: {
     width: "100%",
-    minHeight: Dimensions.get("window").height,
+    flex: 1,
     alignItems: "center",
     flexDirection: "column",
     justifyContent: "space-between",
@@ -82,8 +65,8 @@ export const styles = StyleSheet.create({
     marginTop: "2%",
     width: "90%",
     alignItems: "center",
-    borderColor: '#C4C4C4',
+    borderColor: "#C4C4C4",
     borderWidth: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
 });

@@ -8,7 +8,7 @@ import Bottom from "../components/bottom";
 export default function Branch(props) {
   return (
     <View style={styles.container}>
-      <View style={{ width: "100%", height: "68%" }}>
+      <View style={{ width: "100%", flex: 1 }}>
         <ScrollView>
           <View style={styles.header}>
             <View style={styles.search}>
@@ -17,28 +17,16 @@ export default function Branch(props) {
           </View>
           <View style={{ alignSelf: "center" }}>
             <View style={styles.cardBranchContainer}>
-              <CardBranch
-                no="1"
-                branch="Cabang Raha"
-              />
+              <CardBranch no="1" branch="Cabang Raha" />
             </View>
             <View style={styles.cardBranchContainer}>
-              <CardBranch
-                no="2"
-                branch="Cabang Unaha"
-              />
+              <CardBranch no="2" branch="Cabang Unaha" />
             </View>
             <View style={styles.cardBranchContainer}>
-              <CardBranch
-                no="3"
-                branch="Cabang Kendari"
-              />
+              <CardBranch no="3" branch="Cabang Kendari" />
             </View>
             <View style={styles.cardBranchContainer}>
-              <CardBranch
-                no="4"
-                branch="Cabang Buton"
-              />
+              <CardBranch no="4" branch="Cabang Buton" />
             </View>
           </View>
         </ScrollView>
@@ -47,7 +35,6 @@ export default function Branch(props) {
       <View
         style={{
           width: "100%",
-          height: "32%",
           marginTop: 5,
         }}
       >
@@ -60,7 +47,7 @@ export default function Branch(props) {
 export const styles = StyleSheet.create({
   container: {
     width: "100%",
-    minHeight: Dimensions.get("window").height,
+    flex: 1,
     alignItems: "center",
     flexDirection: "column",
     justifyContent: "space-between",
@@ -78,8 +65,8 @@ export const styles = StyleSheet.create({
     marginTop: "2%",
     width: "90%",
     alignItems: "center",
-    borderColor: '#C4C4C4',
+    borderColor: "#C4C4C4",
     borderWidth: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
 });

@@ -10,50 +10,44 @@ export default function Dashboard(props) {
 
   return (
     <View style={styles.container}>
-      <View style={{ width: "100%", height: "68%"}}>
-        <ScrollView>
-          <View style={styles.cardWrapper}>
-            <CardPrimary
-              icon="book"
-              title="Total Document"
-              style={{ ...styles.card, ...styles.cardFirst }}
-            />
-          </View>
-          <View style={styles.cardWrapper}>
-            <CardPrimary
-              icon="check-square"
-              title="Done"
-              iconColor={styles.cardSecond.backgroundColor}
-              style={{ ...styles.card, ...styles.cardSecond }}
-            />
-          </View>
-          <View style={styles.cardWrapper}>
-            <CardPrimary
-              iconColor={styles.cardThird.backgroundColor}
-              icon="hourglass-half"
-              title="Progress"
-              style={{ ...styles.card, ...styles.cardThird }}
-            />
-          </View>
-          <View style={styles.cardWrapper}>
-            <CardPrimary
-              iconColor={styles.cardFourth.backgroundColor}
-              icon="info-circle"
-              title="Pending"
-              style={{ ...styles.card, ...styles.cardFourth }}
-            />
-          </View>
-        </ScrollView>
+      <View style={{ width: "100%", flex: 1 }}>
+        <View>
+          <ScrollView>
+            <View style={styles.cardWrapper}>
+              <CardPrimary
+                icon="book"
+                title="Total Document"
+                style={{ ...styles.card, ...styles.cardFirst }}
+              />
+            </View>
+            <View style={styles.cardWrapper}>
+              <CardPrimary
+                icon="check-square"
+                title="Done"
+                iconColor={styles.cardSecond.backgroundColor}
+                style={{ ...styles.card, ...styles.cardSecond }}
+              />
+            </View>
+            <View style={styles.cardWrapper}>
+              <CardPrimary
+                iconColor={styles.cardThird.backgroundColor}
+                icon="hourglass-half"
+                title="Progress"
+                style={{ ...styles.card, ...styles.cardThird }}
+              />
+            </View>
+            <View style={styles.cardWrapper}>
+              <CardPrimary
+                iconColor={styles.cardFourth.backgroundColor}
+                icon="info-circle"
+                title="Pending"
+                style={{ ...styles.card, ...styles.cardFourth }}
+              />
+            </View>
+          </ScrollView>
+        </View>
       </View>
-      <View
-        style={{
-          width: "100%",
-          // height: '32%',
-          flex: 1,
-        }}
-      >
-        <Bottom navigation={props.navigation} />
-      </View>
+      <Bottom navigation={props.navigation} />
     </View>
   );
 }
@@ -61,7 +55,6 @@ export default function Dashboard(props) {
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    minHeight: Dimensions.get("window").height,
     alignItems: "center",
     width: "100%",
     flexDirection: "column",

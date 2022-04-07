@@ -9,7 +9,7 @@ import Bottom from "../components/bottom";
 export default function Document(props) {
   return (
     <View style={styles.container}>
-      <View style={{ width: "100%", height: "68%" }}>
+      <View style={{ width: "100%", flex: 1, marginBottom: 5 }}>
         <ScrollView>
           <View style={styles.header}>
             <View style={styles.search}>
@@ -58,8 +58,8 @@ export default function Document(props) {
             </View>
             <View style={styles.cardDocumentContainer}>
               <CardDocument
-                no="4"
-                name="Munarman"
+                no="5"
+                name="Siska"
                 address="Kendari"
                 color={{ backgroundColor: "#28A745" }}
                 status="done"
@@ -67,8 +67,8 @@ export default function Document(props) {
             </View>
             <View style={styles.cardDocumentContainer}>
               <CardDocument
-                no="4"
-                name="Munarman"
+                no="6"
+                name="Dinda"
                 address="Kendari"
                 color={{ backgroundColor: "#28A745" }}
                 status="done"
@@ -76,8 +76,8 @@ export default function Document(props) {
             </View>
             <View style={styles.cardDocumentContainer}>
               <CardDocument
-                no="4"
-                name="Munarman"
+                no="7"
+                name="La Samusi"
                 address="Kendari"
                 color={{ backgroundColor: "#28A745" }}
                 status="done"
@@ -85,8 +85,8 @@ export default function Document(props) {
             </View>
             <View style={styles.cardDocumentContainer}>
               <CardDocument
-                no="4"
-                name="Munarman"
+                no="8"
+                name="Misikono"
                 address="Kendari"
                 color={{ backgroundColor: "#28A745" }}
                 status="done"
@@ -94,8 +94,8 @@ export default function Document(props) {
             </View>
             <View style={styles.cardDocumentContainer}>
               <CardDocument
-                no="4"
-                name="Munarman"
+                no="9"
+                name="Uceng"
                 address="Kendari"
                 color={{ backgroundColor: "#28A745" }}
                 status="done"
@@ -103,8 +103,8 @@ export default function Document(props) {
             </View>
             <View style={styles.cardDocumentContainer}>
               <CardDocument
-                no="4"
-                name="Munarman"
+                no="10"
+                name="M. Kudus"
                 address="Kendari"
                 color={{ backgroundColor: "#28A745" }}
                 status="done"
@@ -112,8 +112,8 @@ export default function Document(props) {
             </View>
             <View style={styles.cardDocumentContainer}>
               <CardDocument
-                no="4"
-                name="Munarman"
+                no="11"
+                name="Lala Lisa"
                 address="Kendari"
                 color={{ backgroundColor: "#28A745" }}
                 status="done"
@@ -121,8 +121,8 @@ export default function Document(props) {
             </View>
             <View style={styles.cardDocumentContainer}>
               <CardDocument
-                no="4"
-                name="Munarman"
+                no="12"
+                name="Ricardo"
                 address="Kendari"
                 color={{ backgroundColor: "#28A745" }}
                 status="done"
@@ -135,8 +135,6 @@ export default function Document(props) {
       <View
         style={{
           width: "100%",
-          height: "32%",
-          marginTop: 5,
         }}
       >
         <Bottom navigation={props.navigation} />
@@ -148,7 +146,7 @@ export default function Document(props) {
 export const styles = StyleSheet.create({
   container: {
     width: "100%",
-    minHeight: Dimensions.get("window").height,
+    flex: 1,
     alignItems: "center",
     flexDirection: "column",
     justifyContent: "space-between",
