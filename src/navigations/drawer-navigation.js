@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Dimensions, Text } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { FontAwesome } from "@expo/vector-icons";
@@ -13,7 +13,10 @@ const Drawer = createDrawerNavigator();
 export default function DrawerNavigation() {
   return (
     <Drawer.Navigator
-      screenOptions={{ drawerActiveTintColor: "#45A820" }}
+      screenOptions={{
+        drawerActiveTintColor: "#45A820",
+        swipeMinDistance: 100,
+      }}
       initialRouteName="Dashboard"
     >
       <Drawer.Screen

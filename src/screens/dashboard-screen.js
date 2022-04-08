@@ -1,12 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView, Dimensions, Text } from "react-native";
 
 import CardPrimary from "../components/card-primary";
 import Bottom from "../components/bottom";
+import { baseUrl } from "../constants/base-url";
+import { debtorType } from "../constants/type";
 
 export default function Dashboard(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  let [totalDocument, setTotalDocument] = useState(0);
+  let [done, setDone] = useState(0);
+  let [progress, setProgress] = useState(0);
+  let [pending, setPending] = useState(0);
+
+  useEffect(() => {
+    async function getDebtors() {
+      const res = await fetch(`${baseUrl}/debtor`);
+      const debtors = await res.json();
+
+      console.log(1);
+
+      totalDocument += debtors.length;
+
+      debtors.forEach((debtor) => {
+        if (debtor.status === debtorType.Done) {
+          done++;
+        } else if (debtor.status === debtorType.Progress) {
+          progress++;
+        } else {
+          pending++;
+        }
+      });
+
+      setTotalDocument(totalDocument);
+      setDone(done);
+      setProgress(progress);
+      setPending(pending);
+    }
+
+    getDebtors();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -15,6 +50,7 @@ export default function Dashboard(props) {
           <ScrollView>
             <View style={styles.cardWrapper}>
               <CardPrimary
+                value={totalDocument}
                 icon="book"
                 title="Total Document"
                 style={{ ...styles.card, ...styles.cardFirst }}
@@ -22,6 +58,7 @@ export default function Dashboard(props) {
             </View>
             <View style={styles.cardWrapper}>
               <CardPrimary
+                value={done}
                 icon="check-square"
                 title="Done"
                 iconColor={styles.cardSecond.backgroundColor}
@@ -30,6 +67,7 @@ export default function Dashboard(props) {
             </View>
             <View style={styles.cardWrapper}>
               <CardPrimary
+                value={progress}
                 iconColor={styles.cardThird.backgroundColor}
                 icon="hourglass-half"
                 title="Progress"
@@ -38,6 +76,7 @@ export default function Dashboard(props) {
             </View>
             <View style={styles.cardWrapper}>
               <CardPrimary
+                value={pending}
                 iconColor={styles.cardFourth.backgroundColor}
                 icon="info-circle"
                 title="Pending"
