@@ -1,36 +1,85 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Button } from "react-native";
 
 import CardDDebtor from "../components/card-debtor";
 
 export default function AddDebtor(props) {
+  const [namaDebitur, setNamaDebitur] = useState("");
+  const [jenisPengurusan, setJenisPengurusan] = useState("");
+  const [notaris, setNotaris] = useState("");
+  const [dataAgunan, setDataAgunan] = useState("");
+  const [cabang, setCabang] = useState("");
+  const [nomor, setNomor] = useState("");
+  const [tanggalPenyerahan, setTanggalPenyerahan] = useState("");
+  const [tanggalBerakhir, setTanggalBerakhir] = useState("");
+
   return (
     <View style={styles.container}>
       <ScrollView>
         <View style={styles.contentContainer}>
           <View style={styles.contentWrapper}>
-            <CardDDebtor title="Nama Debitur" name=" " icon="user-o" />
+            <CardDDebtor
+              onChangeText={setNamaDebitur}
+              name={namaDebitur}
+              title="Nama Debitur"
+              icon="user-o"
+            />
           </View>
           <View style={styles.contentWrapper}>
-            <CardDDebtor title="Jenis Pengurusan" name=" " icon="building" />
+            <CardDDebtor
+              title="Jenis Pengurusan"
+              onChangeText={setJenisPengurusan}
+              name={jenisPengurusan}
+              icon="building"
+            />
           </View>
           <View style={styles.contentWrapper}>
-            <CardDDebtor title="Notaris" name=" " icon="address-book" />
+            <CardDDebtor
+              title="Notaris"
+              onChangeText={setNotaris}
+              name={notaris}
+              icon="address-book"
+            />
           </View>
           <View style={styles.contentWrapper}>
-            <CardDDebtor title="Data Agunan" name=" " icon="book" />
+            <CardDDebtor
+              title="Data Agunan"
+              onChangeText={setDataAgunan}
+              name={dataAgunan}
+              icon="book"
+            />
           </View>
           <View style={styles.contentWrapper}>
-            <CardDDebtor title="Cabang" name=" " icon="font-awesome" />
+            <CardDDebtor
+              title="Cabang"
+              onChangeText={setCabang}
+              name={cabang}
+              icon="font-awesome"
+            />
           </View>
           <View style={styles.contentWrapper}>
-            <CardDDebtor title="Nomor" name=" " icon="openid" />
+            <CardDDebtor
+              title="Nomor"
+              onChangeText={setNomor}
+              name={nomor}
+              icon="openid"
+            />
           </View>
           <View style={styles.contentWrapper}>
-            <CardDDebtor title="Tanggal Penyerahan" name=" " icon="calendar" />
+            <CardDDebtor
+              title="Tanggal Penyerahan"
+              onChangeText={setTanggalPenyerahan}
+              name={tanggalPenyerahan}
+              icon="calendar"
+            />
           </View>
           <View style={styles.contentWrapper}>
-            <CardDDebtor title="Tanggal Berakhir" name=" " icon="calendar" />
+            <CardDDebtor
+              title="Tanggal Berakhir"
+              onChangeText={setTanggalBerakhir}
+              name={tanggalBerakhir}
+              icon="calendar"
+            />
           </View>
           <View style={styles.buttonContainer}>
             <View style={styles.button}>

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions, TextInput } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
 export default function CardDDebtor(props) {
@@ -14,7 +14,13 @@ export default function CardDDebtor(props) {
       </View>
       <View style={styles.content}>
         <Text style={styles.text}>{props.title ?? "Title"}</Text>
-        <Text style={styles.text}>{props.name ?? "Name"}</Text>
+        <TextInput
+          style={styles.text}
+          onChangeText={props.onChangeText ?? (() => {})}
+          value={props.name}
+          placeholder=". . ."
+          placeholderTextColor={"#1c1a1a"}
+        />
       </View>
     </View>
   );
