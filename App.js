@@ -10,6 +10,7 @@ import DrawerNavigation from "./src/navigations/drawer-navigation";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Profile from "./src/screens/profile-screen";
 import AddDebtor from "./src/screens/add-debtor-screen";
+import DebtorsContextProvider from "./src/store/debtor-contex";
 
 const Stack = createNativeStackNavigator();
 
@@ -18,7 +19,7 @@ function MyStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={DrawerNavigation} />
       <Stack.Screen
-        options={{ headerShown: true, headerTitle: 'Tambah Debitur' }}
+        options={{ headerShown: true, headerTitle: "Tambah Debitur" }}
         name="AddDebtor"
         component={AddDebtor}
       />
@@ -43,8 +44,10 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <MyStack />
-    </NavigationContainer>
+    <DebtorsContextProvider>
+      <NavigationContainer>
+        <MyStack />
+      </NavigationContainer>
+    </DebtorsContextProvider>
   );
 }

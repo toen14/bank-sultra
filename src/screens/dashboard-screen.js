@@ -1,56 +1,66 @@
-import React, { useEffect, useState } from "react";
-import { View, StyleSheet, ScrollView, Dimensions, Text } from "react-native";
+import React, { useEffect, useState, useContext } from "react";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  RefreshControl,
+} from "react-native";
 
 import CardPrimary from "../components/card-primary";
 import Bottom from "../components/bottom";
 import { baseUrl } from "../constants/base-url";
 import { debtorType } from "../constants/type";
+import { DebtorsContext } from "../store/debtor-contex";
+import LoadingOverlay from "../components/UI/LoadingOverlay";
+import ErrorOverlay from "../components/UI/ErrorOverlay";
 
 export default function Dashboard(props) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [isFetching, setIsFetching] = useState(true);
+  const [error, setError] = useState("");
 
-  let [totalDocument, setTotalDocument] = useState(0);
-  let [done, setDone] = useState(0);
-  let [progress, setProgress] = useState(0);
-  let [pending, setPending] = useState(0);
+  const debtorsCtx = useContext(DebtorsContext);
+
+  async function getExpenses() {
+    setIsFetching(true);
+    try {
+      const res = await fetch(`${baseUrl}/debtor`);
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+      const debtors = await res.json();
+      debtorsCtx.setDebtors(debtors);
+    } catch (error) {
+      setError("Could not fetch debtors!");
+    }
+    setIsFetching(false);
+  }
 
   useEffect(() => {
-    async function getDebtors() {
-      const res = await fetch(`${baseUrl}/debtor`);
-      const debtors = await res.json();
-
-      console.log(1);
-
-      totalDocument += debtors.length;
-
-      debtors.forEach((debtor) => {
-        if (debtor.status === debtorType.Done) {
-          done++;
-        } else if (debtor.status === debtorType.Progress) {
-          progress++;
-        } else {
-          pending++;
-        }
-      });
-
-      setTotalDocument(totalDocument);
-      setDone(done);
-      setProgress(progress);
-      setPending(pending);
-    }
-
-    getDebtors();
+    getExpenses();
   }, []);
+
+  if (error && !isFetching) {
+    return <ErrorOverlay message={error} />;
+  }
+
+  if (isFetching) {
+    return <LoadingOverlay />;
+  }
+
+  const recentDebtors = debtorsCtx.debtors;
 
   return (
     <View style={styles.container}>
       <View style={{ width: "100%", flex: 1 }}>
         <View>
-          <ScrollView>
+          <ScrollView
+            refreshControl={
+              <RefreshControl refreshing={isFetching} onRefresh={getExpenses} />
+            }
+          >
             <View style={styles.cardWrapper}>
               <CardPrimary
-                value={totalDocument}
+                value={recentDebtors.length}
                 icon="book"
                 title="Total Document"
                 style={{ ...styles.card, ...styles.cardFirst }}
@@ -58,7 +68,11 @@ export default function Dashboard(props) {
             </View>
             <View style={styles.cardWrapper}>
               <CardPrimary
-                value={done}
+                value={
+                  recentDebtors.filter(
+                    (debtor) => debtor.status === debtorType.Done
+                  ).length
+                }
                 icon="check-square"
                 title="Done"
                 iconColor={styles.cardSecond.backgroundColor}
@@ -67,7 +81,11 @@ export default function Dashboard(props) {
             </View>
             <View style={styles.cardWrapper}>
               <CardPrimary
-                value={progress}
+                value={
+                  recentDebtors.filter(
+                    (debtor) => debtor.status === debtorType.Progress
+                  ).length
+                }
                 iconColor={styles.cardThird.backgroundColor}
                 icon="hourglass-half"
                 title="Progress"
@@ -76,7 +94,11 @@ export default function Dashboard(props) {
             </View>
             <View style={styles.cardWrapper}>
               <CardPrimary
-                value={pending}
+                value={
+                  recentDebtors.filter(
+                    (debtor) => debtor.status === debtorType.Pending
+                  ).length
+                }
                 iconColor={styles.cardFourth.backgroundColor}
                 icon="info-circle"
                 title="Pending"
