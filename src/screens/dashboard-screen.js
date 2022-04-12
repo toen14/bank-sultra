@@ -20,7 +20,7 @@ export default function Dashboard(props) {
 
   const debtorsCtx = useContext(DebtorsContext);
 
-  async function getExpenses() {
+  async function getDebtors() {
     setIsFetching(true);
     try {
       const res = await fetch(`${baseUrl}/debtor`);
@@ -36,7 +36,7 @@ export default function Dashboard(props) {
   }
 
   useEffect(() => {
-    getExpenses();
+    getDebtors();
   }, []);
 
   if (error && !isFetching) {
@@ -55,7 +55,7 @@ export default function Dashboard(props) {
         <View>
           <ScrollView
             refreshControl={
-              <RefreshControl refreshing={isFetching} onRefresh={getExpenses} />
+              <RefreshControl refreshing={isFetching} onRefresh={getDebtors} />
             }
           >
             <View style={styles.cardWrapper}>
