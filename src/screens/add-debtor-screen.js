@@ -1,7 +1,19 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, ScrollView, Button } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Button,
+  Keyboard,
+} from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 import CardDDebtor from "../components/card-debtor";
+import ErrorOverlay from "../components/UI/ErrorOverlay";
+import LoadingOverlay from "../components/UI/LoadingOverlay";
+import { baseUrl } from "../constants/base-url";
+import { debtorType } from "../constants/type";
+import { DebtorsContext } from "../store/debtor-contex";
 
 export default function AddDebtor(props) {
   const [namaDebitur, setNamaDebitur] = useState("");
@@ -12,6 +24,64 @@ export default function AddDebtor(props) {
   const [nomor, setNomor] = useState("");
   const [tanggalPenyerahan, setTanggalPenyerahan] = useState("");
   const [tanggalBerakhir, setTanggalBerakhir] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const [date] = useState(new Date());
+  const [isShowTanggalPenyerahan, setIsShowTanggalPenyerahan] = useState(false);
+  const [isShowTanggalBerakhir, setIsShowTanggalBerakhir] = useState(false);
+
+  const debtorsCtx = useContext(DebtorsContext);
+
+  async function addDebtors() {
+    setIsLoading(true);
+    try {
+      const res = await fetch(`${baseUrl}/debtor`, {
+        method: "POST",
+        body: JSON.stringify({
+          name: namaDebitur,
+          jenis_pengurusan: jenisPengurusan,
+          notaris: notaris,
+          cabang: cabang,
+          data_agunan: dataAgunan,
+          nomor: nomor,
+          tanggal_penyerahan: tanggalPenyerahan,
+          tanggal_berakhir: tanggalBerakhir,
+          status: debtorType["Done"],
+        }),
+      });
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+      const debtors = await res.json();
+      debtorsCtx.addDebtor(debtors);
+    } catch (error) {
+      setError("Could not fetch debtors!");
+    }
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    if (!isLoading) {
+      setNamaDebitur("");
+      setJenisPengurusan("");
+      setNotaris("");
+      setDataAgunan("");
+      setCabang("");
+      setNomor("");
+      setTanggalPenyerahan("");
+      setTanggalBerakhir("");
+    }
+  }, [isLoading]);
+
+  if (error && !isLoading) {
+    return <ErrorOverlay message={error} />;
+  }
+
+  if (isLoading) {
+    return <LoadingOverlay />;
+  }
 
   return (
     <View style={styles.container}>
@@ -68,7 +138,7 @@ export default function AddDebtor(props) {
           <View style={styles.contentWrapper}>
             <CardDDebtor
               title="Tanggal Penyerahan"
-              onChangeText={setTanggalPenyerahan}
+              onChange={() => setIsShowTanggalPenyerahan(true)}
               name={tanggalPenyerahan}
               icon="calendar"
             />
@@ -76,14 +146,14 @@ export default function AddDebtor(props) {
           <View style={styles.contentWrapper}>
             <CardDDebtor
               title="Tanggal Berakhir"
-              onChangeText={setTanggalBerakhir}
+              onChange={() => setIsShowTanggalBerakhir(true)}
               name={tanggalBerakhir}
               icon="calendar"
             />
           </View>
           <View style={styles.buttonContainer}>
             <View style={styles.button}>
-              <Button title="save" color="#003399" />
+              <Button onPress={addDebtors} title="save" color="#003399" />
             </View>
             <View style={styles.button}>
               <Button title="validasi" color="#FFB84E" />
@@ -91,6 +161,41 @@ export default function AddDebtor(props) {
           </View>
         </View>
       </ScrollView>
+      {isShowTanggalPenyerahan && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode="date"
+          is24Hour={true}
+          onChange={({ type }, date) => {
+            setIsShowTanggalPenyerahan(false);
+            Keyboard.dismiss();
+
+            // cek if user triger ok
+            if (type === "set") {
+              // return;
+              setTanggalPenyerahan(date.toLocaleDateString());
+            }
+          }}
+        />
+      )}
+      {isShowTanggalBerakhir && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode="date"
+          is24Hour={true}
+          onChange={({ type }, date) => {
+            setIsShowTanggalBerakhir(false);
+            Keyboard.dismiss();
+
+            // cek if user triger ok
+            if (type === "set") {
+              setTanggalBerakhir(date.toLocaleDateString());
+            }
+          }}
+        />
+      )}
     </View>
   );
 }
