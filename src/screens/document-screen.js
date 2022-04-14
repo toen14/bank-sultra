@@ -1,135 +1,110 @@
-import React from "react";
-import { View, StyleSheet, Dimensions, ScrollView } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  FlatList,
+  RefreshControl,
+} from "react-native";
 
 import Search from "../components/search";
 import Filter from "../components/filter-date";
 import CardDocument from "../components/card-document";
 import Bottom from "../components/bottom";
+import { baseUrl } from "../constants/base-url";
+import ErrorOverlay from "../components/UI/ErrorOverlay";
+import LoadingOverlay from "../components/UI/LoadingOverlay";
+
+const colors = Object.freeze({
+  done: "#28A745",
+  pending: "#FF0000",
+  progress: "#FFC107",
+});
 
 export default function Document(props) {
+  const [debtors, setDebtors] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const getDebtors = () => {
+    setIsLoading(true);
+    fetch(`${baseUrl}/debtor/?page=${currentPage}&limit=10`)
+      .then((res) => res.json())
+      .then((res) => {
+        setDebtors([...debtors, ...res]);
+      })
+      .catch(() => setError("Could not fetch debtors!"))
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  const renderItem = ({ item, index }) => {
+    return (
+      <View style={{ alignSelf: "center" }}>
+        <View style={styles.cardDocumentContainer}>
+          <CardDocument
+            no={index + 1}
+            name={item.name}
+            address={item.alamat}
+            color={{ backgroundColor: colors[item.status] }}
+            status={item.status}
+          />
+        </View>
+      </View>
+    );
+  };
+
+  const renderLoader = () => {
+    return isLoading ? <LoadingOverlay /> : null;
+  };
+
+  const loadMoreItem = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  useEffect(() => {
+    getDebtors();
+  }, [currentPage]);
+
+  if (error && !isLoading) {
+    return <ErrorOverlay message={error} />;
+  }
+
+  if (isLoading && !debtors.length) {
+    return <LoadingOverlay />;
+  }
+
   return (
     <View style={styles.container}>
       <View style={{ width: "100%", flex: 1, marginBottom: 5 }}>
-        <ScrollView>
-          <View style={styles.header}>
-            <View style={styles.search}>
-              <Search />
-            </View>
-            <View style={styles.filter}>
-              <Filter />
-            </View>
+        <View style={styles.header}>
+          <View style={styles.search}>
+            <Search />
           </View>
-          <View style={{ alignSelf: "center" }}>
-            <View style={styles.cardDocumentContainer}>
-              <CardDocument
-                no="1"
-                name="La Egex"
-                address="Raha"
-                color={{ backgroundColor: "#FF0000" }}
-                status="pending"
-              />
-            </View>
-            <View style={styles.cardDocumentContainer}>
-              <CardDocument
-                no="2"
-                name="Andi"
-                address="Konawe"
-                color={{ backgroundColor: "#FFC107" }}
-                status="pending"
-              />
-            </View>
-            <View style={styles.cardDocumentContainer}>
-              <CardDocument
-                no="3"
-                name="Lisa"
-                address="Kendari"
-                color={{ backgroundColor: "#28A745" }}
-                status="done"
-              />
-            </View>
-            <View style={styles.cardDocumentContainer}>
-              <CardDocument
-                no="4"
-                name="Munarman"
-                address="Kendari"
-                color={{ backgroundColor: "#28A745" }}
-                status="done"
-              />
-            </View>
-            <View style={styles.cardDocumentContainer}>
-              <CardDocument
-                no="5"
-                name="Siska"
-                address="Kendari"
-                color={{ backgroundColor: "#28A745" }}
-                status="done"
-              />
-            </View>
-            <View style={styles.cardDocumentContainer}>
-              <CardDocument
-                no="6"
-                name="Dinda"
-                address="Kendari"
-                color={{ backgroundColor: "#28A745" }}
-                status="done"
-              />
-            </View>
-            <View style={styles.cardDocumentContainer}>
-              <CardDocument
-                no="7"
-                name="La Samusi"
-                address="Kendari"
-                color={{ backgroundColor: "#28A745" }}
-                status="done"
-              />
-            </View>
-            <View style={styles.cardDocumentContainer}>
-              <CardDocument
-                no="8"
-                name="Misikono"
-                address="Kendari"
-                color={{ backgroundColor: "#28A745" }}
-                status="done"
-              />
-            </View>
-            <View style={styles.cardDocumentContainer}>
-              <CardDocument
-                no="9"
-                name="Uceng"
-                address="Kendari"
-                color={{ backgroundColor: "#28A745" }}
-                status="done"
-              />
-            </View>
-            <View style={styles.cardDocumentContainer}>
-              <CardDocument
-                no="10"
-                name="M. Kudus"
-                address="Kendari"
-                color={{ backgroundColor: "#28A745" }}
-                status="done"
-              />
-            </View>
-            <View style={styles.cardDocumentContainer}>
-              <CardDocument
-                no="11"
-                name="Lala Lisa"
-                address="Kendari"
-                color={{ backgroundColor: "#28A745" }}
-                status="done"
-              />
-            </View>
-            <View style={styles.cardDocumentContainer}>
-              <CardDocument
-                no="12"
-                name="Ricardo"
-                address="Kendari"
-                color={{ backgroundColor: "#28A745" }}
-                status="done"
-              />
-            </View>
+          <View style={styles.filter}>
+            <Filter />
           </View>
-        </ScrollView>
+        </View>
+        <FlatList
+          data={debtors}
+          renderItem={renderItem}
+          maxToRenderPerBatch={10}
+          keyExtractor={(item) => item.id}
+          ListFooterComponent={renderLoader}
+          onEndReached={loadMoreItem}
+          onEndReachedThreshold={0}
+          refreshControl={
+            <RefreshControl
+              refreshing={false}
+              onRefresh={() => {
+                setDebtors([]);
+                setCurrentPage(1);
+              }}
+            />
+          }
+        />
       </View>
 
       <View
@@ -166,6 +141,10 @@ export const styles = StyleSheet.create({
   cardDocumentContainer: {
     marginTop: "2%",
     width: "91%",
+    alignItems: "center",
+  },
+  loaderStyle: {
+    marginVertical: 16,
     alignItems: "center",
   },
 });
