@@ -1,0 +1,13 @@
+[
+  { "branch": "Cabang Raha", "id": 1 },
+  { "branch": "Cabang Kendari", "id": 2 },
+  { "branch": "Cabang Unaha", "id": 3 },
+  { "branch": "Cabang Buton", "id": 4 },
+  { "branch": "Cabang Bombana", "id": 5 },
+  { "branch": "Buton Selatan", "id": 6 },
+  { "branch": "Cabang Kolaka", "id": 7 },
+  { "branch": "Cabang Konawe", "id": 8 },
+  { "branch": "Cabang Konawe Kepulawan", "id": 9 },
+  { "branch": "Cabang Muna Barat", "id": 10 },
+  { "branch": "Cabang Baubau", "id": 11 }
+]
