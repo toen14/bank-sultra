@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   View,
   StyleSheet,
@@ -26,21 +26,26 @@ export default function Document(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isAvailableDebtors, setIsAvailableDebtors] = useState(true);
 
-  const getDebtors = () => {
+  const getDebtors = useCallback((currentPageParameter) => {
     setIsLoading(true);
-    fetch(`${baseUrl}/debtor/?page=${currentPage}&limit=10`)
+    fetch(`${baseUrl}/debtor/?page=${currentPageParameter}&limit=10`)
       .then((res) => res.json())
       .then((res) => {
-        setDebtors([...debtors, ...res]);
+        if (!res.length) {
+          setIsAvailableDebtors(false);
+          return;
+        }
+        setDebtors((currentDebtors) => [...currentDebtors, ...res]);
       })
       .catch(() => setError("Could not fetch debtors!"))
       .finally(() => {
         setIsLoading(false);
       });
-  };
+  }, []);
 
-  const renderItem = ({ item, index }) => {
+  const renderItem = useCallback(({ item, index }) => {
     return (
       <View style={{ alignSelf: "center" }}>
         <View style={styles.cardDocumentContainer}>
@@ -54,19 +59,22 @@ export default function Document(props) {
         </View>
       </View>
     );
-  };
+  }, []);
 
   const renderLoader = () => {
     return isLoading ? <LoadingOverlay /> : null;
   };
 
   const loadMoreItem = () => {
-    setCurrentPage(currentPage + 1);
+    if (isAvailableDebtors) {
+      setCurrentPage(currentPage + 1);
+      getDebtors(currentPage + 1);
+    }
   };
 
   useEffect(() => {
-    getDebtors();
-  }, [currentPage]);
+    getDebtors(1);
+  }, []);
 
   if (error && !isLoading) {
     return <ErrorOverlay message={error} />;
@@ -91,7 +99,7 @@ export default function Document(props) {
           data={debtors}
           renderItem={renderItem}
           maxToRenderPerBatch={10}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.id + Date.now().toString()}
           ListFooterComponent={renderLoader}
           onEndReached={loadMoreItem}
           onEndReachedThreshold={0}
@@ -99,8 +107,10 @@ export default function Document(props) {
             <RefreshControl
               refreshing={false}
               onRefresh={() => {
+                setIsAvailableDebtors(true);
                 setDebtors([]);
                 setCurrentPage(1);
+                getDebtors(1);
               }}
             />
           }

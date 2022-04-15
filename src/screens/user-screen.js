@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -19,39 +19,47 @@ export default function User(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isAvailableUsers, setIsAvailableUsers] = useState(true);
 
-  const getUsers = () => {
+  const getUsers = useCallback((currentPageParameter) => {
     setIsLoading(true);
-    fetch(`${baseUrl}/users/?page=${currentPage}&limit=10`)
+    fetch(`${baseUrl}/users/?page=${currentPageParameter}&limit=10`)
       .then((res) => res.json())
       .then((res) => {
-        setUsers([...users, ...res]);
+        if (!res.length) {
+          setIsAvailableUsers(false);
+          return;
+        }
+        setUsers((currentUsers) => [...currentUsers, ...res]);
       })
       .catch(() => setError("Could not fetch users!"))
       .finally(() => {
         setIsLoading(false);
       });
-  };
+  }, []);
 
-  const renderItem = ({ item, index }) => {
+  const renderItem = useCallback(({ item, index }) => {
     return (
       <View style={styles.cardBranchContainer}>
         <CardUser no={index + 1} name={item.name} role={item.role} />
       </View>
     );
-  };
+  }, []);
 
   const renderLoader = () => {
     return isLoading ? <LoadingOverlay /> : null;
   };
 
   const loadMoreItem = () => {
-    setCurrentPage(currentPage + 1);
+    if (isAvailableUsers) {
+      setCurrentPage(currentPage + 1);
+      getUsers(currentPage + 1);
+    }
   };
 
   useEffect(() => {
-    getUsers();
-  }, [currentPage]);
+    getUsers(1);
+  }, []);
 
   if (error && !isLoading) {
     return <ErrorOverlay message={error} />;
@@ -79,16 +87,18 @@ export default function User(props) {
           data={users}
           renderItem={renderItem}
           maxToRenderPerBatch={10}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.id + Date.now().toString()}
           ListFooterComponent={renderLoader}
           onEndReached={loadMoreItem}
-          onEndReachedThreshold={5}
+          onEndReachedThreshold={0}
           refreshControl={
             <RefreshControl
               refreshing={false}
               onRefresh={() => {
+                setIsAvailableUsers(true);
                 setUsers([]);
                 setCurrentPage(1);
+                getUsers(1);
               }}
             />
           }
