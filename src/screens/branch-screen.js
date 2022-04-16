@@ -1,35 +1,103 @@
-import React from "react";
-import { View, StyleSheet, Dimensions, ScrollView } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  FlatList,
+  RefreshControl,
+} from "react-native";
 
 import Search from "../components/search";
 import CardBranch from "../components/card-branch";
 import Bottom from "../components/bottom";
+import LoadingOverlay from "../components/UI/LoadingOverlay";
+import { baseUrl } from "../constants/base-url";
+import ErrorOverlay from "../components/UI/ErrorOverlay";
 
 export default function Branch(props) {
+  const [branchs, setBranchs] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [isAvailableBranchs, setIsAvailableBranchs] = useState(true);
+
+  const getBranchs = useCallback((currentPageParameter) => {
+    setIsLoading(true);
+    fetch(`${baseUrl}/branchs/?page=${currentPageParameter}&limit=10`)
+      .then((res) => res.json())
+      .then((res) => {
+        if (!res.length) {
+          setIsAvailableBranchs(false);
+          return;
+        }
+        setBranchs((currentBranchs) => [...currentBranchs, ...res]);
+      })
+      .catch(() => setError("Could not fetch branchs!"))
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
+
+  const renderItem = useCallback(({ item, index }) => {
+    return (
+      <View style={styles.cardBranchContainer}>
+        <CardBranch no={index + 1} branch={item.branch} />
+      </View>
+    );
+  }, []);
+
+  const renderLoader = () => {
+    return isLoading ? <LoadingOverlay /> : null;
+  };
+
+  const loadMoreItem = () => {
+    if (isAvailableBranchs) {
+      setCurrentPage(currentPage + 1);
+      getBranchs(currentPage + 1);
+    }
+  };
+
+  useEffect(() => {
+    getBranchs(1);
+  }, []);
+
+  if (error && !isLoading) {
+    return <ErrorOverlay message={error} />;
+  }
+
+  if (isLoading && !branchs.length) {
+    return <LoadingOverlay />;
+  }
+
   return (
     <View style={styles.container}>
       <View style={{ width: "100%", flex: 1 }}>
-        <ScrollView>
-          <View style={styles.header}>
-            <View style={styles.search}>
-              <Search />
-            </View>
+        <View style={styles.header}>
+          <View style={styles.search}>
+            <Search />
           </View>
-          <View style={{ alignSelf: "center" }}>
-            <View style={styles.cardBranchContainer}>
-              <CardBranch no="1" branch="Cabang Raha" />
-            </View>
-            <View style={styles.cardBranchContainer}>
-              <CardBranch no="2" branch="Cabang Unaha" />
-            </View>
-            <View style={styles.cardBranchContainer}>
-              <CardBranch no="3" branch="Cabang Kendari" />
-            </View>
-            <View style={styles.cardBranchContainer}>
-              <CardBranch no="4" branch="Cabang Buton" />
-            </View>
-          </View>
-        </ScrollView>
+        </View>
+        <FlatList
+          style={{ width: "100%" }}
+          data={branchs}
+          renderItem={renderItem}
+          maxToRenderPerBatch={10}
+          keyExtractor={(item) => item.id + Date.now().toString()}
+          ListFooterComponent={renderLoader}
+          onEndReached={loadMoreItem}
+          onEndReachedThreshold={0}
+          refreshControl={
+            <RefreshControl
+              refreshing={false}
+              onRefresh={() => {
+                setIsAvailableBranchs(true);
+                setBranchs([]);
+                setCurrentPage(1);
+                getBranchs(1);
+              }}
+            />
+          }
+        />
       </View>
 
       <View
@@ -66,5 +134,6 @@ export const styles = StyleSheet.create({
     width: "90%",
     alignItems: "center",
     justifyContent: "center",
+    alignSelf: "center",
   },
 });
