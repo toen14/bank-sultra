@@ -19,6 +19,8 @@ export default function CardSendMessage(props) {
         onChangeText={setMassage}
         value={massage}
         placeholder="Kirim pesan..."
+        onPressIn={props.onPressIn ?? (() =>{})}
+        onEndEditing={props.onEndEditing ?? (() =>{})}
       />
 
       <TouchableOpacity
