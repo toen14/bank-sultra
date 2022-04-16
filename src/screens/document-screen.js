@@ -5,6 +5,7 @@ import {
   Dimensions,
   FlatList,
   RefreshControl,
+  TouchableOpacity,
 } from "react-native";
 
 import Search from "../components/search";
@@ -49,13 +50,15 @@ export default function Document(props) {
     return (
       <View style={{ alignSelf: "center" }}>
         <View style={styles.cardDocumentContainer}>
-          <CardDocument
-            no={index + 1}
-            name={item.name}
-            address={item.alamat}
-            color={{ backgroundColor: colors[item.status] }}
-            status={item.status}
-          />
+          <TouchableOpacity onPress={() => props.navigation.navigate('Detail Debitur')}>
+            <CardDocument
+              no={index + 1}
+              name={item.name}
+              address={item.alamat}
+              color={{ backgroundColor: colors[item.status] }}
+              status={item.status}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     );
