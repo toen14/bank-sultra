@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, memo } from "react";
 import {
   View,
   StyleSheet,
@@ -13,6 +13,15 @@ import Bottom from "../components/bottom";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import { baseUrl } from "../constants/base-url";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
+
+const MemorizeCardBrand = memo(
+  (props) => (
+    <View style={styles.cardBranchContainer}>
+      <CardBranch no={props.index + 1} branch={props.item.branch} />
+    </View>
+  ),
+  (prevProps, nextProps) => prevProps?.item?.id === nextProps?.item?.id
+);
 
 export default function Branch(props) {
   const [branchs, setBranchs] = useState([]);
@@ -39,11 +48,7 @@ export default function Branch(props) {
   }, []);
 
   const renderItem = useCallback(({ item, index }) => {
-    return (
-      <View style={styles.cardBranchContainer}>
-        <CardBranch no={index + 1} branch={item.branch} />
-      </View>
-    );
+    return <MemorizeCardBrand index={index} item={item} />;
   }, []);
 
   const renderLoader = () => {
@@ -82,7 +87,7 @@ export default function Branch(props) {
           data={branchs}
           renderItem={renderItem}
           maxToRenderPerBatch={10}
-          keyExtractor={(item) => item.id + Date.now().toString()}
+          keyExtractor={(item) => item.id}
           ListFooterComponent={renderLoader}
           onEndReached={loadMoreItem}
           onEndReachedThreshold={0}

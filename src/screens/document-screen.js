@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, memo } from "react";
 import {
   View,
   StyleSheet,
@@ -21,6 +21,30 @@ const colors = Object.freeze({
   pending: "#FF0000",
   progress: "#FFC107",
 });
+
+const MemorizeCardDocument = memo(
+  (props) => {
+    return (
+      <View style={{ alignSelf: "center" }}>
+        <View style={styles.cardDocumentContainer}>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate("Detail Debitur")}
+          >
+            <CardDocument
+              no={props.index + 1}
+              name={props.item.name}
+              address={props.item.alamat}
+              color={{ backgroundColor: colors[props.item.status] }}
+              status={props.item.status}
+              id={props.item.id}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  },
+  (prevProps, nextProps) => prevProps?.item?.id === nextProps?.item?.id
+);
 
 export default function Document(props) {
   const [debtors, setDebtors] = useState([]);
@@ -48,19 +72,11 @@ export default function Document(props) {
 
   const renderItem = useCallback(({ item, index }) => {
     return (
-      <View style={{ alignSelf: "center" }}>
-        <View style={styles.cardDocumentContainer}>
-          <TouchableOpacity onPress={() => props.navigation.navigate('Detail Debitur')}>
-            <CardDocument
-              no={index + 1}
-              name={item.name}
-              address={item.alamat}
-              color={{ backgroundColor: colors[item.status] }}
-              status={item.status}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
+      <MemorizeCardDocument
+        navigation={props.navigation}
+        item={item}
+        index={index}
+      />
     );
   }, []);
 
@@ -102,7 +118,7 @@ export default function Document(props) {
           data={debtors}
           renderItem={renderItem}
           maxToRenderPerBatch={10}
-          keyExtractor={(item) => item.id + Date.now().toString()}
+          keyExtractor={(item) => item.id}
           ListFooterComponent={renderLoader}
           onEndReached={loadMoreItem}
           onEndReachedThreshold={0}

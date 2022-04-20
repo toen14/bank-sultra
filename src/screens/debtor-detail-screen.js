@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { memo, useCallback, useState } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 
 import CardName from "../components/card-name";
@@ -12,17 +12,35 @@ const user = {
   status: "pending",
 };
 
+const MemorizeCardReceiveMessage = memo(
+  (props) => {
+    return (
+      <View style={styles.cardWrapper}>
+        <CardReceiveMessage
+          name={props.item.name}
+          role={props.item.role}
+          iconName={props.iconName}
+          date={props.item.date}
+        />
+      </View>
+    );
+  },
+  (prevProps, nextProps) => prevProps?.item?.id === nextProps?.item?.id
+);
+
 export default function DebtorDetail(props) {
   const [conversations, setConversations] = useState([
     {
       name: "La Ege",
       role: "Apraisal",
       date: "04/16/22",
+      id: 1,
     },
     {
       name: "Adi",
       role: "Notaris",
       date: "04/12/22",
+      id: 2,
     },
   ]);
   const [isShowButton, setIsShowButton] = useState(true);
@@ -32,16 +50,7 @@ export default function DebtorDetail(props) {
     const iconName =
       userName[0][0] + (userName.length >= 2 ? userName[1][0] : "");
 
-    return (
-      <View style={styles.cardWrapper}>
-        <CardReceiveMessage
-          name={item.name}
-          role={item.role}
-          iconName={iconName}
-          date={item.date}
-        />
-      </View>
-    );
+    return <MemorizeCardReceiveMessage item={item} iconName={iconName} />;
   }, []);
 
   return (
@@ -65,7 +74,7 @@ export default function DebtorDetail(props) {
           extraData={conversations}
           renderItem={renderItem}
           maxToRenderPerBatch={10}
-          keyExtractor={(item) => item.id + Date.now().toString()}
+          keyExtractor={(item) => item.id}
         />
       </View>
       {isShowButton && (
