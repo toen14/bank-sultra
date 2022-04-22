@@ -18,3 +18,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('debitors', [\App\Http\Controllers\API\DebitorController::class, 'index']);
+Route::post('debitors', [\App\Http\Controllers\API\DebitorController::class, 'store']);
+Route::get('debitors/{id}', [\App\Http\Controllers\API\DebitorController::class, 'show']);
+Route::patch('debitors/{id}', [\App\Http\Controllers\API\DebitorController::class, 'update']);
+Route::delete('debitors/{id}', [\App\Http\Controllers\API\DebitorController::class, 'destroy']);
