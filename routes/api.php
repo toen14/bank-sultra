@@ -29,3 +29,9 @@ Route::post('notes', [\App\Http\Controllers\API\NoteController::class, 'store'])
 Route::get('notes/{id}', [\App\Http\Controllers\API\NoteController::class, 'show']);
 Route::patch('notes/{id}', [\App\Http\Controllers\API\NoteController::class, 'update']);
 Route::delete('notes/{id}', [\App\Http\Controllers\API\NoteController::class, 'destroy']);
+
+Route::get('note-users', [\App\Http\Controllers\API\NoteUserController::class, 'index']);
+Route::post('note-users', [\App\Http\Controllers\API\NoteUserController::class, 'store']);
+Route::get('note-users/{id}', [\App\Http\Controllers\API\NoteUserController::class, 'show']);
+Route::patch('note-users/{id}', [\App\Http\Controllers\API\NoteUserController::class, 'update']);
+Route::delete('note-users/{id}', [\App\Http\Controllers\API\NoteUserController::class, 'destroy']);
