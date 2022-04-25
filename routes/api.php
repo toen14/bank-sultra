@@ -35,3 +35,6 @@ Route::post('note-users', [\App\Http\Controllers\API\NoteUserController::class, 
 Route::get('note-users/{id}', [\App\Http\Controllers\API\NoteUserController::class, 'show']);
 Route::patch('note-users/{id}', [\App\Http\Controllers\API\NoteUserController::class, 'update']);
 Route::delete('note-users/{id}', [\App\Http\Controllers\API\NoteUserController::class, 'destroy']);
+
+Route::get('kabupaten-kota', [\App\Http\Controllers\API\KabupatenKotaController::class, 'index']);
+Route::get('kabupaten-kota/{id}', [\App\Http\Controllers\API\KabupatenKotaController::class, 'show']);
