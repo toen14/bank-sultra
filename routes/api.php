@@ -38,3 +38,9 @@ Route::delete('note-users/{id}', [\App\Http\Controllers\API\NoteUserController::
 
 Route::get('kabupaten-kota', [\App\Http\Controllers\API\KabupatenKotaController::class, 'index']);
 Route::get('kabupaten-kota/{id}', [\App\Http\Controllers\API\KabupatenKotaController::class, 'show']);
+
+Route::get('branches', [\App\Http\Controllers\API\BranchController::class, 'index']);
+Route::post('branches', [\App\Http\Controllers\API\BranchController::class, 'store']);
+Route::get('branches/{id}', [\App\Http\Controllers\API\BranchController::class, 'show']);
+Route::patch('branches/{id}', [\App\Http\Controllers\API\BranchController::class, 'update']);
+Route::delete('branches/{id}', [\App\Http\Controllers\API\BranchController::class, 'destroy']);
