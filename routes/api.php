@@ -44,3 +44,9 @@ Route::post('branches', [\App\Http\Controllers\API\BranchController::class, 'sto
 Route::get('branches/{id}', [\App\Http\Controllers\API\BranchController::class, 'show']);
 Route::patch('branches/{id}', [\App\Http\Controllers\API\BranchController::class, 'update']);
 Route::delete('branches/{id}', [\App\Http\Controllers\API\BranchController::class, 'destroy']);
+
+Route::get('users', [\App\Http\Controllers\API\UserController::class, 'index']);
+Route::post('users', [\App\Http\Controllers\API\UserController::class, 'store']);
+Route::get('users/{id}', [\App\Http\Controllers\API\UserController::class, 'show']);
+Route::patch('users/{id}', [\App\Http\Controllers\API\UserController::class, 'update']);
+Route::delete('users/{id}', [\App\Http\Controllers\API\UserController::class, 'destroy']);
