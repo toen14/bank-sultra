@@ -16,7 +16,7 @@ class KabupatenKotaController extends Controller
      */
     public function index()
     {
-        return response()->json(KabupatenKota::all());
+        return response()->json(KabupatenKota::paginate(request()->limit ?? 0));
     }
 
     /**

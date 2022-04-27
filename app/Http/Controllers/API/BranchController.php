@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use App\Http\Requests\API\Branch\StoreBranchRequest;
 use App\Http\Requests\API\Branch\UpdateBranchRequest;
 use App\Models\Branch;
+use Illuminate\Http\Request;
 
 class BranchController extends Controller
 {
@@ -18,7 +19,7 @@ class BranchController extends Controller
      */
     public function index()
     {
-        return response()->json(Branch::all());
+        return response()->json(Branch::paginate(request()->limit ?? 0));
     }
 
     /**
