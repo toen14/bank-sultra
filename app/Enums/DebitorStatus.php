@@ -7,4 +7,5 @@ enum DebitorStatus: string
     case Done = 'done';
     case Progress = 'progress';
     case Pending = 'pending';
+    case New = 'new';
 }

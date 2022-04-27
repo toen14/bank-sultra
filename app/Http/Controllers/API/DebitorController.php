@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API\StoreDebitorRequest;
 use App\Http\Requests\API\UpdateDebitorRequest;
 use App\Models\Debitor;
+use App\Enums\DebitorStatus;
 
 class DebitorController extends Controller
 {
@@ -32,6 +33,7 @@ class DebitorController extends Controller
     public function store(StoreDebitorRequest $request)
     {
         $validated = $request->validated();
+        $validated['status'] = DebitorStatus::New->value;
 
         return response()->json(
             Debitor::create($validated),
