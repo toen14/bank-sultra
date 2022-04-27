@@ -33,7 +33,7 @@ class DebitorController extends Controller
     public function store(StoreDebitorRequest $request)
     {
         $validated = $request->validated();
-        $validated['status'] = DebitorStatus::New->value;
+        $validated['status'] = DebitorStatus::Progress->value;
 
         return response()->json(
             Debitor::create($validated),
