@@ -21,7 +21,7 @@ class Debitor extends Model
         'cabang_id',
         'nomor',
         'status',
-        'alamat_id',
+        'alamat',
         'notaris_id',
         'tanggal_penyerahan',
         'tanggal_berakhir'

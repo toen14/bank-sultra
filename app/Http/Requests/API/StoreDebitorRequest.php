@@ -29,7 +29,7 @@ class StoreDebitorRequest extends FormRequest
             'data_agunan' => 'required',
             'cabang_id' => 'required|numeric',
             'nomor' => 'required',
-            'alamat_id' => 'required|numeric',
+            'alamat' => 'required|string',
             'notaris_id' => 'required|numeric',
             'tanggal_penyerahan' => 'required|date',
             'tanggal_berakhir' => 'required|date',

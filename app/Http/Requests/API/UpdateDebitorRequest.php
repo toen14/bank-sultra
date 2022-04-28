@@ -33,7 +33,7 @@ class UpdateDebitorRequest extends FormRequest
             'cabang_id' => 'numeric',
             'nomor' => 'string',
             'status' => [new Enum(DebitorStatus::class)],
-            'alamat_id' => 'numeric',
+            'alamat' => 'string',
             'notaris_id' => 'numeric',
             'tanggal_penyerahan' => 'date',
             'tanggal_berakhir' => 'date',
