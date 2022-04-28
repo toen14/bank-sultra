@@ -20,7 +20,7 @@ class DebitorController extends Controller
     public function index()
     {
         $debitors = Debitor::paginate(request()->limit ?? 0);
-        
+
         return response()->json($debitors, Response::HTTP_OK,);
     }
 
@@ -35,8 +35,12 @@ class DebitorController extends Controller
         $validated = $request->validated();
         $validated['status'] = DebitorStatus::Progress->value;
 
+        $debitor = Debitor::create($validated);
+        $debitor->users()->attach($validated['notaris_id']);
+        $debitor->save();
+
         return response()->json(
-            Debitor::create($validated),
+            $debitor,
             Response::HTTP_CREATED
         );
     }
@@ -69,8 +73,20 @@ class DebitorController extends Controller
         $validated = $request->validated();
 
         $debitor = Debitor::findOrFail($id);
+        $debitor->fill($validated);
 
-        $debitor->update($validated);
+        if ($validated['notaris_id']) {
+            // get current notaris ids
+            $currentUserDebitor = array_map(
+                fn ($userDebitor) => $userDebitor['id'],
+                $debitor->users()->get()->toArray()
+            );
+
+            // update relations
+            $debitor->users()->sync($validated['notaris_id'] + $currentUserDebitor);
+        }
+
+        $debitor->save();
 
         return response()->json(
             $debitor,

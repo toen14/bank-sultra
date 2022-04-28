@@ -4,6 +4,9 @@ namespace App\Http\Requests\API;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+use App\Models\User;
+use App\Enums\UserRole;
+
 class StoreDebitorRequest extends FormRequest
 {
     /**
@@ -30,7 +33,17 @@ class StoreDebitorRequest extends FormRequest
             'cabang_id' => 'required|numeric',
             'nomor' => 'required',
             'alamat' => 'required|string',
-            'notaris_id' => 'required|numeric',
+            'notaris_id' => ['required', 'array', function ($attribute, $notarisIds, $fail) {
+                $listNotaris = array_map(function($notaris) {
+                    return $notaris['id'];
+                }, User::where('role', '=', UserRole::Notaris->value)->get()->toArray());
+
+                foreach ($notarisIds as $notarisId) {
+                    if (!in_array($notarisId, $listNotaris)) {
+                        $fail("The notaris ids is don't exist. " . json_encode($listNotaris));
+                    }
+                }
+            }],
             'tanggal_penyerahan' => 'required|date',
             'tanggal_berakhir' => 'required|date',
         ];
