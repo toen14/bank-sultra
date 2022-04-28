@@ -22,8 +22,15 @@ class Debitor extends Model
         'nomor',
         'status',
         'alamat',
-        'notaris_id',
         'tanggal_penyerahan',
         'tanggal_berakhir'
     ];
+
+    /**
+     * The users that belong to the user.
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class)->withTimestamps();
+    }
 }

@@ -44,4 +44,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * The debitors that belong to the user.
+     */
+    public function debitors()
+    {
+        return $this->belongsToMany(Debitor::class);
+    }
 }
