@@ -43,7 +43,7 @@ const MemorizeCardDocument = memo(
       </View>
     );
   },
-  (prevProps, nextProps) => prevProps?.item?.id === nextProps?.item?.id
+  (prevProps, nextProps) => true
 );
 
 export default function Document(props) {
@@ -55,14 +55,14 @@ export default function Document(props) {
 
   const getDebtors = useCallback((currentPageParameter) => {
     setIsLoading(true);
-    fetch(`${baseUrl}/debtor/?page=${currentPageParameter}&limit=10`)
+    fetch(`${baseUrl}/api/debitors?page=${currentPageParameter}&limit=10`)
       .then((res) => res.json())
       .then((res) => {
-        if (!res.length) {
+        if (!res.data.length) {
           setIsAvailableDebtors(false);
           return;
         }
-        setDebtors((currentDebtors) => [...currentDebtors, ...res]);
+        setDebtors((currentDebtors) => [...currentDebtors, ...res.data]);
       })
       .catch(() => setError("Could not fetch debtors!"))
       .finally(() => {

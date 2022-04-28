@@ -36,14 +36,15 @@ export default function User(props) {
 
   const getUsers = useCallback((currentPageParameter) => {
     setIsLoading(true);
-    fetch(`${baseUrl}/users/?page=${currentPageParameter}&limit=10`)
+    fetch(`${baseUrl}/api/users?page=${currentPageParameter}&limit=10`)
       .then((res) => res.json())
       .then((res) => {
-        if (!res.length) {
+        console.log(res.data); 
+        if (!res.data.length) {
           setIsAvailableUsers(false);
           return;
         }
-        setUsers((currentUsers) => [...currentUsers, ...res]);
+        setUsers((currentUsers) => [...currentUsers, ...res.data]);
       })
       .catch(() => setError("Could not fetch users!"))
       .finally(() => {

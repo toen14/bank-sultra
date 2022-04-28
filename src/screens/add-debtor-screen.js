@@ -1,11 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  Button,
-  Keyboard,
-} from "react-native";
+import { View, StyleSheet, ScrollView, Button, Keyboard, Alert } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 import CardDDebtor from "../components/card-debtor";
@@ -24,6 +18,7 @@ export default function AddDebtor(props) {
   const [nomor, setNomor] = useState("");
   const [tanggalPenyerahan, setTanggalPenyerahan] = useState("");
   const [tanggalBerakhir, setTanggalBerakhir] = useState("");
+  const [alamat, setAlamat] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -37,27 +32,35 @@ export default function AddDebtor(props) {
   async function addDebtors() {
     setIsLoading(true);
     try {
-      const res = await fetch(`${baseUrl}/debtor`, {
+      const res = await fetch(`${baseUrl}/api/debitors`, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
         method: "POST",
         body: JSON.stringify({
           name: namaDebitur,
           jenis_pengurusan: jenisPengurusan,
-          notaris: notaris,
-          cabang: cabang,
+          notaris_id: notaris,
+          cabang_id: cabang,
           data_agunan: dataAgunan,
           nomor: nomor,
           tanggal_penyerahan: tanggalPenyerahan,
           tanggal_berakhir: tanggalBerakhir,
-          status: debtorType["Done"],
+          alamat: alamat,
         }),
       });
+      
       if (!res.ok) {
         throw new Error(res.statusText);
       }
+
       const debtors = await res.json();
+      console.log(debtors);
       debtorsCtx.addDebtor(debtors);
     } catch (error) {
-      setError("Could not fetch debtors!");
+      // setError("Gagal membuat data debitur!");
+      Alert.alert('Terjadi kesalahan', 'Gagal membuat data debitur!')
     }
     setIsLoading(false);
   }
@@ -72,6 +75,7 @@ export default function AddDebtor(props) {
       setNomor("");
       setTanggalPenyerahan("");
       setTanggalBerakhir("");
+      setAlamat("");
     }
   }, [isLoading]);
 
@@ -133,6 +137,14 @@ export default function AddDebtor(props) {
               onChangeText={setNomor}
               name={nomor}
               icon="openid"
+            />
+          </View>
+          <View style={styles.contentWrapper}>
+            <CardDDebtor
+              title="Alamat"
+              onChangeText={setAlamat}
+              name={alamat}
+              icon="address-card-o"
             />
           </View>
           <View style={styles.contentWrapper}>

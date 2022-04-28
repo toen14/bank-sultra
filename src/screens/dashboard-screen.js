@@ -23,12 +23,12 @@ export default function Dashboard(props) {
   async function getDebtors() {
     setIsFetching(true);
     try {
-      const res = await fetch(`${baseUrl}/debtor`);
+      const res = await fetch(`${baseUrl}/api/debitors`);
       if (!res.ok) {
         throw new Error(res.statusText);
       }
       const debtors = await res.json();
-      debtorsCtx.setDebtors(debtors);
+      debtorsCtx.setDebtors(debtors.data);
     } catch (error) {
       setError("Could not fetch debtors!");
     }

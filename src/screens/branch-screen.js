@@ -5,6 +5,7 @@ import {
   Dimensions,
   FlatList,
   RefreshControl,
+  Alert,
 } from "react-native";
 
 import Search from "../components/search";
@@ -17,7 +18,7 @@ import ErrorOverlay from "../components/UI/ErrorOverlay";
 const MemorizeCardBrand = memo(
   (props) => (
     <View style={styles.cardBranchContainer}>
-      <CardBranch no={props.index + 1} branch={props.item.branch} />
+      <CardBranch no={props.index + 1} branch={props.item.name} />
     </View>
   ),
   (prevProps, nextProps) => prevProps?.item?.id === nextProps?.item?.id
@@ -32,16 +33,16 @@ export default function Branch(props) {
 
   const getBranchs = useCallback((currentPageParameter) => {
     setIsLoading(true);
-    fetch(`${baseUrl}/branchs/?page=${currentPageParameter}&limit=10`)
+    fetch(`${baseUrl}/api/branches?page=${currentPageParameter}&limit=10`)
       .then((res) => res.json())
       .then((res) => {
-        if (!res.length) {
+        if (!res.data.length) {
           setIsAvailableBranchs(false);
           return;
         }
-        setBranchs((currentBranchs) => [...currentBranchs, ...res]);
+        setBranchs((currentBranchs) => [...currentBranchs, ...res.data]);
       })
-      .catch(() => setError("Could not fetch branchs!"))
+      .catch(() => Alert.alert('Terjadi kesalahan', 'Gagal memuat data cabang!'))
       .finally(() => {
         setIsLoading(false);
       });
