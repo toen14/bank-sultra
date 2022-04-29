@@ -39,7 +39,6 @@ export default function User(props) {
     fetch(`${baseUrl}/api/users?page=${currentPageParameter}&limit=10`)
       .then((res) => res.json())
       .then((res) => {
-        console.log(res.data); 
         if (!res.data.length) {
           setIsAvailableUsers(false);
           return;
