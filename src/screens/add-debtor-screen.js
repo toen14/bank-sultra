@@ -1,6 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, StyleSheet, ScrollView, Button, Keyboard, Alert } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Button,
+  Keyboard,
+  Alert,
+} from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import MultiSelect from "react-native-multiple-select";
 
 import CardDDebtor from "../components/card-debtor";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
@@ -12,13 +20,14 @@ import { DebtorsContext } from "../store/debtor-contex";
 export default function AddDebtor(props) {
   const [namaDebitur, setNamaDebitur] = useState("");
   const [jenisPengurusan, setJenisPengurusan] = useState("");
-  const [notaris, setNotaris] = useState("");
   const [dataAgunan, setDataAgunan] = useState("");
   const [cabang, setCabang] = useState("");
   const [nomor, setNomor] = useState("");
   const [tanggalPenyerahan, setTanggalPenyerahan] = useState("");
   const [tanggalBerakhir, setTanggalBerakhir] = useState("");
   const [alamat, setAlamat] = useState("");
+  const [notarises, setNotaries] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -41,7 +50,7 @@ export default function AddDebtor(props) {
         body: JSON.stringify({
           name: namaDebitur,
           jenis_pengurusan: jenisPengurusan,
-          notaris_id: notaris,
+          notaris_id: selectedItems,
           cabang_id: cabang,
           data_agunan: dataAgunan,
           nomor: nomor,
@@ -50,34 +59,48 @@ export default function AddDebtor(props) {
           alamat: alamat,
         }),
       });
-      
+
       if (!res.ok) {
         throw new Error(res.statusText);
       }
 
       const debtors = await res.json();
-      console.log(debtors);
       debtorsCtx.addDebtor(debtors);
     } catch (error) {
-      // setError("Gagal membuat data debitur!");
-      Alert.alert('Terjadi kesalahan', 'Gagal membuat data debitur!')
+      Alert.alert("Terjadi kesalahan", "Gagal membuat data debitur!");
     }
     setIsLoading(false);
+  }
+
+  function getNotaris() {
+    fetch(`${baseUrl}/api/notaris`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => setNotaries(res))
+      .catch((err) => console.log(err));
   }
 
   useEffect(() => {
     if (!isLoading) {
       setNamaDebitur("");
       setJenisPengurusan("");
-      setNotaris("");
       setDataAgunan("");
       setCabang("");
       setNomor("");
       setTanggalPenyerahan("");
       setTanggalBerakhir("");
       setAlamat("");
+      setSelectedItems([]);
     }
   }, [isLoading]);
+
+  useEffect(() => {
+    getNotaris();
+  }, []);
 
   if (error && !isLoading) {
     return <ErrorOverlay message={error} />;
@@ -89,7 +112,7 @@ export default function AddDebtor(props) {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <ScrollView nestedScrollEnabled={true}>
         <View style={styles.contentContainer}>
           <View style={styles.contentWrapper}>
             <CardDDebtor
@@ -107,14 +130,47 @@ export default function AddDebtor(props) {
               icon="building"
             />
           </View>
-          <View style={styles.contentWrapper}>
-            <CardDDebtor
-              title="Notaris"
-              onChangeText={setNotaris}
-              name={notaris}
-              icon="address-book"
+          <View
+            style={{
+              width: "80%",
+              borderBottomEndRadius: 10,
+              overflow: "hidden",
+              marginTop: 5,
+              marginBottom: selectedItems.length ? 0 : -5,
+            }}
+          >
+            <MultiSelect
+              items={notarises}
+              styleDropdownMenuSubsection={{
+                backgroundColor: "#f3f3f3",
+                borderWidth: 1,
+                borderColor: "#938888",
+                borderStyle: "solid",
+                borderRadius: 5,
+                paddingLeft: 5,
+              }}
+              uniqueKey="id"
+              onSelectedItemsChange={setSelectedItems}
+              selectedItems={selectedItems}
+              selectText="Notaris"
+              searchInputPlaceholderText="Search Items..."
+              altFontFamily="Rubik-Bold"
+              fontFamily="Rubik"
+              textColor="black"
+              tagRemoveIconColor="#CCC"
+              tagBorderColor="#CCC"
+              tagTextColor="#CCC"
+              selectedItemTextColor="#CCC"
+              selectedItemIconColor="#CCC"
+              itemTextColor="#000"
+              displayKey="name"
+              searchInputStyle={{ color: "#CCC" }}
+              submitButtonColor="#CCC"
+              submitButtonText="Submit"
             />
           </View>
+          {selectedItems.length > 0 && <View style={{ marginTop: 5 }} />}
+          {/* <View style={{marginTop: 5}}></View> */}
           <View style={styles.contentWrapper}>
             <CardDDebtor
               title="Data Agunan"
@@ -185,7 +241,6 @@ export default function AddDebtor(props) {
 
             // cek if user triger ok
             if (type === "set") {
-              // return;
               setTanggalPenyerahan(date.toLocaleDateString());
             }
           }}
