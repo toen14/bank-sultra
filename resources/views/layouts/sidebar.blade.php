@@ -38,7 +38,7 @@
       </div>
       <ul class="nav nav-primary">
         <li class="nav-item" id="li-dashboard">
-          <a href="" class="collapsed" aria-expanded="false">
+          <a href=" {{ route('dashboard') }} " class="collapsed" aria-expanded="false">
             <i class="fas fa-home"></i>
             <p>Dashboard</p>
           </a>
