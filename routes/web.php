@@ -19,3 +19,5 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index']);
+
+Route::get('/users', [\App\Http\Controllers\UserController::class, 'index'])->name('users');

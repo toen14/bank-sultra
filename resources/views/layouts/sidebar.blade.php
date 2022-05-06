@@ -63,7 +63,7 @@
                 </a>
               </li>
               <li class="">
-                <a href="tables/datatables-pengguna.html">
+                <a href=" {{ route('users') }} ">
                   <span class="sub-item">Data Pengguna</span>
                 </a>
               </li>

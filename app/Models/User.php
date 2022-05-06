@@ -52,4 +52,12 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Debitor::class);
     }
+
+    /**
+     * The user that belong to the branch.
+     */
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'cabang_id');
+    }
 }
