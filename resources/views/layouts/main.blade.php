@@ -22,15 +22,6 @@
       @yield('content')
     </div>
     <!-- End Content -->
-
-    <footer class="footer">
-      <div class="container-fluid">
-        <div class="copyright ml-auto">
-          2020, made with <i class="fa fa-heart heart text-danger"></i> by
-          <a href="">ThemeKita</a>
-        </div>
-      </div>
-    </footer>
   </div>
 </body>
 

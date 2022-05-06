@@ -37,7 +37,7 @@
         </div>
       </div>
       <ul class="nav nav-primary">
-        <li class="nav-item active">
+        <li class="nav-item" id="li-dashboard">
           <a href="" class="collapsed" aria-expanded="false">
             <i class="fas fa-home"></i>
             <p>Dashboard</p>
@@ -55,7 +55,7 @@
             <p>Data Master</p>
             <span class="caret"></span>
           </a>
-          <div class="collapse show" id="data-master">
+          <div class="collapse" id="data-master">
             <ul class="nav nav-collapse">
               <li class="">
                 <a href="tables/datatables-debitor.html">
@@ -76,12 +76,12 @@
           </div>
         </li>
         <li class="nav-item  submenu">
-          <a data-toggle="collapse" href="#forms">
+          <a data-toggle="collapse" href="#administrasi">
             <i class="fas fa-cogs"></i>
             <p>Administrasi</p>
             <span class="caret"></span>
           </a>
-          <div class="collapse show" id="forms">
+          <div class="collapse" id="administrasi">
             <ul class="nav nav-collapse">
               <li class="">
                 <a href="#">
