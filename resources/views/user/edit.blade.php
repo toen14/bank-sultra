@@ -95,7 +95,7 @@
                                 <div class="container-button ml-2">
                                     <button type="submit" class="btn btn-success">
                                         <span class="btn-label">
-                                            <i class="fa fa-plus"></i>
+                                            <i class="far fa-edit"></i>
                                         </span>
                                         Edit Data
                                     </button>
