@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Debitor;
+use App\Models\User;
+use App\Enums\UserRole;
+use App\Enums\DebitorStatus;
+use App\Http\Requests\Debitor\StoreDebitorRequest;
+use App\Models\Branch;
 
 class DebitorController extends Controller
 {
@@ -27,7 +32,10 @@ class DebitorController extends Controller
      */
     public function create()
     {
-        //
+        $notaries = User::where('role', '=', UserRole::Notaris->value)->get();
+        $branches = Branch::all();
+
+        return view('debitor.create', compact('notaries', 'branches'));
     }
 
     /**
@@ -36,9 +44,16 @@ class DebitorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreDebitorRequest $request)
     {
-        //
+        $validated = $request->validated();
+        $validated['status'] = DebitorStatus::Progress->value;
+
+        $debitor = Debitor::create($validated);
+        $debitor->users()->attach($validated['notaris_id']);
+        $debitor->save();
+
+        return response()->redirectTo(route('debitors.index'));
     }
 
     /**
