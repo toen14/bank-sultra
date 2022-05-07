@@ -21,4 +21,5 @@ Route::get('/', function () {
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::resource('/users', \App\Http\Controllers\UserController::class);
-// Route::get('/users', [\App\Http\Controllers\UserController::class, 'create'])->name('users-create');
+
+Route::resource('/debitors', \App\Http\Controllers\DebitorController::class);
