@@ -75,11 +75,15 @@
                                                 <td> {{ $user->branch?->name }} </td>
                                                 <td>
                                                     <div class="action-container d-flex justify-content-center">
-                                                        <a href=" {{ route('users.edit', $user->id) }} " class="btn btn-info mr-1">edit</a>
-                                                        <form action="" method="post">
+                                                        <a href=" {{ route('users.edit', $user->id) }} "
+                                                            class="btn btn-info mr-1">edit</a>
+                                                        <form action=" {{ route('users.destroy', $user->id) }} "
+                                                            method="post">
                                                             @csrf
-                                                            <button type="button"
-                                                                class="btn btn-danger ml-1">delete</button>
+                                                            @method('DELETE')
+                                                            <button onclick="deleteUser(this)" type="button"
+                                                                class="btn btn-danger ml-1">delete
+                                                            </button>
                                                         </form>
                                                     </div>
                                                 </td>
@@ -112,5 +116,22 @@
         const dataMasterUl = document.getElementById('data-master').children[0];
         // activete li current page
         dataMasterUl.children[1].classList.add('active');
+
+        function deleteUser(contex) {
+            swal({
+                    title: "Apakah Anda Yakin?",
+                    text: "Data akan terhapus!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        contex.parentElement.submit();
+                    } else {
+                        swal("Batal menghapus data!");
+                    }
+                });
+        }
     </script>
 @endsection
