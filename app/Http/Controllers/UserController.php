@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Enums\UserRole;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 use App\Models\User;
 use App\Models\Branch;
 use App\Http\Requests\User\StoreUserRequest;
-use Illuminate\Http\Response;
+use App\Http\Requests\User\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -81,7 +81,20 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $branches = Branch::all();
+        $roles = [
+            [
+                'name'  => Str::ucfirst(UserRole::Apraisal->value),
+                'value' => UserRole::Apraisal->value
+            ],
+            [
+                'name'  => Str::ucfirst(UserRole::Notaris->value),
+                'value' => UserRole::Notaris->value
+            ],
+        ];
+
+        return view('user.edit', compact('user', 'branches', 'roles'));
     }
 
     /**
@@ -91,9 +104,20 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
-        //
+        $validated = $request->validated();
+        
+        $user = User::findOrFail($id);
+
+        if ($validated['password']) {
+            $validated['password'] = Hash::make($validated['password']);
+        }
+
+        $user->fill($validated);
+        $user->save();
+
+        return response()->redirectTo(route('users.edit', $id));
     }
 
     /**

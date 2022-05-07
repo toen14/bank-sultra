@@ -75,7 +75,7 @@
                                                 <td> {{ $user->branch?->name }} </td>
                                                 <td>
                                                     <div class="action-container d-flex justify-content-center">
-                                                        <a href="#" class="btn btn-info mr-1">edit</a>
+                                                        <a href=" {{ route('users.edit', $user->id) }} " class="btn btn-info mr-1">edit</a>
                                                         <form action="" method="post">
                                                             @csrf
                                                             <button type="button"
