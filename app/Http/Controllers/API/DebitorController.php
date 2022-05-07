@@ -5,8 +5,8 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Response;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API\StoreDebitorRequest;
-use App\Http\Requests\API\UpdateDebitorRequest;
+use App\Http\Requests\Debitor\StoreDebitorRequest;
+use App\Http\Requests\Debitor\UpdateDebitorRequest;
 use App\Models\Debitor;
 use App\Enums\DebitorStatus;
 
