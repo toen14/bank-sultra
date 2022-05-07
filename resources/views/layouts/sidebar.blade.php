@@ -63,7 +63,7 @@
                 </a>
               </li>
               <li class="">
-                <a href=" {{ route('users') }} ">
+                <a href=" {{ route('users.index') }} ">
                   <span class="sub-item">Data Pengguna</span>
                 </a>
               </li>

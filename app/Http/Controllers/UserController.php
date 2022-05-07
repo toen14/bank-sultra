@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserRole;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 use App\Models\User;
+use App\Models\Branch;
+use App\Http\Requests\User\StoreUserRequest;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
@@ -27,7 +32,19 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $branches = Branch::all();
+        $roles = [
+            [
+                'name'  => Str::ucfirst(UserRole::Apraisal->value),
+                'value' => UserRole::Apraisal->value
+            ],
+            [
+                'name'  => Str::ucfirst(UserRole::Notaris->value),
+                'value' => UserRole::Notaris->value
+            ],
+        ];
+
+        return view('user.create', compact('branches', 'roles'));
     }
 
     /**
@@ -36,9 +53,13 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        //
+        $validated = $request->validated();
+        
+        User::create($validated);
+
+        return response()->redirectTo(route('users.index'));
     }
 
     /**

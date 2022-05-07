@@ -39,12 +39,12 @@
                                         </span>
                                         PDF
                                     </button>
-                                    <button class="btn btn-primary">
+                                    <a href=" {{ route('users.create') }} " class="btn btn-primary">
                                         <span class="btn-label">
                                             <i class="fa fa-plus"></i>
                                         </span>
                                         Tambah Data
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
