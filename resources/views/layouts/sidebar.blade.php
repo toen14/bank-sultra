@@ -58,7 +58,7 @@
           <div class="collapse" id="data-master">
             <ul class="nav nav-collapse">
               <li class="">
-                <a href="tables/datatables-debitor.html">
+                <a href=" {{ route('debitors.index') }} ">
                   <span class="sub-item">Data Debitur</span>
                 </a>
               </li>
