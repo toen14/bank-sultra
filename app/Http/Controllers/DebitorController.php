@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Enums\UserRole;
 use App\Enums\DebitorStatus;
 use App\Http\Requests\Debitor\StoreDebitorRequest;
+use App\Http\Requests\Debitor\UpdateDebitorRequest;
 use App\Models\Branch;
 
 class DebitorController extends Controller
@@ -75,7 +76,11 @@ class DebitorController extends Controller
      */
     public function edit($id)
     {
-        //
+        $debitor = Debitor::with('users')->findOrFail($id);
+        $branches = Branch::all();
+        $notaries = User::where('role', '=', UserRole::Notaris->value)->get();
+
+        return view('debitor.edit', compact('debitor', 'branches', 'notaries'));
     }
 
     /**
@@ -85,9 +90,30 @@ class DebitorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateDebitorRequest $request, $id)
     {
-        //
+        $validated = $request->validated();
+
+        $debitor = Debitor::findOrFail($id);
+        $debitor->fill($validated);
+
+        if (isset($validated['notaris_id'])) {
+            // get current notaris ids
+            $currentUserDebitor = array_map(
+                fn ($userDebitor) => $userDebitor['id'],
+                $debitor->users()->get()->toArray()
+            );
+
+            // update relations
+            $debitor->users()->sync($validated['notaris_id'] + $currentUserDebitor);
+        } else {
+            // delete relation if insert empty notaris_id
+            $debitor->users()->sync([]);
+        }
+
+        $debitor->save();
+
+        return response()->redirectTo(route('debitors.index'));
     }
 
     /**

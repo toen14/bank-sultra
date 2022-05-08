@@ -114,7 +114,7 @@
 
                                                 <td>
                                                     <div class="action-container d-flex justify-content-center">
-                                                        <a href="#" class="btn btn-info mr-1">edit</a>
+                                                        <a href=" {{ route('debitors.edit', $debitor->id) }} " class="btn btn-info mr-1">edit</a>
                                                         <form method="post">
                                                             @csrf
                                                             @method('DELETE')
