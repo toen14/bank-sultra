@@ -5,8 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
-use App\Http\Requests\API\Branch\StoreBranchRequest;
-use App\Http\Requests\API\Branch\UpdateBranchRequest;
+use App\Http\Requests\Branch\StoreBranchRequest;
+use App\Http\Requests\Branch\UpdateBranchRequest;
 use App\Models\Branch;
 use Illuminate\Http\Request;
 
