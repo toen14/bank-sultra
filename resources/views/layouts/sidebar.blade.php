@@ -68,7 +68,7 @@
                 </a>
               </li>
               <li class="">
-                <a href="#">
+                <a href=" {{ route('branches.index') }} ">
                   <span class="sub-item">Data Cabang</span>
                 </a>
               </li>

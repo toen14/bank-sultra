@@ -18,4 +18,12 @@ class Branch extends Model
         'name',
         'kabupaten_kota_id',
     ];
+
+    /**
+     * The branch has one kabupatenKota.
+     */
+    public function kabupatenKota()
+    {
+        return $this->belongsTo(KabupatenKota::class, 'kabupaten_kota_id');
+    }
 }
