@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Enums\NoteUserStatus;
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 use App\Models\Note;
 use App\Http\Requests\API\Note\StoreNoteRequest;
 use App\Http\Requests\API\Note\UpdateNoteRequest;
+use App\Models\Debitor;
+use App\Models\NoteUser;
+use App\Models\User;
 
 class NoteController extends Controller
 {
@@ -27,12 +32,32 @@ class NoteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreNoteRequest $request)
+    public function store(StoreNoteRequest $request, int $userId)
     {
         $validated = $request->validated();
 
+        $note = Note::create($validated);
+
+        $admins = User::where('role', UserRole::AdminPusat->value)->get('id');
+
+        $debitorNotaries = (Debitor::with('users')->findOrFail($validated['debitor_id'], ['id']))->users;
+
+        $noteUsers = [];
+        
+        foreach ($debitorNotaries->merge($admins) as $userCanGetNotif) {
+            array_push($noteUsers, [
+                'user_id' => $userCanGetNotif->id,
+                'note_id' => $note->id,
+                'status'  => NoteUserStatus::Unread->value,
+                'created_at' => date("Y-m-d H:i:s", strtotime('now')),
+                'updated_at' => date("Y-m-d H:i:s", strtotime('now'))
+            ]);
+        }
+
+        NoteUser::insert($noteUsers);
+
         return response()->json(
-            Note::create($validated),
+            $note,
             Response::HTTP_CREATED
         );
     }
