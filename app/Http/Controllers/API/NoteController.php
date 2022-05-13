@@ -6,6 +6,7 @@ use App\Enums\NoteUserStatus;
 use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\Note;
 use App\Http\Requests\API\Note\StoreNoteRequest;
@@ -34,27 +35,32 @@ class NoteController extends Controller
      */
     public function store(StoreNoteRequest $request, int $userId)
     {
-        $validated = $request->validated();
+        $note = DB::transaction(function () use ($request) {
 
-        $note = Note::create($validated);
+            $validated = $request->validated();
 
-        $admins = User::where('role', UserRole::AdminPusat->value)->get('id');
+            $note = Note::create($validated);
 
-        $debitorNotaries = (Debitor::with('users')->findOrFail($validated['debitor_id'], ['id']))->users;
+            $admins = User::where('role', UserRole::AdminPusat->value)->get('id');
 
-        $noteUsers = [];
-        
-        foreach ($debitorNotaries->merge($admins) as $userCanGetNotif) {
-            array_push($noteUsers, [
-                'user_id' => $userCanGetNotif->id,
-                'note_id' => $note->id,
-                'status'  => NoteUserStatus::Unread->value,
-                'created_at' => date("Y-m-d H:i:s", strtotime('now')),
-                'updated_at' => date("Y-m-d H:i:s", strtotime('now'))
-            ]);
-        }
+            $debitorNotaries = (Debitor::with('users')->findOrFail($validated['debitor_id'], ['id']))->users;
 
-        NoteUser::insert($noteUsers);
+            $noteUsers = [];
+
+            foreach ($debitorNotaries->merge($admins) as $userCanGetNotif) {
+                array_push($noteUsers, [
+                    'user_id' => $userCanGetNotif->id,
+                    'note_id' => $note->id,
+                    'status'  => NoteUserStatus::Unread->value,
+                    'created_at' => date("Y-m-d H:i:s", strtotime('now')),
+                    'updated_at' => date("Y-m-d H:i:s", strtotime('now'))
+                ]);
+            }
+
+            NoteUser::insert($noteUsers);
+
+            return $note;
+        });
 
         return response()->json(
             $note,
