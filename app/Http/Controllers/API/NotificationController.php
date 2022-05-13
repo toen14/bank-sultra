@@ -5,11 +5,11 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
-use App\Models\NoteUser;
-use App\Http\Requests\API\NoteUser\StoreNoteUserRequest;
-use App\Http\Requests\API\NoteUser\UpdateNoteUserRequest;
+use App\Models\Notification;
+use App\Http\Requests\API\Notification\StoreNotificationRequest;
+use App\Http\Requests\API\Notification\UpdateNotificationRequest;
 
-class NoteUserController extends Controller
+class NotificationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class NoteUserController extends Controller
      */
     public function index()
     {
-        return response()->json(NoteUser::paginate(request()->limit ?? 0));
+        return response()->json(Notification::paginate(request()->limit ?? 0));
     }
 
     /**
@@ -27,12 +27,12 @@ class NoteUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreNoteUserRequest $request)
+    public function store(StoreNotificationRequest $request)
     {
         $validated = $request->validated();
 
         return response()->json(
-            NoteUser::create($validated),
+            Notification::create($validated),
             Response::HTTP_CREATED
         );
     }
@@ -45,7 +45,7 @@ class NoteUserController extends Controller
      */
     public function show($id)
     {
-        $noteUser = NoteUser::findOrFail($id);
+        $noteUser = Notification::findOrFail($id);
 
         return response()->json(
             $noteUser,
@@ -60,11 +60,11 @@ class NoteUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateNoteUserRequest $request, $id)
+    public function update(UpdateNotificationRequest $request, $id)
     {
         $validated = $request->validated();
 
-        $noteUser = NoteUser::findOrFail($id);
+        $noteUser = Notification::findOrFail($id);
 
         $noteUser->update($validated);
 
@@ -82,7 +82,7 @@ class NoteUserController extends Controller
      */
     public function destroy($id)
     {
-        $noteUser = NoteUser::findOrFail($id);
+        $noteUser = Notification::findOrFail($id);
 
         $noteUser->delete();
 

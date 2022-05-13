@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Enums\NoteUserStatus;
-use App\Enums\UserRole;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
+use App\Enums\NotificationEnum;
+use App\Enums\UserRole;
+use App\Http\Controllers\Controller;
 use App\Models\Note;
 use App\Http\Requests\API\Note\StoreNoteRequest;
 use App\Http\Requests\API\Note\UpdateNoteRequest;
 use App\Models\Debitor;
-use App\Models\NoteUser;
+use App\Models\Notification;
 use App\Models\User;
 
 class NoteController extends Controller
@@ -51,13 +51,13 @@ class NoteController extends Controller
                 array_push($noteUsers, [
                     'user_id' => $userCanGetNotif->id,
                     'note_id' => $note->id,
-                    'status'  => NoteUserStatus::Unread->value,
+                    'status'  => NotificationEnum::Unread->value,
                     'created_at' => date("Y-m-d H:i:s", strtotime('now')),
                     'updated_at' => date("Y-m-d H:i:s", strtotime('now'))
                 ]);
             }
 
-            NoteUser::insert($noteUsers);
+            Notification::insert($noteUsers);
 
             return $note;
         });

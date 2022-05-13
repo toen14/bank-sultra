@@ -30,11 +30,11 @@ Route::get('notes/{id}', [\App\Http\Controllers\API\NoteController::class, 'show
 Route::patch('notes/{id}', [\App\Http\Controllers\API\NoteController::class, 'update']);
 Route::delete('notes/{id}', [\App\Http\Controllers\API\NoteController::class, 'destroy']);
 
-Route::get('note-users', [\App\Http\Controllers\API\NoteUserController::class, 'index']);
-Route::post('note-users', [\App\Http\Controllers\API\NoteUserController::class, 'store']);
-Route::get('note-users/{id}', [\App\Http\Controllers\API\NoteUserController::class, 'show']);
-Route::patch('note-users/{id}', [\App\Http\Controllers\API\NoteUserController::class, 'update']);
-Route::delete('note-users/{id}', [\App\Http\Controllers\API\NoteUserController::class, 'destroy']);
+Route::get('note-users', [\App\Http\Controllers\API\NotificationController::class, 'index']);
+Route::post('note-users', [\App\Http\Controllers\API\NotificationController::class, 'store']);
+Route::get('note-users/{id}', [\App\Http\Controllers\API\NotificationController::class, 'show']);
+Route::patch('note-users/{id}', [\App\Http\Controllers\API\NotificationController::class, 'update']);
+Route::delete('note-users/{id}', [\App\Http\Controllers\API\NotificationController::class, 'destroy']);
 
 Route::get('kabupaten-kota', [\App\Http\Controllers\API\KabupatenKotaController::class, 'index']);
 Route::get('kabupaten-kota/{id}', [\App\Http\Controllers\API\KabupatenKotaController::class, 'show']);

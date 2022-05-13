@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\API\NoteUser;
+namespace App\Http\Requests\API\Notification;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
 use App\Enums\NoteUserStatus;
 
-class UpdateNoteUserRequest extends FormRequest
+class UpdateNotificationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
