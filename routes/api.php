@@ -50,5 +50,6 @@ Route::post('users', [\App\Http\Controllers\API\UserController::class, 'store'])
 Route::get('users/{id}', [\App\Http\Controllers\API\UserController::class, 'show']);
 Route::patch('users/{id}', [\App\Http\Controllers\API\UserController::class, 'update']);
 Route::delete('users/{id}', [\App\Http\Controllers\API\UserController::class, 'destroy']);
+Route::get('users/notifications/{user_id}', [\App\Http\Controllers\API\UserControllers\UserNotificationController::class, 'index']);
 
 Route::get('notaris', [\App\Http\Controllers\API\NotarisController::class, 'index']);
