@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Branch\StoreBranchRequest;
 use Illuminate\Http\Request;
 
 use App\Models\Branch;
+use App\Models\KabupatenKota;
 
 class BranchController extends Controller
 {
@@ -27,7 +29,9 @@ class BranchController extends Controller
      */
     public function create()
     {
-        //
+        $kabupatenKota = KabupatenKota::all();
+
+        return view('branch.create', compact('kabupatenKota'));
     }
 
     /**
@@ -36,9 +40,13 @@ class BranchController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBranchRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        Branch::create($validated);
+
+        return response()->redirectTo(route('branches.index'));
     }
 
     /**
