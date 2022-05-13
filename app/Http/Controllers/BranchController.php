@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Branch\StoreBranchRequest;
+use App\Http\Requests\Branch\UpdateBranchRequest;
 use Illuminate\Http\Request;
 
 use App\Models\Branch;
@@ -68,7 +69,11 @@ class BranchController extends Controller
      */
     public function edit($id)
     {
-        //
+        $branch =  Branch::with('kabupatenKota')->findOrFail($id);
+
+        $kabupatenKota = KabupatenKota::all();
+
+        return view('branch.edit', compact('branch', 'kabupatenKota'));
     }
 
     /**
@@ -78,9 +83,15 @@ class BranchController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateBranchRequest $request, $id)
     {
-        //
+        $validated = $request->validated();
+
+        $branch = Branch::findOrFail($id);
+        $branch->fill($validated);
+        $branch->save();
+
+        return response()->redirectTo(route('branches.index'));
     }
 
     /**
