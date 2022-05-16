@@ -5,7 +5,7 @@ namespace App\Http\Requests\API\Notification;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
-use App\Enums\NoteUserStatus;
+use App\Enums\NotificationEnum;
 
 class UpdateNotificationRequest extends FormRequest
 {
@@ -29,7 +29,7 @@ class UpdateNotificationRequest extends FormRequest
         return [
             'user_id' => 'numeric',
             'note_id' => 'numeric',
-            'status' => [new Enum(NoteUserStatus::class)],
+            'status' => [new Enum(NotificationEnum::class)],
         ];
     }
 }
