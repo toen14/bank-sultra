@@ -43,11 +43,13 @@ class NoteController extends Controller
 
             $admins = User::where('role', UserRole::AdminPusat->value)->get('id');
 
+            $apraisals = User::where('role', UserRole::Apraisal->value)->where('cabang_id', $note->debitor->cabang_id)->get('id');
+
             $debitorNotaries = (Debitor::with('users')->findOrFail($validated['debitor_id'], ['id']))->users;
 
             $noteUsers = [];
 
-            foreach ($debitorNotaries->merge($admins) as $userCanGetNotif) {
+            foreach (($debitorNotaries->merge($admins))->merge($apraisals) as $userCanGetNotif) {
                 array_push($noteUsers, [
                     'user_id' => $userCanGetNotif->id,
                     'note_id' => $note->id,
@@ -61,6 +63,9 @@ class NoteController extends Controller
 
             return $note;
         });
+
+        // unset relation has been called
+        unset($note['debitor']);
 
         return response()->json(
             $note,

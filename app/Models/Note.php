@@ -27,4 +27,12 @@ class Note extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    /**
+     * The debitor that belong to the debitor.
+     */
+    public function debitor()
+    {
+        return $this->belongsTo(Debitor::class, 'debitor_id');
+    }
 }
