@@ -43,19 +43,52 @@
                         <i class="fa fa-search"></i>
                     </a>
                 </li>
+                <li class="nav-item dropdown hidden-caret">
+                    <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-bell"></i>
+                        {{-- <span class="notification" id="notification-count">4</span> --}}
+                    </a>
+                    <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown"
+                        style="height: 435px; overflow: scroll;" id="notifDropdown" onscroll="loadNotificaions(this)">
+                        <li>
+                            <div class="dropdown-title">Daftar notification</div>
+                        </li>
+                        <li>
+                            <div class="notif-center">
+                                @foreach (App\Models\Notification::with('note.user')->where('user_id', auth()->user()->id)->orderBy('id', 'DESC')->get() as $notif)
+                                    <a href="">
+                                        <div class="notif-icon notif-primary"> <i class="fas fa-pen-alt"></i> </div>
+                                        <div class="notif-content">
+                                            <span class="block">
+                                                {{ $notif->note->user->name }} membuat note
+                                            </span>
+                                            <span class="time">{{ $notif->created_at->diffForHumans() }}</span>
+                                        </div>
+                                    </a>
+                                @endforeach
+                            </div>
+                        </li>
+                    </ul>
+                </li>
                 <li>
-                  <form class="ml-md-auto" action="{{ route('logout') }}" method="post">
-                    @csrf
-                    <button class="btn btn-danger">
-                        <span class="btn-label">
-                            <i class="icon-logout"></i>
-                        </span>
-                        Logout
-                    </button>
-                </form>
+                    <form class="ml-md-auto" action="{{ route('logout') }}" method="post">
+                        @csrf
+                        <button class="btn btn-danger">
+                            <span class="btn-label">
+                                <i class="icon-logout"></i>
+                            </span>
+                            Logout
+                        </button>
+                    </form>
                 </li>
             </ul>
         </div>
     </nav>
     <!-- End Navbar -->
 </div>
+<script>
+    const loadNotificaions = (ctx) => {
+        if (ctx.scrollHeight - ctx.scrollTop === ctx.clientHeight) {}
+    }
+</script>

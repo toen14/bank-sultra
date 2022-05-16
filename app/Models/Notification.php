@@ -19,4 +19,20 @@ class Notification extends Model
         'note_id',
         'status',
     ];
+
+    /**
+     * The user that belong to the note.
+     */
+    public function note()
+    {
+        return $this->belongsTo(Note::class, 'note_id');
+    }
+
+    /**
+     * The user that belong to the user.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

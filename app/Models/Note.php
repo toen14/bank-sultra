@@ -19,4 +19,12 @@ class Note extends Model
         'debitor_id',
         'description',
     ];
+
+    /**
+     * The user that belong to the user.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
