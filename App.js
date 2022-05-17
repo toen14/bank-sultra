@@ -12,6 +12,7 @@ import Profile from "./src/screens/profile-screen";
 import AddDebtor from "./src/screens/add-debtor-screen";
 import DebtorsContextProvider from "./src/store/debtor-contex";
 import DebtorDetail from "./src/screens/debtor-detail-screen";
+import Notification from "./src/screens/notification-screen";
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +34,11 @@ function MyStack() {
         options={{ headerShown: true }}
         name="Detail Debitur"
         component={DebtorDetail}
+      />
+      <Stack.Screen
+        options={{ headerShown: true }}
+        name="Notification"
+        component={Notification}
       />
     </Stack.Navigator>
   );

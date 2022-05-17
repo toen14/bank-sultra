@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { View, Dimensions, Text } from "react-native";
+import { View, Dimensions, Text, TouchableOpacity } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { FontAwesome } from "@expo/vector-icons";
+import { useNavigation } from '@react-navigation/native';
 
 import Dashboard from "../screens/dashboard-screen";
 import Document from "../screens/document-screen";
@@ -11,11 +12,22 @@ import User from "../screens/user-screen";
 const Drawer = createDrawerNavigator();
 
 export default function DrawerNavigation() {
+  const navigation = useNavigation();
+
   return (
     <Drawer.Navigator
       screenOptions={{
         drawerActiveTintColor: "#45A820",
         swipeMinDistance: 100,
+        headerRight: () => (
+          <TouchableOpacity style={{marginRight: 15}} onPress={() => navigation.navigate('Notification')}>
+            <FontAwesome
+                name="bell"
+                size={22}
+                color={"#a3a0a0"}
+              />
+          </TouchableOpacity>
+        ),
       }}
       initialRouteName="Dashboard"
     >

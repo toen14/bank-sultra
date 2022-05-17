@@ -11,12 +11,12 @@ export default function CardNotification(props) {
         </View>
         <View style={styles.contentBody}>
           <View style={styles.textContainer}>
-            <Text style={styles.contentName}>Lisa Lestary</Text>
+            <Text style={styles.contentName}>{props.name ?? 'Lisa Lestary'}</Text>
             <Text style={styles.contentDescription}>
-              "Membuat riwayat baru"
+              {props.description ?? "Membuat riwayat baru"}
             </Text>
           </View>
-          <Text style={styles.contentTime}>35 m</Text>
+          <Text style={styles.contentTime}> {props.createAt ?? '35 m'}</Text>
         </View>
       </View>
     </View>
@@ -25,7 +25,7 @@ export default function CardNotification(props) {
 
 export const styles = StyleSheet.create({
   container: {
-    width: "80%",
+    width: "100%",
     flexDirection: "row",
     alignItems: "center",
   },
@@ -44,11 +44,6 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#C4C4C4",
     flexDirection: "row",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 10,
   },
   contentIcon: {
     height: (Dimensions.get("window").width * 0.15) / 2,
