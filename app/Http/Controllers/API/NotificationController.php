@@ -18,7 +18,7 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        return response()->json(Notification::paginate(request()->limit ?? 0));
+        return response()->json(Notification::with('note.user')->paginate(request()->limit ?? 0));
     }
 
     /**
