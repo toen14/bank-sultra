@@ -13,12 +13,14 @@ import AddDebtor from "./src/screens/add-debtor-screen";
 import DebtorsContextProvider from "./src/store/debtor-contex";
 import DebtorDetail from "./src/screens/debtor-detail-screen";
 import Notification from "./src/screens/notification-screen";
+import Login from "./src/screens/login-screen";
 
 const Stack = createNativeStackNavigator();
 
 function MyStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Home" component={DrawerNavigation} />
       <Stack.Screen
         options={{ headerShown: true, headerTitle: "Tambah Debitur" }}
