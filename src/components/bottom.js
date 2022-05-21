@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Text,
   View,
@@ -8,7 +8,12 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
+import { RoleContext } from "../store/role-contex";
+import { role } from "../constants/role";
+
 export default function Bottom(props) {
+  const roleCtx = useContext(RoleContext);
+  
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -46,6 +51,7 @@ export default function Bottom(props) {
               backgroundColor: "#003399",
               alignItems: "center",
               justifyContent: "center",
+              display: roleCtx.role === role.Notaris ? 'none' : 'flex',
             }}
           >
             <FontAwesome
