@@ -21,7 +21,6 @@ const Stack = createNativeStackNavigator();
 function MyStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/* <Stack.Screen name="Login" component={Login} /> */}
       <Stack.Screen name="Home" component={DrawerNavigation} />
       <Stack.Screen
         options={{ headerShown: true, headerTitle: "Tambah Debitur" }}
@@ -73,9 +72,6 @@ export default function App() {
   return (
     <DebtorsContextProvider>
       <AuthContextProvider>
-        {/* <NavigationContainer>
-          <MyStack />
-        </NavigationContainer> */}
         <Navigation/>
       </AuthContextProvider>
     </DebtorsContextProvider>
