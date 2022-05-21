@@ -65,4 +65,17 @@ class AuthController extends Controller
             'message' => 'Berhasil logout!'
         ]);
     }
+
+    /**
+     * Get info current user authenticated.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function me()
+    {
+        return response()->json(
+            ['me' => request()->user()],
+            Response::HTTP_OK,
+        );
+    }
 }
