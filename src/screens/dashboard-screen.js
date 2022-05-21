@@ -13,17 +13,23 @@ import { debtorType } from "../constants/type";
 import { DebtorsContext } from "../store/debtor-contex";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
+import { AuthContext } from "../store/auth-contex";
 
 export default function Dashboard(props) {
   const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState("");
 
   const debtorsCtx = useContext(DebtorsContext);
+  const authCtx = useContext(AuthContext);
 
   async function getDebtors() {
     setIsFetching(true);
     try {
-      const res = await fetch(`${baseUrl}/api/debitors`);
+      const res = await fetch(`${baseUrl}/api/debitors`, {
+        headers: {
+          'Authorization': `Bearer ${authCtx.token}`
+        }
+      });
       if (!res.ok) {
         throw new Error(res.statusText);
       }

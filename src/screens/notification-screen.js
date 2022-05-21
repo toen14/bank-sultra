@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import { View, TouchableOpacity, FlatList } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 
@@ -8,15 +8,22 @@ import LoadingOverlay from "../components/UI/LoadingOverlay";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
 import { timeSince } from "../constants/time-since";
 import { iconName } from "../constants/icon-name";
+import { AuthContext } from "../store/auth-contex";
 
 export default function Notification(props) {
   const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState("");
   const [notifications, setNotifications] = useState([]);
 
+  const authCtx = useContext(AuthContext);
+
   const fetchNotif = useCallback(() => {
     setIsFetching(true);
-    fetch(`${baseUrl}/api/notifications`)
+    fetch(`${baseUrl}/api/notifications`, {
+      headers: {
+        Authorization: `Bearer ${authCtx.token}`,
+      },
+    })
       .then((res) => res.json())
       .then(({ data }) => setNotifications(data))
       .catch((e) => setError("Could not fetch notifications!"))

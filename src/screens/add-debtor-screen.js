@@ -16,6 +16,7 @@ import LoadingOverlay from "../components/UI/LoadingOverlay";
 import { baseUrl } from "../constants/base-url";
 import { debtorType } from "../constants/type";
 import { DebtorsContext } from "../store/debtor-contex";
+import { AuthContext } from "../store/auth-contex";
 
 export default function AddDebtor(props) {
   const [namaDebitur, setNamaDebitur] = useState("");
@@ -37,6 +38,7 @@ export default function AddDebtor(props) {
   const [isShowTanggalBerakhir, setIsShowTanggalBerakhir] = useState(false);
 
   const debtorsCtx = useContext(DebtorsContext);
+  const authCtx = useContext(AuthContext);
 
   async function addDebtors() {
     setIsLoading(true);
@@ -45,6 +47,7 @@ export default function AddDebtor(props) {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          'Authorization': `Bearer ${authCtx.token}`,
         },
         method: "POST",
         body: JSON.stringify({
@@ -77,6 +80,7 @@ export default function AddDebtor(props) {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        'Authorization': `Bearer ${authCtx.token}`,
       },
     })
       .then((res) => res.json())

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import {
   View,
   Dimensions,
@@ -10,34 +10,41 @@ import {
   ActivityIndicator,
   Alert,
 } from "react-native";
-import { useNavigation } from "@react-navigation/core";
 
 import { baseUrl } from "../constants/base-url";
+import { AuthContext } from "../store/auth-contex";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const navigation = useNavigation();
 
-  const onSumbit = useCallback(function() {
-    setIsLoading(true);
-    fetch(`${baseUrl}/api/login`, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      method: 'POST',
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    })
-    .then(res => res.ok ? navigation.navigate('Home') : res.json())
-    .then(resJson => Alert.alert(resJson.message))
-    .catch(e => console.log('err'))
-    .finally(() => setIsLoading(false));
-  }, [email, password]);
+  const authCtx = useContext(AuthContext);
+
+  const onSumbit = useCallback(
+    function () {
+      setIsLoading(true);
+      fetch(`${baseUrl}/api/login`, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      })
+        .then((res) => res.json())
+        .then((resJson) =>
+          resJson.token
+            ? authCtx.authenticate(resJson.token)
+            : !setIsLoading(false) && Alert.alert(resJson.message)
+        )
+        .catch((e) => console.log("err", e));
+    },
+    [email, password]
+  );
 
   return (
     <View style={styles.container}>
@@ -67,11 +74,7 @@ export default function Login() {
       )}
 
       <View style={styles.button}>
-        <Button
-          onPress={() => onSumbit()}
-          color="#003399"
-          title="Login"
-        />
+        <Button onPress={() => onSumbit()} color="#003399" title="Login" />
       </View>
       <TouchableOpacity>
         <Text style={styles.forgotPassword}>Forgot your password?</Text>

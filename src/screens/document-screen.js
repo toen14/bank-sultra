@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, memo } from "react";
+import React, { useEffect, useState, useCallback, memo, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -15,6 +15,7 @@ import Bottom from "../components/bottom";
 import { baseUrl } from "../constants/base-url";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
+import { AuthContext } from "../store/auth-contex";
 
 const colors = Object.freeze({
   done: "#28A745",
@@ -53,9 +54,15 @@ export default function Document(props) {
   const [error, setError] = useState("");
   const [isAvailableDebtors, setIsAvailableDebtors] = useState(true);
 
+  const authCtx = useContext(AuthContext)
+
   const getDebtors = useCallback((currentPageParameter) => {
     setIsLoading(true);
-    fetch(`${baseUrl}/api/debitors?page=${currentPageParameter}&limit=10`)
+    fetch(`${baseUrl}/api/debitors?page=${currentPageParameter}&limit=10`, {
+      headers: {
+        'Authorization': `Bearer ${authCtx.token}`
+      }
+    })
       .then((res) => res.json())
       .then((res) => {
         if (!res.data.length) {

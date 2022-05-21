@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, memo } from "react";
+import React, { useCallback, useEffect, useState, memo, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -13,6 +13,7 @@ import Bottom from "../components/bottom";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import { baseUrl } from "../constants/base-url";
+import { AuthContext } from "../store/auth-contex";
 
 const MemorizeCardUser = memo(
   (props) => (
@@ -34,9 +35,15 @@ export default function User(props) {
   const [error, setError] = useState("");
   const [isAvailableUsers, setIsAvailableUsers] = useState(true);
 
+ const authCtx = useContext(AuthContext);
+
   const getUsers = useCallback((currentPageParameter) => {
     setIsLoading(true);
-    fetch(`${baseUrl}/api/users?page=${currentPageParameter}&limit=10`)
+    fetch(`${baseUrl}/api/users?page=${currentPageParameter}&limit=10`, {
+      headers: {
+        'Authorization': `Bearer ${authCtx.token}`
+      }
+    })
       .then((res) => res.json())
       .then((res) => {
         if (!res.data.length) {

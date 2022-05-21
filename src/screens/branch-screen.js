@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useState, memo } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  memo,
+  useContext,
+} from "react";
 import {
   View,
   StyleSheet,
@@ -14,6 +20,7 @@ import Bottom from "../components/bottom";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import { baseUrl } from "../constants/base-url";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
+import { AuthContext } from "../store/auth-contex";
 
 const MemorizeCardBrand = memo(
   (props) => (
@@ -31,9 +38,15 @@ export default function Branch(props) {
   const [error, setError] = useState("");
   const [isAvailableBranchs, setIsAvailableBranchs] = useState(true);
 
+  const authCtx = useContext(AuthContext);
+
   const getBranchs = useCallback((currentPageParameter) => {
     setIsLoading(true);
-    fetch(`${baseUrl}/api/branches?page=${currentPageParameter}&limit=10`)
+    fetch(`${baseUrl}/api/branches?page=${currentPageParameter}&limit=10`, {
+      headers: {
+        Authorization: `Bearer ${authCtx.token}`,
+      },
+    })
       .then((res) => res.json())
       .then((res) => {
         if (!res.data.length) {
@@ -42,7 +55,9 @@ export default function Branch(props) {
         }
         setBranchs((currentBranchs) => [...currentBranchs, ...res.data]);
       })
-      .catch(() => Alert.alert('Terjadi kesalahan', 'Gagal memuat data cabang!'))
+      .catch(() =>
+        Alert.alert("Terjadi kesalahan", "Gagal memuat data cabang!")
+      )
       .finally(() => {
         setIsLoading(false);
       });

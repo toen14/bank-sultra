@@ -1,5 +1,5 @@
 import "react-native-gesture-handler"; // https://reactnavigation.org/docs/drawer-navigator#installation
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, View, Text, Dimensions } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import AppLoading from "expo-app-loading";
@@ -14,13 +14,14 @@ import DebtorsContextProvider from "./src/store/debtor-contex";
 import DebtorDetail from "./src/screens/debtor-detail-screen";
 import Notification from "./src/screens/notification-screen";
 import Login from "./src/screens/login-screen";
+import AuthContextProvider, { AuthContext } from "./src/store/auth-contex";
 
 const Stack = createNativeStackNavigator();
 
 function MyStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Login" component={Login} />
+      {/* <Stack.Screen name="Login" component={Login} /> */}
       <Stack.Screen name="Home" component={DrawerNavigation} />
       <Stack.Screen
         options={{ headerShown: true, headerTitle: "Tambah Debitur" }}
@@ -46,6 +47,18 @@ function MyStack() {
   );
 }
 
+
+function Navigation() {
+  const authCtx = useContext(AuthContext);
+
+  return (
+    <NavigationContainer>
+      {!authCtx.isAuthenticated && <Login />}
+      {authCtx.isAuthenticated && <MyStack />}
+    </NavigationContainer>
+  );
+}
+
 export default function App() {
   let [fontsLoaded] = useFonts({
     Rubik: require("./assets/fonts/Rubik.ttf"),
@@ -59,9 +72,12 @@ export default function App() {
 
   return (
     <DebtorsContextProvider>
-      <NavigationContainer>
-        <MyStack />
-      </NavigationContainer>
+      <AuthContextProvider>
+        {/* <NavigationContainer>
+          <MyStack />
+        </NavigationContainer> */}
+        <Navigation/>
+      </AuthContextProvider>
     </DebtorsContextProvider>
   );
 }
