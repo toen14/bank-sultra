@@ -1,10 +1,14 @@
-import React, { useState } from "react";
-import { View, TextInput, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
+import React from "react";
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
 export default function CardSendMessage(props) {
-  const [massage, setMassage] = useState("");
-
   return (
     <View style={styles.container}>
       <FontAwesome
@@ -16,16 +20,14 @@ export default function CardSendMessage(props) {
 
       <TextInput
         style={styles.input}
-        onChangeText={setMassage}
-        value={massage}
+        onChangeText={props.setMessage}
+        value={props.message}
         placeholder="Kirim pesan..."
-        onPressIn={props.onPressIn ?? (() =>{})}
-        onEndEditing={props.onEndEditing ?? (() =>{})}
+        onPressIn={props.onPressIn ?? (() => {})}
+        onEndEditing={props.onEndEditing ?? (() => {})}
       />
 
-      <TouchableOpacity
-        style={styles.massageIcon}
-      >
+      <TouchableOpacity onPress={props.onPress} style={styles.massageIcon}>
         <FontAwesome
           name={props.icon ?? "paper-plane"}
           size={Dimensions.get("window").width * 0.04}
@@ -69,5 +71,5 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: (Dimensions.get("window").width * 0.095) / 2,
     marginRight: Dimensions.get("window").width * 0.01,
-  }
+  },
 });

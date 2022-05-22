@@ -29,7 +29,9 @@ const MemorizeCardDocument = memo(
       <View style={{ alignSelf: "center" }}>
         <View style={styles.cardDocumentContainer}>
           <TouchableOpacity
-            onPress={() => props.navigation.navigate("Detail Debitur")}
+            onPress={() => props.navigation.navigate("Detail Debitur", {
+              debtorId: props.item.id,
+            })}
           >
             <CardDocument
               no={props.index + 1}
