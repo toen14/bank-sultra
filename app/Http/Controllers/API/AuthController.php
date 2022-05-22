@@ -74,7 +74,7 @@ class AuthController extends Controller
     public function me()
     {
         return response()->json(
-            ['me' => request()->user()],
+            ['me' => request()->user()->load(['branch.kabupatenKota'])],
             Response::HTTP_OK,
         );
     }
