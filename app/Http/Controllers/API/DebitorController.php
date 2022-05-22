@@ -53,7 +53,12 @@ class DebitorController extends Controller
      */
     public function show($id)
     {
-        $debitor = Debitor::findOrFail($id);
+        $debitor = Debitor::with([
+            'notes' => function ($query) {
+                $query->orderBy('id', 'desc');
+            }, 
+            'notes.user',
+        ])->findOrFail($id);
 
         return response()->json(
             $debitor,

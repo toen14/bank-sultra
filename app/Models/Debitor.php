@@ -33,4 +33,12 @@ class Debitor extends Model
     {
         return $this->belongsToMany(User::class)->withTimestamps();
     }
+
+    /**
+     * The Debitor has many notes.
+     */
+    public function notes()
+    {
+        return $this->hasMany(Note::class, 'debitor_id');
+    }
 }
