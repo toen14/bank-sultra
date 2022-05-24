@@ -52,5 +52,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('users/{user}/debitors', [\App\Http\Controllers\API\UserControllers\UserDebitorController::class, 'index']);
 
+    Route::get('users/{user}/notes', [\App\Http\Controllers\API\UserControllers\UserNoteController::class, 'index']);
+
     Route::get('notaris', [\App\Http\Controllers\API\NotarisController::class, 'index']);
 });
