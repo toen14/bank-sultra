@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\UserControllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
+use App\Models\User;
 
 class UserNotificationController extends Controller
 {
@@ -12,9 +13,11 @@ class UserNotificationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(int $userId)
+    public function index(User $user)
     {
-        $userNotifications = Notification::where('user_id', $userId)->paginate(request()->limit ?? 0);
+        $this->authorize('show', $user);
+
+        $userNotifications = Notification::where('user_id', $user->id)->paginate(request()->limit ?? 0);
         
         return response()->json($userNotifications);
     }
