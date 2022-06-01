@@ -23,11 +23,17 @@ const items: DrawerItemProps[] = [
     color: "primary",
   },
   {
-    icon: "heart",
-    label: "Favorites Outfits",
-    screen: "FavoriteOutfits",
+    icon: "book",
+    label: "Debitor",
+    screen: "Debitor",
     color: "drawer1",
   },
+  // {
+  //   icon: "heart",
+  //   label: "Favorites Outfits",
+  //   screen: "FavoriteOutfits",
+  //   color: "drawer1",
+  // },
   {
     icon: "user",
     label: "Edit Profile",
