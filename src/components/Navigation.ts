@@ -40,4 +40,5 @@ export type HomeRoutes = {
   Cart: undefined;
   Notification: undefined;
   Debitor: undefined;
+  Branch: undefined;
 };

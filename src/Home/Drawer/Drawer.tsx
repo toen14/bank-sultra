@@ -28,6 +28,12 @@ const items: DrawerItemProps[] = [
     screen: "Debitor",
     color: "drawer1",
   },
+  {
+    icon: "briefcase",
+    label: "Cabang",
+    screen: "Branch",
+    color: "drawer3",
+  },
   // {
   //   icon: "heart",
   //   label: "Favorites Outfits",
@@ -40,12 +46,12 @@ const items: DrawerItemProps[] = [
     screen: "EditProfile",
     color: "drawer2",
   },
-  {
-    icon: "clock",
-    label: "Transaction History",
-    screen: "TransactionHistory",
-    color: "drawer3",
-  },
+  // {
+  //   icon: "clock",
+  //   label: "Transaction History",
+  //   screen: "TransactionHistory",
+  //   color: "drawer3",
+  // },
   {
     icon: "settings",
     label: "Notifications Settings",
