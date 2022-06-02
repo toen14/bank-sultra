@@ -41,4 +41,5 @@ export type HomeRoutes = {
   Notification: undefined;
   Debitor: undefined;
   Branch: undefined;
+  User: undefined;
 };
