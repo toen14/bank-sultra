@@ -15,13 +15,18 @@ export interface ListProps {
 
 const List = ({ boxColor, name, no, status, branch }: ListProps) => {
   return (
-    <ListItem bottomDivider topDivider>
+    <ListItem
+      bottomDivider
+      topDivider
+      containerStyle={{ paddingVertical: 7.5 }}
+    >
       <Box
         alignItems="center"
         justifyContent="center"
-        height={70}
-        width={70}
+        height={50}
+        width={50}
         backgroundColor={boxColor}
+        borderRadius="m"
       >
         <Text style={{ color: "white" }}>{no}</Text>
       </Box>

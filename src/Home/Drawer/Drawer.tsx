@@ -58,12 +58,12 @@ const items: DrawerItemProps[] = [
   //   screen: "TransactionHistory",
   //   color: "drawer3",
   // },
-  {
-    icon: "settings",
-    label: "Notifications Settings",
-    screen: "Settings",
-    color: "drawer4",
-  },
+  // {
+  //   icon: "settings",
+  //   label: "Notifications Settings",
+  //   screen: "Settings",
+  //   color: "drawer4",
+  // },
   {
     icon: "log-out",
     label: "Logout",

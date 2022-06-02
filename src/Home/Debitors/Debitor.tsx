@@ -111,21 +111,31 @@ const Debitor = ({ navigation }: HomeNavigationProps<"Debitor">) => {
           }}
         />
         <Box flex={1}>
-          <Box
-            height={66}
-            marginVertical={"s"}
-            width={"100%"}
-            flexDirection="row"
-          >
-            <Box width={"66%"}>
+          <Box height={Platform.OS === "android" ? 50 : 70} flexDirection="row">
+            <Box width={"66%"} height="100%" paddingLeft={"m"}>
               <SearchBar
                 value={search}
                 onChangeText={setSearch}
-                lightTheme
-                platform={Platform.OS === "android" ? "default" : "ios"}
+                placeholder="Search"
+                containerStyle={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  alignSelf: "center",
+                }}
+                style={{ fontSize: 15 }}
+                searchIcon={
+                  <Icon
+                    as={Ionicons}
+                    color="gray.500"
+                    name="search"
+                    size="sm"
+                  />
+                }
+                cancelButtonProps={{ buttonTextStyle: { fontSize: 13 } }}
+                platform={Platform.OS === "android" ? "android" : "ios"}
               />
             </Box>
-            <Box width="32%" height={"100%"} ml="s">
+            <Box width="32%" height={"100%"} mr="m">
               <Button
                 rounded="none"
                 leftIcon={
@@ -133,12 +143,12 @@ const Debitor = ({ navigation }: HomeNavigationProps<"Debitor">) => {
                     as={Ionicons}
                     color="gray.500"
                     name="calendar"
-                    size="3xl"
+                    size="lg"
                   />
                 }
                 width={"full"}
                 height="full"
-                style={{ backgroundColor: "#DDE4EA" }}
+                style={{ backgroundColor: "white" }}
                 onPress={() => setShowDate(true)}
               >
                 <Text style={{ color: "#707179" }}>{date}</Text>
