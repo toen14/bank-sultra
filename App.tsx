@@ -11,6 +11,10 @@ import { LoadAssets } from "./src/components";
 import { ThemeProvider } from "./src/components/Theme";
 import { AppRoutes } from "./src/components/Navigation";
 import NotificationScreen from "./src/Home/Notifications";
+import AuthContextProvider, {
+  AuthContext,
+} from "./src/Authentication/store/AuthContex";
+import Logout from "./src/Authentication/Logout";
 const assets = [...authenticationAssets, ...homeAssets];
 const fonts = {
   "SFProDisplay-Bold": require("./assets/fonts/SF-Pro-Display-Bold.otf"),
@@ -21,22 +25,32 @@ const fonts = {
 
 const AppStack = createStackNavigator<AppRoutes>();
 
+const Navigation = () => {
+  const authCtx = React.useContext(AuthContext);
+
+  return (
+    <AppStack.Navigator headerMode="none">
+      {!authCtx.isAuthenticated && (
+        <AppStack.Screen
+          name="Authentication"
+          component={AuthenticationNavigator}
+        />
+      )}
+      <AppStack.Screen name="Home" component={HomeNavigator} />
+      <AppStack.Screen name="Notification" component={NotificationScreen} />
+      <AppStack.Screen name="Logout" component={Logout} />
+    </AppStack.Navigator>
+  );
+};
+
 export default function App() {
   return (
     <ThemeProvider>
       <LoadAssets {...{ fonts, assets }}>
         <SafeAreaProvider>
-          <AppStack.Navigator headerMode="none">
-            <AppStack.Screen
-              name="Authentication"
-              component={AuthenticationNavigator}
-            />
-            <AppStack.Screen name="Home" component={HomeNavigator} />
-            <AppStack.Screen
-              name="Notification"
-              component={NotificationScreen}
-            />
-          </AppStack.Navigator>
+          <AuthContextProvider>
+            <Navigation />
+          </AuthContextProvider>
         </SafeAreaProvider>
       </LoadAssets>
     </ThemeProvider>

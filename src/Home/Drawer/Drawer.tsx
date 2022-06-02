@@ -67,13 +67,14 @@ const items: DrawerItemProps[] = [
   {
     icon: "log-out",
     label: "Logout",
-    onPress: (navigation) =>
+    onPress: (navigation) => {
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
-          routes: [{ name: "Authentication" }],
+          routes: [{ name: "Logout" }],
         })
-      ),
+      );
+    },
     color: "secondary",
   },
 ];

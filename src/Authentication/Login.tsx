@@ -11,6 +11,7 @@ import TextInput from "../components/Form/TextInput";
 import Checkbox from "../components/Form/Checkbox";
 
 import Footer from "./components/Footer";
+import { AuthContext } from "./store/AuthContex";
 
 const LoginSchema = Yup.object().shape({
   password: Yup.string()
@@ -21,6 +22,12 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Login = ({ navigation }: AuthNavigationProps<"Login">) => {
+  const authCtx = React.useContext(AuthContext);
+
+  if (authCtx.isAuthenticated) {
+    navigation.navigate("Home");
+  }
+
   const {
     handleChange,
     handleBlur,

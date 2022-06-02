@@ -20,6 +20,7 @@ export type AppRoutes = {
   Authentication: undefined;
   Home: undefined;
   Notification: undefined;
+  Logout: undefined;
 };
 
 export type AuthenticationRoutes = {
