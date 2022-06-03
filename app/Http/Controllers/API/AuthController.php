@@ -31,7 +31,10 @@ class AuthController extends Controller
         }
 
         return response()->json(
-            ['token' => $user->createToken($user->name)->plainTextToken],
+            [
+                'user' => $user,
+                'token' => $user->createToken($user->name)->plainTextToken
+            ],
             Response::HTTP_CREATED,
         );
     }

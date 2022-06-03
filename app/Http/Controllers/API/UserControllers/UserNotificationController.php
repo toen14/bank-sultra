@@ -17,8 +17,8 @@ class UserNotificationController extends Controller
     {
         $this->authorize('show', $user);
 
-        $userNotifications = Notification::where('user_id', $user->id)->paginate(request()->limit ?? 0);
-        
+        $userNotifications = Notification::where('user_id', $user->id)->orderBy('id', 'DESC')->with('note.user')->paginate(request()->limit ?? 0);
+
         return response()->json($userNotifications);
     }
 }
