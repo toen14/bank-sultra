@@ -1,31 +1,36 @@
 import React, { createContext, useState } from "react";
 
-interface IAuthContex {
+export interface ICurrentUser {
+  user: Record<string, unknown>;
   token: string;
+}
+
+interface IAuthContex {
+  currentUser: ICurrentUser | undefined;
   isAuthenticated: boolean;
-  authenticate?: (token: string) => void;
+  authenticate?: (cUser: ICurrentUser) => void;
   logout?: () => void;
 }
 
 export const AuthContext = createContext<IAuthContex>({
-  token: "",
+  currentUser: undefined,
   isAuthenticated: false,
 });
 
 function AuthContextProvider({ children }) {
-  const [authToken, setAuthToken] = useState<string>();
+  const [currentUser, setCurrentUser] = useState<ICurrentUser | undefined>();
 
-  function authenticate(token) {
-    setAuthToken(token);
+  function authenticate(cUser: ICurrentUser) {
+    setCurrentUser(cUser);
   }
 
   function logout() {
-    setAuthToken(undefined);
+    setCurrentUser(undefined);
   }
 
   const value = {
-    token: authToken,
-    isAuthenticated: !!authToken,
+    currentUser: currentUser,
+    isAuthenticated: currentUser ? true : false,
     authenticate: authenticate,
     logout: logout,
   };

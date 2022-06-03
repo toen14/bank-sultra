@@ -30,13 +30,14 @@ const Navigation = () => {
 
   return (
     <AppStack.Navigator headerMode="none">
-      {!authCtx.isAuthenticated && (
-        <AppStack.Screen
-          name="Authentication"
-          component={AuthenticationNavigator}
-        />
+      {authCtx.isAuthenticated && (
+        <AppStack.Screen name="Home" component={HomeNavigator} />
       )}
-      <AppStack.Screen name="Home" component={HomeNavigator} />
+
+      <AppStack.Screen
+        name="Authentication"
+        component={AuthenticationNavigator}
+      />
       <AppStack.Screen name="Notification" component={NotificationScreen} />
       <AppStack.Screen name="Logout" component={Logout} />
     </AppStack.Navigator>

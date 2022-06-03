@@ -1,9 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { TextInput as RNTextInput } from "react-native";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { BorderlessButton } from "react-native-gesture-handler";
 import { CommonActions } from "@react-navigation/native";
+import axios from "axios";
 
 import { Container, Button, Text, Box } from "../components";
 import { AuthNavigationProps } from "../components/Navigation";
@@ -28,6 +29,8 @@ const Login = ({ navigation }: AuthNavigationProps<"Login">) => {
     navigation.navigate("Home");
   }
 
+  const [errorRequest, setErrorRequest] = useState("");
+
   const {
     handleChange,
     handleBlur,
@@ -39,13 +42,8 @@ const Login = ({ navigation }: AuthNavigationProps<"Login">) => {
   } = useFormik({
     validationSchema: LoginSchema,
     initialValues: { email: "", password: "", remember: true },
-    onSubmit: () =>
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{ name: "Home" }],
-        })
-      ),
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onSubmit: () => {},
   });
   const password = useRef<RNTextInput>(null);
   const footer = (
@@ -65,21 +63,23 @@ const Login = ({ navigation }: AuthNavigationProps<"Login">) => {
         Use your credentials below and login to your account
       </Text>
       <Box>
+        <Text style={{ marginTop: -20, color: "red" }}>{errorRequest}</Text>
         <Box marginBottom="m">
           <TextInput
             icon="mail"
             placeholder="Enter your Email"
             onChangeText={handleChange("email")}
             onBlur={handleBlur("email")}
-            error={errors.email}
+            error={errorRequest ?? errors.email}
             touched={touched.email}
             autoCapitalize="none"
             autoComplete="email"
             returnKeyType="next"
             returnKeyLabel="next"
             onSubmitEditing={() => password.current?.focus()}
+            onTouchStart={() => setErrorRequest("")}
           />
-          {errors.email && touched.email && (
+          {errors.email && touched.email && !errorRequest && (
             <Text style={{ color: "red", fontSize: 10 }}>{errors.email}</Text>
           )}
         </Box>
@@ -89,16 +89,17 @@ const Login = ({ navigation }: AuthNavigationProps<"Login">) => {
           placeholder="Enter your Password"
           onChangeText={handleChange("password")}
           onBlur={handleBlur("password")}
-          error={errors.password}
+          error={errorRequest ?? errors.password}
           touched={touched.password}
           autoComplete="password"
           autoCapitalize="none"
           returnKeyType="go"
           returnKeyLabel="go"
           onSubmitEditing={() => handleSubmit()}
+          onTouchStart={() => setErrorRequest("")}
           secureTextEntry
         />
-        {errors.password && touched.password && (
+        {errors.password && touched.password && !errorRequest && (
           <Text style={{ color: "red", fontSize: 10 }}>{errors.password}</Text>
         )}
         <Box
@@ -123,7 +124,28 @@ const Login = ({ navigation }: AuthNavigationProps<"Login">) => {
         <Box alignItems="center" marginTop="m">
           <Button
             variant="primary"
-            onPress={handleSubmit}
+            onPress={() => {
+              if (!errors.email && !errors.password) {
+                axios
+                  .post(
+                    "https://4e50-180-252-206-12.ap.ngrok.io/api/login",
+                    {
+                      email: values.email,
+                      password: values.password,
+                    },
+                    {
+                      headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                      },
+                    }
+                  )
+                  .then((res) => {
+                    authCtx.authenticate(res.data);
+                  })
+                  .catch((e) => setErrorRequest(e.response.data.message));
+              }
+            }}
             label="Log into your account"
           />
         </Box>
