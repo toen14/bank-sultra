@@ -1,29 +1,41 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SearchBar } from "@rneui/themed";
 import { Platform, FlatList } from "react-native";
-import { NativeBaseProvider } from "native-base";
+import { Heading, HStack, NativeBaseProvider, Spinner } from "native-base";
+import axios from "axios";
 
 import { HomeNavigationProps } from "../../components/Navigation";
 import { Box, Header } from "../../components";
+import { baseUrl } from "../../constants/base-url";
+import { AuthContext } from "../../Authentication/store/AuthContex";
 
-import List, { ListProps } from "./List";
+import List from "./List";
 
-type Branches = {
+type TBranches = {
   id: number;
-} & Omit<ListProps, "no">;
-
-const branches: Branches[] = [];
-
-let number = 1;
-for (const later of "abcdefghijkl".toUpperCase()) {
-  branches.push({
-    name: later,
-    id: number++,
-  });
-}
+  name: string;
+};
 
 const Branch = ({ navigation }: HomeNavigationProps<"Branch">) => {
+  const authCtx = useContext(AuthContext);
   const [search, setSearch] = useState("");
+
+  const [branches, setBranches] = useState<TBranches[]>();
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    axios
+      .get(`${baseUrl}/branches`, {
+        headers: {
+          "content-type": "aplication/json",
+          Authorization: `Bearer ${authCtx.currentUser.token}`,
+        },
+      })
+      .then((res) => setBranches(res.data.data))
+      .finally(() => setIsLoading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <NativeBaseProvider>
@@ -44,13 +56,34 @@ const Branch = ({ navigation }: HomeNavigationProps<"Branch">) => {
             platform={Platform.OS === "android" ? "android" : "ios"}
             containerStyle={{ marginHorizontal: 20 }}
           />
-          <FlatList
-            data={branches}
-            renderItem={({ item, index }) => (
-              <List no={index + 1} name={item.name} />
-            )}
-            keyExtractor={(item) => item.id.toString()}
-          />
+          {isLoading && (
+            <HStack
+              height="full"
+              space={2}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Spinner
+                color="darkBlue.600"
+                size="lg"
+                accessibilityLabel="Loading posts"
+              />
+              <Heading color="darkBlue.600" fontSize="md">
+                Sedang memuat . . .
+              </Heading>
+            </HStack>
+          )}
+          {!isLoading && (
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            <FlatList
+              data={branches}
+              renderItem={({ item, index }) => (
+                <List no={index + 1} name={item.name} />
+              )}
+              keyExtractor={(item) => item.id.toString()}
+            />
+          )}
         </Box>
       </Box>
     </NativeBaseProvider>
