@@ -1,118 +1,93 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList } from "react-native";
+import axios from "axios";
+import { Heading, HStack, NativeBaseProvider, Spinner } from "native-base";
 
+import { AuthContext } from "../../Authentication/store/AuthContex";
 import { Box, Header } from "../../components";
 import { HomeNavigationProps } from "../../components/Navigation";
+import { baseUrl } from "../../constants/base-url";
 
 import Notification from "./Notification";
 
-const list = [
-  {
-    name: "Amy Farha",
-    role: "Admin",
-    description: "Tambah berkas",
-    createdAt: "2022-05-08T13:55:25",
-  },
-  {
-    name: "Chris Jackson",
-    role: "Notaris",
-    description: "Berkas tidak lengkap",
-    createdAt: "2022-04-08T13:55:25",
-  },
-  {
-    name: "Chris Jackson",
-    role: "Notaris",
-    description: "Berkas tidak lengkap",
-    createdAt: "2022-05-08T10:55:25",
-  },
-  {
-    name: "Chris Jackson",
-    role: "Notaris",
-    description: "Berkas tidak lengkap",
-    createdAt: "2022-05-08T13:27:25",
-  },
-  {
-    name: "Chris Jackson",
-    role: "Notaris",
-    description: "Berkas tidak lengkap",
-    createdAt: "2021-05-08T13:55:25",
-  },
-  {
-    name: "Chris Jackson",
-    role: "Notaris",
-    description: "Berkas tidak lengkap",
-    createdAt: "2022-05-08T13:55:25",
-  },
-  {
-    name: "Chris Jackson",
-    role: "Notaris",
-    description: "Berkas tidak lengkap",
-    createdAt: "2022-05-08T13:55:25",
-  },
-  {
-    name: "Chris Jackson",
-    role: "Notaris",
-    description: "Berkas tidak lengkap",
-    createdAt: "2022-05-08T13:55:25",
-  },
-  {
-    name: "Chris Jackson",
-    role: "Notaris",
-    description: "Berkas tidak lengkap",
-    createdAt: "2022-05-08T13:55:25",
-  },
-  {
-    name: "Chris Jackson",
-    role: "Notaris",
-    description: "Berkas tidak lengkap",
-    createdAt: "2022-05-08T13:55:25",
-  },
-  {
-    name: "Chris Jackson",
-    role: "Notaris",
-    description: "Berkas tidak lengkap",
-    createdAt: "2022-05-08T13:55:25",
-  },
-  {
-    name: "Chris Jackson",
-    role: "Notaris",
-    description: "Berkas tidak lengkap",
-    createdAt: "2022-05-08T13:55:25",
-  },
-  {
-    name: "Chris Jackson",
-    role: "Notaris",
-    description: "Berkas tidak lengkap",
-    createdAt: "2022-05-08T13:55:25",
-  },
-  {
-    name: "Chris Jackson",
-    role: "Notaris",
-    description: "Berkas tidak lengkap",
-    createdAt: "2022-05-08T13:55:25",
-  },
-];
+type TNotification = {
+  id: number;
+  name: string;
+  role: string;
+  // eslint-disable-next-line camelcase
+  created_at: string;
+  note: {
+    description: string;
+    user: {
+      name: string;
+      role: string;
+    };
+  };
+};
 
 const NotificationScreen = ({
   navigation,
 }: HomeNavigationProps<"Notification">) => {
+  const authCtx = React.useContext(AuthContext);
+
+  const [notifications, setNotifications] = useState<TNotification[]>();
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    axios
+      .get(`${baseUrl}/users/${authCtx.currentUser.user.id}/notifications`, {
+        headers: {
+          "content-type": "aplication/json",
+          Authorization: `Bearer ${authCtx.currentUser.token}`,
+        },
+      })
+      .then((res) => setNotifications(res.data.data))
+      .finally(() => setIsLoading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Box backgroundColor="background" flex={1}>
       <Header
         left={{ icon: "arrow-left", onPress: () => navigation.goBack() }}
         title="Notifications"
       />
-      <FlatList
-        data={list}
-        renderItem={({ item }) => (
-          <Notification
-            name={item.name}
-            description={item.description}
-            role={item.role}
-            createdAt={item.createdAt}
-          />
-        )}
-      />
+      {isLoading && (
+        <NativeBaseProvider>
+          <HStack
+            height="full"
+            space={2}
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Spinner
+              color="darkBlue.600"
+              size="lg"
+              accessibilityLabel="Loading posts"
+            />
+            <Heading color="darkBlue.600" fontSize="md">
+              Sedang memuat . . .
+            </Heading>
+          </HStack>
+        </NativeBaseProvider>
+      )}
+
+      {!isLoading && (
+        <FlatList
+          data={notifications}
+          renderItem={({ item }) => {
+            return (
+              <Notification
+                name={item.note.user.name}
+                description={item.note.description.trim()}
+                role={item.note.user.role}
+                createdAt={item.created_at}
+              />
+            );
+          }}
+        />
+      )}
     </Box>
   );
 };

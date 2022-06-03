@@ -1,6 +1,6 @@
 import React from "react";
 import { ListItem, Avatar } from "@rneui/themed";
-import { Alert } from "react-native";
+import { Alert, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 import { iconName } from "../../constants/icon-name";
@@ -34,12 +34,14 @@ const Notification = ({
             {description}
           </ListItem.Subtitle>
         </ListItem.Content>
-        <ListItem.Input
-          value={timeSince(new Date(createdAt))}
-          style={{ fontSize: 12 }}
-          disabled
-          disabledInputStyle={{ color: "black" }}
-        />
+        <View style={{ width: "20%" }}>
+          <ListItem.Input
+            value={timeSince(new Date(createdAt))}
+            style={{ fontSize: 12 }}
+            disabled
+            disabledInputStyle={{ color: "black" }}
+          />
+        </View>
       </ListItem>
     </TouchableOpacity>
   );
