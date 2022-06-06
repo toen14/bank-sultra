@@ -6,13 +6,14 @@ import { BorderlessButton } from "react-native-gesture-handler";
 import { CommonActions } from "@react-navigation/native";
 import axios from "axios";
 
+import { baseUrl } from "../constants/base-url";
 import { Container, Button, Text, Box } from "../components";
 import { AuthNavigationProps } from "../components/Navigation";
 import TextInput from "../components/Form/TextInput";
 import Checkbox from "../components/Form/Checkbox";
 
-import Footer from "./components/Footer";
 import { AuthContext } from "./store/AuthContex";
+import Footer from "./components/Footer";
 
 const LoginSchema = Yup.object().shape({
   password: Yup.string()
@@ -128,7 +129,7 @@ const Login = ({ navigation }: AuthNavigationProps<"Login">) => {
               if (!errors.email && !errors.password) {
                 axios
                   .post(
-                    "https://4e50-180-252-206-12.ap.ngrok.io/api/login",
+                    `${baseUrl}/login`,
                     {
                       email: values.email,
                       password: values.password,

@@ -1,103 +1,121 @@
-import React, { useState } from "react";
+import React, { memo, useContext, useEffect, useState } from "react";
 import { SearchBar } from "@rneui/themed";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Ionicons } from "@expo/vector-icons";
-import { Text, Platform, FlatList, TouchableOpacity } from "react-native";
-import { Button, Icon, NativeBaseProvider } from "native-base";
+import {
+  Text,
+  Platform,
+  FlatList,
+  TouchableOpacity,
+  RefreshControl,
+} from "react-native";
+import {
+  Button,
+  HStack,
+  Icon,
+  NativeBaseProvider,
+  Spinner,
+  Theme,
+} from "native-base";
+import axios from "axios";
 
 import { HomeNavigationProps } from "../../components/Navigation";
 import { Box, Header } from "../../components";
+import { baseUrl } from "../../constants/base-url";
+import { AuthContext } from "../../Authentication/store/AuthContex";
+import { DebitorEnum } from "../../constants/debitor-enum";
 
-import List, { ListProps } from "./List";
+import List from "./List";
 
-type Debitors = {
+export type Debitor = {
   id: number;
-} & Omit<ListProps, "no">;
+  no: number;
+  name: string;
+  boxColor: keyof Theme["colors"];
+  status: DebitorEnum;
+  branch: {
+    name: string;
+  };
+};
 
-const debitors: Debitors[] = [
-  {
-    id: 1,
-    name: "La Ege",
-    branch: "Raha",
-    boxColor: "drawer2",
-    status: "progress",
+const MemoList = memo(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  ({ no, name, status, branch, id }: Debitor) => {
+    return (
+      <TouchableOpacity>
+        <List
+          no={no}
+          name={name}
+          branch={branch.name}
+          boxColor={
+            // eslint-disable-next-line no-nested-ternary
+            status === DebitorEnum.Done
+              ? "primary"
+              : status === DebitorEnum.Progress
+              ? "drawer2"
+              : "danger"
+          }
+          status={status}
+        />
+      </TouchableOpacity>
+    );
   },
-  {
-    id: 2,
-    name: "Andi",
-    branch: "Kendari",
-    boxColor: "danger",
-    status: "pending",
-  },
-  {
-    id: 3,
-    name: "Total Dokumen",
-    branch: "Raha",
-    boxColor: "primary",
-    status: "done",
-  },
-  {
-    id: 4,
-    name: "Total Dokumen",
-    branch: "Raha",
-    boxColor: "primary",
-    status: "done",
-  },
-  {
-    id: 5,
-    name: "Total Dokumen",
-    branch: "Raha",
-    boxColor: "primary",
-    status: "done",
-  },
-  {
-    id: 6,
-    name: "Total Dokumen",
-    branch: "Raha",
-    boxColor: "primary",
-    status: "done",
-  },
-  {
-    id: 7,
-    name: "Total Dokumen",
-    branch: "Raha",
-    boxColor: "primary",
-    status: "done",
-  },
-  {
-    id: 8,
-    name: "Total Dokumen",
-    branch: "Raha",
-    boxColor: "primary",
-    status: "done",
-  },
-  {
-    id: 9,
-    name: "Total Dokumen",
-    branch: "Raha",
-    boxColor: "primary",
-    status: "done",
-  },
-  {
-    id: 10,
-    name: "Total Dokumen",
-    branch: "Raha",
-    boxColor: "primary",
-    status: "done",
-  },
-  {
-    id: 11,
-    name: "Total Dokumen",
-    branch: "Raha",
-    boxColor: "primary",
-    status: "done",
-  },
-];
+  (prev, next) => prev.id === next.id
+);
 
 const Debitor = ({ navigation }: HomeNavigationProps<"Debitor">) => {
   const [showDate, setShowDate] = useState(false);
   const [date, setDate] = useState<Date | string>("Tanggal");
   const [search, setSearch] = useState("");
+  const [debitors, setDebitors] = useState<Debitor[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isCanFetch, setIsCanFetch] = useState(true);
+
+  const [page, setPage] = useState(1);
+
+  const authCtx = useContext(AuthContext);
+
+  function fetchData(p: number) {
+    setIsLoading(true);
+    axios
+      .get(
+        `${baseUrl}/users/${authCtx.currentUser.user.id}/debitors?limit=12&page=${p}`,
+        {
+          headers: {
+            Authorization: `Bearer ${authCtx.currentUser.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.data.data.length) {
+          setDebitors((e) => [...e, ...res.data.data]);
+        } else {
+          setIsCanFetch(false);
+        }
+      })
+      .catch((e) => console.log("err", e))
+      .finally(() => setIsLoading(false));
+  }
+
+  useEffect(() => {
+    fetchData(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const renderLoader = () => {
+    return isLoading ? (
+      <HStack space={8} justifyContent="center" alignItems="center">
+        <Spinner size="lg" />
+      </HStack>
+    ) : null;
+  };
+
+  const loadMoreItem = () => {
+    if (isCanFetch) {
+      setPage((previousPage) => previousPage + 1);
+      fetchData(page);
+    }
+  };
 
   return (
     <NativeBaseProvider>
@@ -172,19 +190,32 @@ const Debitor = ({ navigation }: HomeNavigationProps<"Debitor">) => {
             )}
           </Box>
           <FlatList
+            style={{ height: "100%" }}
             data={debitors}
+            ListFooterComponent={renderLoader}
+            onEndReached={loadMoreItem}
             renderItem={({ item, index }) => (
-              <TouchableOpacity>
-                <List
-                  no={index + 1}
-                  name={item.name}
-                  branch={item.branch}
-                  boxColor={item.boxColor}
-                  status={item.status}
-                />
-              </TouchableOpacity>
+              <MemoList
+                id={item.id}
+                name={item.name}
+                no={index + 1}
+                status={item.status}
+                branch={item.branch}
+                boxColor={"black"}
+              />
             )}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(_, index) => index.toString()}
+            refreshControl={
+              <RefreshControl
+                refreshing={false}
+                onRefresh={() => {
+                  setDebitors([]);
+                  setPage(1);
+                  setIsCanFetch(true);
+                  setTimeout(() => fetchData(1), 500);
+                }}
+              />
+            }
           />
         </Box>
       </Box>
