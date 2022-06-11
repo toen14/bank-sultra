@@ -41,4 +41,12 @@ class Debitor extends Model
     {
         return $this->hasMany(Note::class, 'debitor_id');
     }
+
+    /**
+     * The debitor that belong to the branch.
+     */
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'cabang_id');
+    }
 }
