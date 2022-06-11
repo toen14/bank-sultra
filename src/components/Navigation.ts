@@ -43,4 +43,7 @@ export type HomeRoutes = {
   Debitor: undefined;
   Branch: undefined;
   User: undefined;
+  DebitorDetail: {
+    debitorId: number;
+  };
 };

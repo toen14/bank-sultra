@@ -18,6 +18,7 @@ import {
   Theme,
 } from "native-base";
 import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
 
 import { HomeNavigationProps } from "../../components/Navigation";
 import { Box, Header } from "../../components";
@@ -39,10 +40,17 @@ export type Debitor = {
 };
 
 const MemoList = memo(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ({ no, name, status, branch, id }: Debitor) => {
+    const nav = useNavigation();
+
     return (
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() =>
+          nav.navigate("DebitorDetail", {
+            debitorId: id,
+          })
+        }
+      >
         <List
           no={no}
           name={name}
