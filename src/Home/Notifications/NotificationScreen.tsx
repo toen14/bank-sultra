@@ -22,6 +22,8 @@ type TNotification = {
       name: string;
       role: string;
     };
+    // eslint-disable-next-line camelcase
+    debitor_id: string;
   };
 };
 
@@ -36,10 +38,10 @@ const NotificationScreen = ({
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`${baseUrl}/users/${authCtx.currentUser.user.id}/notifications`, {
+      .get(`${baseUrl}/users/${authCtx.currentUser?.user.id}/notifications`, {
         headers: {
           "content-type": "aplication/json",
-          Authorization: `Bearer ${authCtx.currentUser.token}`,
+          Authorization: `Bearer ${authCtx.currentUser?.token}`,
         },
       })
       .then((res) => setNotifications(res.data.data))
@@ -83,6 +85,7 @@ const NotificationScreen = ({
                 description={item.note.description.trim()}
                 role={item.note.user.role}
                 createdAt={item.created_at}
+                debitorId={item.note.debitor_id}
               />
             );
           }}

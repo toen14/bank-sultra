@@ -1,7 +1,8 @@
 import React from "react";
 import { ListItem, Avatar } from "@rneui/themed";
-import { Alert, View } from "react-native";
+import { View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
 
 import { iconName } from "../../constants/icon-name";
 import { timeSince } from "../../constants/time-since";
@@ -11,6 +12,7 @@ interface NotificationProps {
   name: string;
   role: string;
   createdAt: string;
+  debitorId: string;
 }
 
 const Notification = ({
@@ -18,10 +20,20 @@ const Notification = ({
   name,
   role,
   createdAt,
+  debitorId,
 }: NotificationProps) => {
+  const nav = useNavigation();
+
   return (
     <TouchableOpacity>
-      <ListItem bottomDivider onPress={() => Alert.alert("yey")}>
+      <ListItem
+        bottomDivider
+        onPress={() =>
+          nav.navigate("DebitorDetail", {
+            debitorId: debitorId,
+          })
+        }
+      >
         <Avatar
           rounded={true}
           size={"small"}
