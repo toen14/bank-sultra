@@ -43,6 +43,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('branches/{id}', [\App\Http\Controllers\API\BranchController::class, 'update']);
     Route::delete('branches/{id}', [\App\Http\Controllers\API\BranchController::class, 'destroy']);
 
+    Route::get('branches/{branch}/notaris', [\App\Http\Controllers\API\BranchNotarisController::class, 'index']);
+
     Route::get('users', [\App\Http\Controllers\API\UserController::class, 'index']);
     Route::post('users', [\App\Http\Controllers\API\UserController::class, 'store']);
     Route::get('users/{id}', [\App\Http\Controllers\API\UserController::class, 'show']);
