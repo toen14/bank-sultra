@@ -1,7 +1,7 @@
 import React, { memo, useContext, useEffect, useState } from "react";
 import { SearchBar } from "@rneui/themed";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Ionicons } from "@expo/vector-icons";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 import {
   Text,
   Platform,
@@ -16,6 +16,7 @@ import {
   NativeBaseProvider,
   Spinner,
   Theme,
+  Fab,
 } from "native-base";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
@@ -227,6 +228,11 @@ const Debitor = ({ navigation }: HomeNavigationProps<"Debitor">) => {
           />
         </Box>
       </Box>
+      <Fab
+        onPress={() => navigation.navigate("CreateDebitor")}
+        colorScheme="blue"
+        icon={<Icon color="white" as={<AntDesign name="plus" />} size="md" />}
+      />
     </NativeBaseProvider>
   );
 };
