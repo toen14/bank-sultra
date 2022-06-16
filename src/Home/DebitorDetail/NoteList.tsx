@@ -16,7 +16,7 @@ const NoteList = ({ date, desc, name, role }: TNoteListProps) => {
     <Box
       bg="white"
       h="32"
-      w="3/4"
+      w="full"
       alignSelf="center"
       shadow="4"
       borderRadius="md"

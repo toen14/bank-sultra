@@ -179,55 +179,60 @@ const DebitorDetail = ({
               status={cardStatus}
             />
 
-            <Input
-              onChangeText={setMessage}
-              _focus={{
-                bg: "white",
-                borderColor: "gray.300",
-              }}
-              bg="white"
-              shadow="2"
-              maxHeight="24"
-              multiline
-              placeholder="Kirim note..."
-              InputLeftElement={
-                <BoxN mr="-8px" ml="1">
-                  {isSendMessage ? (
-                    <Spinner
-                      color="darkBlue.600"
-                      size="sm"
-                      accessibilityLabel="Loading posts"
-                    />
-                  ) : (
-                    <Icon size={6} as={<MaterialIcons name="comment" />} />
-                  )}
-                </BoxN>
-              }
-              InputRightElement={
-                <TouchableOpacity
-                  disabled={message ? false : true}
-                  onPress={sendMessage}
-                >
-                  <BoxN
-                    mr="2"
-                    background="blueGray.100"
-                    borderRadius="full"
-                    alignItems="center"
-                    height="10"
-                    width="10"
-                    justifyContent="center"
-                    style={{ transform: [{ rotate: "-40deg" }] }}
-                  >
-                    <Icon size="lg" as={<MaterialIcons name="send" />} />
+            <BoxN px="0.5">
+              <Input
+                mx="1"
+                w="full"
+                onChangeText={setMessage}
+                _focus={{
+                  bg: "white",
+                  borderColor: "gray.300",
+                }}
+                bg="white"
+                shadow="2"
+                maxHeight="24"
+                multiline
+                placeholder="Kirim note..."
+                InputLeftElement={
+                  <BoxN mr="-8px" ml="1">
+                    {isSendMessage ? (
+                      <Spinner
+                        color="darkBlue.600"
+                        size="sm"
+                        accessibilityLabel="Loading posts"
+                      />
+                    ) : (
+                      <Icon size={6} as={<MaterialIcons name="comment" />} />
+                    )}
                   </BoxN>
-                </TouchableOpacity>
-              }
-              width="3/4"
-              alignSelf="center"
-              mt="2"
-            />
+                }
+                InputRightElement={
+                  <TouchableOpacity
+                    disabled={message ? false : true}
+                    onPress={sendMessage}
+                  >
+                    <BoxN
+                      mr="2"
+                      background="blueGray.100"
+                      borderRadius="full"
+                      alignItems="center"
+                      height="10"
+                      width="10"
+                      justifyContent="center"
+                      style={{ transform: [{ rotate: "-40deg" }] }}
+                    >
+                      <Icon size="lg" as={<MaterialIcons name="send" />} />
+                    </BoxN>
+                  </TouchableOpacity>
+                }
+                width="3/4"
+                alignSelf="center"
+                mt="2"
+              />
+            </BoxN>
 
             <FlatList
+              px="1"
               data={notes}
               keyExtractor={(item) => item.id.toString()}
               renderItem={({ item }) => (

@@ -13,12 +13,14 @@ export type TCardDebitorProps = {
 
 const CardDebitor = ({ date, desc, id, name, status }: TCardDebitorProps) => {
   return (
-    <Box alignItems="center">
+    <Box alignItems="center" px="0.5">
       <Box
         bgColor={"yellow.500"}
         height={"3xs"}
-        width={"3/4"}
-        shadow="4"
+        width={"full"}
+        shadow="5"
+        borderWidth="1"
+        borderColor="gray.300"
         borderRadius="md"
       >
         <HStack justifyContent="space-between" alignItems="center" pl="2">
