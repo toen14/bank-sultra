@@ -99,10 +99,10 @@ const Drawer = () => {
               icon: "x",
               onPress: () => navigation.dispatch(DrawerActions.closeDrawer()),
             }}
-            right={{
-              icon: "shopping-bag",
-              onPress: () => navigation.navigate("Cart"),
-            }}
+            // right={{
+            //   icon: "shopping-bag",
+            //   onPress: () => navigation.navigate("Cart"),
+            // }}
             dark
           />
         </Box>
@@ -121,7 +121,7 @@ const Drawer = () => {
           justifyContent="center"
           padding="xl"
         >
-          <Box
+          {/* <Box
             position="absolute"
             left={DRAWER_WIDTH / 2 - 50}
             top={-50}
@@ -129,7 +129,7 @@ const Drawer = () => {
             width={100}
             height={100}
             style={{ borderRadius: 50 }}
-          />
+          /> */}
           <Box marginVertical="m">
             <Text variant="title1" textAlign="center">
               Mike Peter

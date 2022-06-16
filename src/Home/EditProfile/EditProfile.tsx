@@ -40,7 +40,7 @@ const EditProfile = ({ navigation }: HomeNavigationProps<"EditProfile">) => {
         </Box>
       </Box>
       <Box>
-        <Box
+        {/* <Box
           position="absolute"
           left={width / 2 - 50}
           top={-50}
@@ -48,7 +48,7 @@ const EditProfile = ({ navigation }: HomeNavigationProps<"EditProfile">) => {
           width={100}
           height={100}
           style={{ borderRadius: 50 }}
-        />
+        /> */}
         <Box marginVertical="m" style={{ marginTop: 50 + theme.spacing.m }}>
           <Text variant="title1" textAlign="center">
             Mike Peter
