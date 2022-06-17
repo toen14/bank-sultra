@@ -19,17 +19,17 @@ const Dashboard = ({ navigation }: HomeNavigationProps<"Dashboard">) => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [totalDocument, setTotalDocument] = useState<number>();
-  const [done, setDone] = useState<number>();
-  const [progress, setProgress] = useState<number>();
-  const [pending, setPending] = useState<number>();
+  const [totalDocument, setTotalDocument] = useState<number>(0);
+  const [done, setDone] = useState<number>(0);
+  const [progress, setProgress] = useState<number>(0);
+  const [pending, setPending] = useState<number>(0);
 
   useEffect(() => {
     setIsLoading(true);
     axios
       .get(`${baseUrl}/debitors`, {
         headers: {
-          Authorization: `Bearer ${authCtx.currentUser.token}`,
+          Authorization: `Bearer ${authCtx?.currentUser?.token}`,
         },
       })
       .then((res) => {
@@ -75,10 +75,10 @@ const Dashboard = ({ navigation }: HomeNavigationProps<"Dashboard">) => {
           >
             <Spinner
               color="darkBlue.600"
-              size="lg"
+              size="sm"
               accessibilityLabel="Loading posts"
             />
-            <Heading color="darkBlue.600" fontSize="md">
+            <Heading color="darkBlue.600" fontSize="2xs">
               Sedang memuat . . .
             </Heading>
           </HStack>
