@@ -147,7 +147,7 @@ const DebitorDetail = ({
           >
             <Spinner
               color="darkBlue.600"
-              size="lg"
+              size="sm"
               accessibilityLabel="Loading posts"
             />
             <Heading color="darkBlue.600" fontSize="2xs">

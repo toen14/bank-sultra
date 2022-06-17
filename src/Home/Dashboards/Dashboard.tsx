@@ -1,6 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { NativeBaseProvider, HStack, Spinner, Heading } from "native-base";
+import { HStack, Spinner, Heading, ScrollView } from "native-base";
+import { RefreshControl } from "react-native";
 
 import { HomeNavigationProps } from "../../components/Navigation";
 import { Box, Header } from "../../components";
@@ -24,7 +25,7 @@ const Dashboard = ({ navigation }: HomeNavigationProps<"Dashboard">) => {
   const [progress, setProgress] = useState<number>(0);
   const [pending, setPending] = useState<number>(0);
 
-  useEffect(() => {
+  const fetchData = useCallback(() => {
     setIsLoading(true);
     axios
       .get(`${baseUrl}/debitors`, {
@@ -34,7 +35,9 @@ const Dashboard = ({ navigation }: HomeNavigationProps<"Dashboard">) => {
       })
       .then((res) => {
         const clasificDebitors = [0, 0, 0];
-        const debitors = res.data.data as TDebitor[];
+        const debitors = res.data as TDebitor[];
+
+        console.log(res.data);
 
         debitors.forEach((debitor) => {
           if (debitor.status === DebitorEnum.Done) {
@@ -55,6 +58,11 @@ const Dashboard = ({ navigation }: HomeNavigationProps<"Dashboard">) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Box flex={1} backgroundColor="background">
       <Header
@@ -66,57 +74,70 @@ const Dashboard = ({ navigation }: HomeNavigationProps<"Dashboard">) => {
         }}
       />
       {isLoading && (
-        <NativeBaseProvider>
-          <HStack
-            height="full"
-            space={2}
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Spinner
-              color="darkBlue.600"
-              size="sm"
-              accessibilityLabel="Loading posts"
-            />
-            <Heading color="darkBlue.600" fontSize="2xs">
-              Sedang memuat . . .
-            </Heading>
-          </HStack>
-        </NativeBaseProvider>
+        <HStack
+          height="full"
+          space={2}
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Spinner
+            color="darkBlue.600"
+            size="sm"
+            accessibilityLabel="Loading posts"
+          />
+          <Heading color="darkBlue.600" fontSize="2xs">
+            Sedang memuat . . .
+          </Heading>
+        </HStack>
       )}
       {!isLoading && (
         <Box flex={1}>
-          <List
-            title="Total Dokumen"
-            value={totalDocument}
-            boxColor="info"
-            icon="book"
-            iconColor="#808080"
-          />
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={false}
+                onRefresh={() => {
+                  setDone(0);
+                  setPending(0);
+                  setProgress(0);
 
-          <List
-            title="Done"
-            value={done}
-            boxColor="primary"
-            icon="check-square"
-            iconColor="#2CB9B0"
-          />
+                  setTimeout(() => fetchData(), 500);
+                }}
+              />
+            }
+          >
+            <List
+              title="Total Dokumen"
+              value={totalDocument}
+              boxColor="info"
+              icon="book"
+              iconColor="#808080"
+            />
 
-          <List
-            title="Progress"
-            value={progress}
-            boxColor="drawer2"
-            icon="hourglass-half"
-            iconColor="#FFC641"
-          />
+            <List
+              title="Done"
+              value={done}
+              boxColor="primary"
+              icon="check-square"
+              iconColor="#2CB9B0"
+            />
 
-          <List
-            title="Pending"
-            value={pending}
-            boxColor="danger"
-            icon="info-circle"
-            iconColor="#FE0058"
-          />
+            <List
+              title="Progress"
+              value={progress}
+              boxColor="drawer2"
+              icon="hourglass-half"
+              iconColor="#FFC641"
+            />
+
+            <List
+              title="Pending"
+              value={pending}
+              boxColor="danger"
+              icon="info-circle"
+              iconColor="#FE0058"
+            />
+          </ScrollView>
         </Box>
       )}
     </Box>

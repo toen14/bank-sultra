@@ -1,6 +1,7 @@
 import * as React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { createStackNavigator } from "@react-navigation/stack";
+import { NativeBaseProvider } from "native-base";
 
 import { HomeNavigator, assets as homeAssets } from "./src/Home";
 import {
@@ -47,13 +48,15 @@ const Navigation = () => {
 export default function App() {
   return (
     <ThemeProvider>
-      <LoadAssets {...{ fonts, assets }}>
-        <SafeAreaProvider>
-          <AuthContextProvider>
-            <Navigation />
-          </AuthContextProvider>
-        </SafeAreaProvider>
-      </LoadAssets>
+      <NativeBaseProvider>
+        <LoadAssets {...{ fonts, assets }}>
+          <SafeAreaProvider>
+            <AuthContextProvider>
+              <Navigation />
+            </AuthContextProvider>
+          </SafeAreaProvider>
+        </LoadAssets>
+      </NativeBaseProvider>
     </ThemeProvider>
   );
 }
