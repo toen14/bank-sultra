@@ -19,11 +19,7 @@ class DebitorController extends Controller
      */
     public function index()
     {
-
         return response()->json(request()->limit ? Debitor::paginate(request()->limit) : Debitor::all());
-        // $debitors = Debitor::paginate(request()->limit ? request()->limit : 0);
-
-        // return response()->json($debitors, Response::HTTP_OK,);
     }
 
     /**
