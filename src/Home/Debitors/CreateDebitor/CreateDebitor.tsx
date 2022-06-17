@@ -110,7 +110,13 @@ const CreateDebitor = ({
             },
           }
         )
-        .then(() => navigation.goBack())
+        .then(() => {
+          resetForm();
+          setBranches([]);
+          setNotaries([]);
+          setIsInitial(true);
+          navigation.goBack();
+        })
         .catch((e: AxiosError) => console.log(e.response));
     },
   });
