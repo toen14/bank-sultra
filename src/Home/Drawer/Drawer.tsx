@@ -131,10 +131,10 @@ const Drawer = () => {
           /> */}
           <Box marginVertical="m">
             <Text variant="title1" textAlign="center">
-              Mike Peter
+              {authCtx.currentUser?.user.name}
             </Text>
             <Text variant="body" textAlign="center">
-              mike@flexinstudio.com
+              {authCtx.currentUser?.user.email}
             </Text>
           </Box>
           {items.map((item) => (
