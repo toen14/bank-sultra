@@ -1,12 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Dimensions, Image } from "react-native";
-import {
-  DrawerActions,
-  useNavigation,
-  CommonActions,
-} from "@react-navigation/native";
+import { DrawerActions, useNavigation } from "@react-navigation/native";
 
 import { Box, useTheme, Text, Header } from "../../components";
+import { AuthContext } from "../../Authentication/store/AuthContex";
 
 import DrawerItem, { DrawerItemProps } from "./DrawerItem";
 
@@ -64,23 +61,25 @@ const items: DrawerItemProps[] = [
   //   screen: "Settings",
   //   color: "drawer4",
   // },
-  {
-    icon: "log-out",
-    label: "Logout",
-    onPress: (navigation) => {
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{ name: "Logout" }],
-        })
-      );
-    },
-    color: "secondary",
-  },
+  // {
+  //   icon: "log-out",
+  //   label: "Logout",
+  //   onPress: (navigation) => {
+  //     navigation.dispatch(
+  //       CommonActions.reset({
+  //         index: 0,
+  //         routes: [{ name: "Logout" }],
+  //       })
+  //     );
+  //   },
+  //   color: "secondary",
+  // },
 ];
 const Drawer = () => {
   const navigation = useNavigation();
   const theme = useTheme();
+  const authCtx = useContext(AuthContext);
+
   return (
     <Box flex={1}>
       <Box flex={0.2} backgroundColor="background">
@@ -141,6 +140,20 @@ const Drawer = () => {
           {items.map((item) => (
             <DrawerItem key={item.icon} {...item} />
           ))}
+
+          <DrawerItem
+            key={"logout"}
+            {...{
+              icon: "log-out",
+              label: "Logout",
+              onPress: () => {
+                if (authCtx.logout) {
+                  authCtx.logout();
+                }
+              },
+              color: "secondary",
+            }}
+          />
         </Box>
       </Box>
       <Box
