@@ -79,10 +79,21 @@ const NotificationScreen = ({
         <FlatList
           data={notifications}
           renderItem={({ item }) => {
+            let desc = item.note.description.substring(0, 24);
+
+            const descArr = desc.split("\n");
+            if (descArr.length >= 2) {
+              desc = descArr[0] + "\n" + descArr[1] + "...";
+            }
+
+            if (item.note.description.length >= 25) {
+              desc = desc + "...";
+            }
+
             return (
               <Notification
                 name={item.note.user.name}
-                description={item.note.description.trim()}
+                description={desc}
                 role={item.note.user.role}
                 createdAt={item.created_at}
                 debitorId={item.note.debitor_id}
