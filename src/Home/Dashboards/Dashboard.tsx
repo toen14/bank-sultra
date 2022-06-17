@@ -37,8 +37,6 @@ const Dashboard = ({ navigation }: HomeNavigationProps<"Dashboard">) => {
         const clasificDebitors = [0, 0, 0];
         const debitors = res.data as TDebitor[];
 
-        console.log(res.data);
-
         debitors.forEach((debitor) => {
           if (debitor.status === DebitorEnum.Done) {
             clasificDebitors[0]++;
