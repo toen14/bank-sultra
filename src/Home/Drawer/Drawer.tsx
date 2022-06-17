@@ -157,19 +157,20 @@ const Drawer = () => {
         </Box>
       </Box>
       <Box
-        backgroundColor="background"
+        backgroundColor="secondary"
         width={DRAWER_WIDTH}
         overflow="hidden"
         height={height * 0.61}
+        borderTopLeftRadius={"xl"}
       >
-        <Image
+        {/* <Image
           source={assets[0]}
           style={{
             width: DRAWER_WIDTH,
             height,
             borderTopLeftRadius: theme.borderRadii.xl,
           }}
-        />
+        /> */}
       </Box>
     </Box>
   );
