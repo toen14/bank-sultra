@@ -28,6 +28,7 @@ import { AuthContext } from "../../Authentication/store/AuthContex";
 import { DebitorEnum } from "../../constants/debitor-enum";
 
 import List from "./List";
+import { RoleEnum } from "../../constants/role-enum";
 
 export type Debitor = {
   id: number;
@@ -261,11 +262,13 @@ const Debitor = ({ navigation }: HomeNavigationProps<"Debitor">) => {
           />
         </Box>
       </Box>
-      <Fab
-        onPress={() => navigation.navigate("CreateDebitor")}
-        colorScheme="blue"
-        icon={<Icon color="white" as={<AntDesign name="plus" />} size="md" />}
-      />
+      {authCtx.currentUser?.user.role !== RoleEnum.Notaris && (
+        <Fab
+          onPress={() => navigation.navigate("CreateDebitor")}
+          colorScheme="blue"
+          icon={<Icon color="white" as={<AntDesign name="plus" />} size="md" />}
+        />
+      )}
     </NativeBaseProvider>
   );
 };
