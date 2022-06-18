@@ -30,21 +30,38 @@ const MemoList = memo(
 );
 
 const User = ({ navigation }: HomeNavigationProps<"User">) => {
-  const [search, setSearch] = useState("");
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isCanFetch, setIsCanFetch] = useState(true);
 
+  const [search, setSearch] = useState("");
+  const [isSearch, setIsSearch] = useState(false);
+
   const [page, setPage] = useState(1);
 
   const authCtx = useContext(AuthContext);
+
+  function searchUser() {
+    setIsSearch(true);
+    axios
+      .get(`${baseUrl}/users?search=${search}`, {
+        headers: {
+          Authorization: `Bearer ${authCtx?.currentUser?.token}`,
+        },
+      })
+      .then((res) => {
+        setUsers(res.data.data);
+      })
+      .catch((e) => console.log("err", e))
+      .finally(() => setIsSearch(false));
+  }
 
   function fetchData(p: number) {
     setIsLoading(true);
     return axios
       .get(`${baseUrl}/users?limit=10&page=${p}`, {
         headers: {
-          Authorization: `Bearer ${authCtx.currentUser.token}`,
+          Authorization: `Bearer ${authCtx?.currentUser?.token}`,
         },
       })
       .then((res) => {
@@ -91,6 +108,17 @@ const User = ({ navigation }: HomeNavigationProps<"User">) => {
         />
         <Box flex={1}>
           <SearchBar
+            onEndEditing={() => {
+              setUsers([]);
+              searchUser();
+            }}
+            onClear={() => {
+              setUsers([]);
+              setPage(1);
+              setIsCanFetch(true);
+              fetchData(1);
+            }}
+            showLoading={isSearch}
             value={search}
             onChangeText={setSearch}
             placeholder="Search"
@@ -121,7 +149,8 @@ const User = ({ navigation }: HomeNavigationProps<"User">) => {
                   setUsers([]);
                   setPage(1);
                   setIsCanFetch(true);
-                  setTimeout(() => fetchData(1), 500);
+                  setSearch("");
+                  fetchData(1);
                 }}
               />
             }
