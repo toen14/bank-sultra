@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { SearchBar } from "@rneui/themed";
-import { Platform, FlatList } from "react-native";
+import { Platform, FlatList, RefreshControl } from "react-native";
 import { Heading, HStack, NativeBaseProvider, Spinner } from "native-base";
 import axios from "axios";
 
@@ -18,22 +18,43 @@ type TBranches = {
 
 const Branch = ({ navigation }: HomeNavigationProps<"Branch">) => {
   const authCtx = useContext(AuthContext);
+
   const [search, setSearch] = useState("");
+  const [isSearch, setIsSearch] = useState(false);
 
   const [branches, setBranches] = useState<TBranches[]>();
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
+  function searchBranch() {
+    setIsSearch(true);
+    axios
+      .get(`${baseUrl}/branches?search=${search}`, {
+        headers: {
+          Authorization: `Bearer ${authCtx?.currentUser?.token}`,
+        },
+      })
+      .then((res) => {
+        setBranches(res.data.data);
+      })
+      .catch((e) => console.log("err", e))
+      .finally(() => setIsSearch(false));
+  }
+
+  const fetchBranch = () => {
     setIsLoading(true);
     axios
       .get(`${baseUrl}/branches`, {
         headers: {
           "content-type": "aplication/json",
-          Authorization: `Bearer ${authCtx.currentUser.token}`,
+          Authorization: `Bearer ${authCtx?.currentUser?.token}`,
         },
       })
       .then((res) => setBranches(res.data.data))
       .finally(() => setIsLoading(false));
+  };
+
+  useEffect(() => {
+    fetchBranch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -50,6 +71,15 @@ const Branch = ({ navigation }: HomeNavigationProps<"Branch">) => {
         />
         <Box flex={1}>
           <SearchBar
+            onEndEditing={() => {
+              setBranches([]);
+              searchBranch();
+            }}
+            onClear={() => {
+              setBranches([]);
+              fetchBranch();
+            }}
+            showLoading={isSearch}
             value={search}
             onChangeText={setSearch}
             placeholder="Search"
@@ -77,6 +107,16 @@ const Branch = ({ navigation }: HomeNavigationProps<"Branch">) => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             <FlatList
+              refreshControl={
+                <RefreshControl
+                  refreshing={false}
+                  onRefresh={() => {
+                    setBranches([]);
+                    setSearch("");
+                    fetchBranch();
+                  }}
+                />
+              }
               data={branches}
               renderItem={({ item, index }) => (
                 <List no={index + 1} name={item.name} />
