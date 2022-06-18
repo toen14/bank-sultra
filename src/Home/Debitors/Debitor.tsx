@@ -75,29 +75,49 @@ const MemoList = memo(
 const Debitor = ({ navigation }: HomeNavigationProps<"Debitor">) => {
   const [showDate, setShowDate] = useState(false);
   const [date, setDate] = useState<Date | string>("Tanggal");
-  const [search, setSearch] = useState("");
   const [debitors, setDebitors] = useState<Debitor[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isCanFetch, setIsCanFetch] = useState(true);
+
+  const [search, setSearch] = useState("");
+  const [isSearch, setIsSearch] = useState(false);
 
   const [page, setPage] = useState(1);
 
   const authCtx = useContext(AuthContext);
 
+  function searchDebitor() {
+    setIsSearch(true);
+    axios
+      .get(
+        `${baseUrl}/users/${authCtx?.currentUser?.user.id}/debitors?search=${search}`,
+        {
+          headers: {
+            Authorization: `Bearer ${authCtx?.currentUser?.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        setDebitors(res.data.data);
+      })
+      .catch((e) => console.log("err", e))
+      .finally(() => setIsSearch(false));
+  }
+
   function fetchData(p: number) {
     setIsLoading(true);
     axios
       .get(
-        `${baseUrl}/users/${authCtx.currentUser.user.id}/debitors?limit=12&page=${p}`,
+        `${baseUrl}/users/${authCtx?.currentUser?.user.id}/debitors?limit=12&page=${p}`,
         {
           headers: {
-            Authorization: `Bearer ${authCtx.currentUser.token}`,
+            Authorization: `Bearer ${authCtx?.currentUser?.token}`,
           },
         }
       )
       .then((res) => {
         if (res.data.data.length) {
-          setDebitors((e) => [...e, ...res.data.data]);
+          setDebitors((e) => [...res.data.data, ...e]);
         } else {
           setIsCanFetch(false);
         }
@@ -141,6 +161,16 @@ const Debitor = ({ navigation }: HomeNavigationProps<"Debitor">) => {
           <Box height={Platform.OS === "android" ? 50 : 70} flexDirection="row">
             <Box width={"66%"} height="100%" paddingLeft={"m"}>
               <SearchBar
+                onClear={() => {
+                  setDebitors([]);
+                  setPage(1);
+                  setIsCanFetch(true);
+                  fetchData(1);
+                }}
+                onEndEditing={() => {
+                  searchDebitor();
+                }}
+                showLoading={isSearch}
                 value={search}
                 onChangeText={setSearch}
                 placeholder="Search"
@@ -198,6 +228,7 @@ const Debitor = ({ navigation }: HomeNavigationProps<"Debitor">) => {
               />
             )}
           </Box>
+
           <FlatList
             style={{ height: "100%" }}
             data={debitors}
@@ -221,7 +252,9 @@ const Debitor = ({ navigation }: HomeNavigationProps<"Debitor">) => {
                   setDebitors([]);
                   setPage(1);
                   setIsCanFetch(true);
-                  setTimeout(() => fetchData(1), 500);
+                  setSearch("");
+                  setDate("Tanggal");
+                  fetchData(1);
                 }}
               />
             }
