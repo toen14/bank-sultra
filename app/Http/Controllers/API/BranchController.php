@@ -19,7 +19,14 @@ class BranchController extends Controller
      */
     public function index()
     {
-        return response()->json(Branch::paginate(request()->limit ?? 0));
+        $branches = Branch::orderBy('id', 'DESC');
+
+        if (request()->search) {
+            $search = request()->search;
+            $branches->where('name', 'LIKE', "%$search%");
+        }
+
+        return response()->json($branches->paginate(request()->limit ?? 0));
     }
 
     /**
