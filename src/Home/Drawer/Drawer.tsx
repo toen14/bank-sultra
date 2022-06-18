@@ -4,6 +4,7 @@ import { DrawerActions, useNavigation } from "@react-navigation/native";
 
 import { Box, useTheme, Text, Header } from "../../components";
 import { AuthContext } from "../../Authentication/store/AuthContex";
+import { RoleEnum } from "../../constants/role-enum";
 
 import DrawerItem, { DrawerItemProps } from "./DrawerItem";
 
@@ -13,36 +14,36 @@ export const DRAWER_WIDTH = width * 0.8;
 const aspectRatio = 750 / 1125;
 const height = DRAWER_WIDTH * aspectRatio;
 const items: DrawerItemProps[] = [
-  {
-    icon: "zap",
-    label: "Dashboard",
-    screen: "Dashboard",
-    color: "primary",
-  },
+  // {
+  //   icon: "zap",
+  //   label: "Dashboard",
+  //   screen: "Dashboard",
+  //   color: "primary",
+  // },
   {
     icon: "book",
     label: "Debitor",
     screen: "Debitor",
     color: "drawer1",
   },
-  {
-    icon: "briefcase",
-    label: "Cabang",
-    screen: "Branch",
-    color: "drawer3",
-  },
+  // {
+  //   icon: "briefcase",
+  //   label: "Cabang",
+  //   screen: "Branch",
+  //   color: "drawer3",
+  // },
   // {
   //   icon: "heart",
   //   label: "Favorites Outfits",
   //   screen: "FavoriteOutfits",
   //   color: "drawer1",
   // },
-  {
-    icon: "users",
-    label: "Daftar Pengguna",
-    screen: "User",
-    color: "info",
-  },
+  // {
+  //   icon: "users",
+  //   label: "Daftar Pengguna",
+  //   screen: "User",
+  //   color: "info",
+  // },
   {
     icon: "user",
     label: "Edit Profile",
@@ -137,6 +138,42 @@ const Drawer = () => {
               {authCtx.currentUser?.user.email}
             </Text>
           </Box>
+
+          {(authCtx.currentUser?.user.role === RoleEnum.AdminPusat ||
+            authCtx.currentUser?.user.role === RoleEnum.Administrator) && (
+            <>
+              <DrawerItem
+                key={"zap"}
+                {...{
+                  icon: "zap",
+                  label: "Dashboard",
+                  screen: "Dashboard",
+                  color: "primary",
+                }}
+              />
+
+              <DrawerItem
+                key={"users"}
+                {...{
+                  icon: "users",
+                  label: "Daftar Pengguna",
+                  screen: "User",
+                  color: "info",
+                }}
+              />
+
+              <DrawerItem
+                key={"briefcase"}
+                {...{
+                  icon: "briefcase",
+                  label: "Cabang",
+                  screen: "Branch",
+                  color: "drawer3",
+                }}
+              />
+            </>
+          )}
+
           {items.map((item) => (
             <DrawerItem key={item.icon} {...item} />
           ))}
@@ -154,6 +191,23 @@ const Drawer = () => {
               color: "secondary",
             }}
           />
+
+          {(authCtx.currentUser?.user.role === RoleEnum.Apraisal ||
+            authCtx.currentUser?.user.role === RoleEnum.Notaris) && (
+            <>
+              <Text> </Text>
+              <Text> </Text>
+              <Text> </Text>
+              <Text> </Text>
+              <Text> </Text>
+              <Text> </Text>
+              <Text> </Text>
+              <Text> </Text>
+              <Text> </Text>
+              <Text> </Text>
+              <Text> </Text>
+            </>
+          )}
         </Box>
       </Box>
       <Box

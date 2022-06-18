@@ -8,6 +8,7 @@ import { Box, Header } from "../../components";
 import { AuthContext } from "../../Authentication/store/AuthContex";
 import { baseUrl } from "../../constants/base-url";
 import { DebitorEnum } from "../../constants/debitor-enum";
+import { RoleEnum } from "../../constants/role-enum";
 
 import List from "./List";
 
@@ -17,6 +18,13 @@ type TDebitor = {
 
 const Dashboard = ({ navigation }: HomeNavigationProps<"Dashboard">) => {
   const authCtx = useContext(AuthContext);
+
+  if (
+    authCtx.currentUser?.user.role === RoleEnum.Apraisal ||
+    authCtx.currentUser?.user.role === RoleEnum.Notaris
+  ) {
+    navigation.navigate("Debitor");
+  }
 
   const [isLoading, setIsLoading] = useState(false);
 
