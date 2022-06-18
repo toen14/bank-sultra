@@ -21,6 +21,7 @@ type TNotification = {
     user: {
       name: string;
       role: string;
+      id: string;
     };
     // eslint-disable-next-line camelcase
     debitor_id: string;
@@ -44,7 +45,12 @@ const NotificationScreen = ({
           Authorization: `Bearer ${authCtx.currentUser?.token}`,
         },
       })
-      .then((res) => setNotifications(res.data.data))
+      .then((res) => {
+        const parseNotif = (res.data.data as TNotification[]).filter(
+          (notif) => authCtx.currentUser?.user.id !== notif.note.user.id
+        );
+        setNotifications(parseNotif);
+      })
       .finally(() => setIsLoading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
