@@ -24,14 +24,17 @@ class UserDebitorController extends Controller
 
         if ($userLoginned->role === UserRole::Apraisal->value) {
             $debitors = Debitor::where('cabang_id', $user->cabang_id)->orderBy('id', 'DESC');
-        }
-
-        if ($userLoginned->role === UserRole::Notaris->value) {
+        } else if ($userLoginned->role === UserRole::Notaris->value) {
             $debitors = $user->debitors()->orderBy('id', 'DESC');
+        } else {
+            $debitors = Debitor::orderBy('id', 'DESC');
         }
 
-        return $debitors
-            ?  $debitors->with('branch')->paginate(request()->limit ?? 0)
-            :  Debitor::with('branch')->orderBy('id', 'DESC')->paginate(request()->limit ?? 0);
+        if (request()->search) {
+            $search = request()->search;
+            $debitors->where('name', 'LIKE', "%$search%");
+        }
+
+        return $debitors->with('branch')->paginate(request()->limit ?? 0);
     }
 }
