@@ -19,7 +19,14 @@ class UserController extends Controller
      */
     public function index()
     {
-        return response()->json(User::paginate(request()->limit ?? 0));
+        $users = User::orderBy('id', 'DESC');
+
+        if (request()->search) {
+            $search = request()->search;
+            $users->where('name', 'LIKE', "%$search%");
+        }
+
+        return response()->json($users->paginate(request()->limit ?? 0));
     }
 
     /**
