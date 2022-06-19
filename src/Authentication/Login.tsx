@@ -47,13 +47,7 @@ const Login = ({ navigation }: AuthNavigationProps<"Login">) => {
     onSubmit: () => {},
   });
   const password = useRef<RNTextInput>(null);
-  const footer = (
-    <Footer
-      title="Don’t have an account?"
-      action="Sign Up here"
-      onPress={() => navigation.navigate("SignUp")}
-    />
-  );
+  const footer = <Footer title="" action="" onPress={() => console.log()} />;
 
   return (
     <Container pattern={0} {...{ footer }}>
@@ -115,11 +109,11 @@ const Login = ({ navigation }: AuthNavigationProps<"Login">) => {
             onChange={() => setFieldValue("remember", !values.remember)}
           />
           <BorderlessButton
-            onPress={() => navigation.navigate("ForgotPassword")}
+          // onPress={() => navigation.navigate("ForgotPassword")}
           >
-            <Text variant="button" color="primary">
+            {/* <Text variant="button" color="primary">
               Forgot password
-            </Text>
+            </Text> */}
           </BorderlessButton>
         </Box>
         <Box alignItems="center" marginTop="m">
