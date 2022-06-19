@@ -22,7 +22,7 @@ class AuthController extends Controller
     {
         $validated = $request->validated();
 
-        $user = User::where('email', $validated['email'])->first();
+        $user = User::with('branch')->where('email', $validated['email'])->first();
         if (!$user || !$user->count() || !Hash::check($validated['password'], $user->password)) {
             return response()->json(
                 ['message' => 'Email atau password salah!'],
