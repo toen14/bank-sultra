@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Branch;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 use App\Models\Debitor;
@@ -22,6 +23,14 @@ class PdfController extends Controller
         $users = User::with('branch')->get();
 
         $pdf = PDF::loadView('pdf.user', compact('users'))->setPaper('legal', 'landscape');
+        return $pdf->download('pengguna.pdf');
+    }
+
+    public function PdfBranch()
+    {
+        $branches = Branch::with('kabupatenKota')->get();
+
+        $pdf = PDF::loadView('pdf.branch', compact('branches'))->setPaper('legal', 'landscape');
         return $pdf->download('pengguna.pdf');
     }
 }
