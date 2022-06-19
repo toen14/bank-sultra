@@ -24,7 +24,7 @@ const EditProfile = ({ navigation }: HomeNavigationProps<"EditProfile">) => {
           backgroundColor="secondary"
         >
           <Header
-            title="Edit Profile"
+            title="Profile"
             left={{
               icon: "menu",
               onPress: () => navigation.dispatch(DrawerActions.openDrawer()),

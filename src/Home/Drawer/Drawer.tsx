@@ -46,7 +46,7 @@ const items: DrawerItemProps[] = [
   // },
   {
     icon: "user",
-    label: "Edit Profile",
+    label: "Profile",
     screen: "EditProfile",
     color: "drawer2",
   },
