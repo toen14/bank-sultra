@@ -1,49 +1,49 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 
+import { AuthContext } from "../../Authentication/store/AuthContex";
 import { Box, Text } from "../../components";
 import TextInput from "../../components/Form/TextInput";
 
-import CheckboxGroup from "./CheckboxGroup";
-
-const genders = [
-  { value: "male", label: "Male" },
-  { value: "female", label: "Female" },
-];
-
 const PersonalInfo = () => {
+  const authCtc = useContext(AuthContext);
+
   return (
     <ScrollView>
       <Box padding="m">
         <Text variant="body" marginBottom="m">
-          Account Information
+          Tentang Akun
         </Text>
         <Box marginBottom="m">
           <TextInput
             icon="user"
-            placeholder="Name"
-            autoCapitalize="none"
-            autoCompleteType="name"
+            placeholder={authCtc.currentUser?.user.name as string}
+            editable={false}
           />
         </Box>
         <Box marginBottom="m">
           <TextInput
-            icon="lock"
-            placeholder="Enter your Password"
-            autoCompleteType="password"
+            icon="at-sign"
+            placeholder={authCtc.currentUser?.user.email as string}
+            editable={false}
             autoCapitalize="none"
             secureTextEntry
           />
         </Box>
         <Box marginBottom="m">
           <TextInput
-            icon="map-pin"
-            placeholder="Address"
-            autoCapitalize="none"
-            autoCompleteType="street-address"
+            icon="pen-tool"
+            placeholder={authCtc.currentUser?.user.role as string}
+            editable={false}
           />
         </Box>
-        <CheckboxGroup options={genders} radio />
+        <Box marginBottom="m">
+          <TextInput
+            icon="map-pin"
+            placeholder={authCtc.currentUser?.user.alamat as string}
+            editable={false}
+          />
+        </Box>
       </Box>
     </ScrollView>
   );

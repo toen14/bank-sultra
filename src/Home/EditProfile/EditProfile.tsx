@@ -1,22 +1,16 @@
 import { DrawerActions } from "@react-navigation/native";
-import React from "react";
-import { Dimensions } from "react-native";
+import React, { useContext } from "react";
 
 import { Box, Header, Text, useTheme } from "../../components";
 import { HomeNavigationProps } from "../../components/Navigation";
+import { AuthContext } from "../../Authentication/store/AuthContex";
 
-import Tabs from "./Tabs";
-import Configuration from "./Configuration";
 import PersonalInfo from "./PersonalInfo";
 
-const { width } = Dimensions.get("window");
-const tabs = [
-  { id: "configuration", title: "Configuration" },
-  { id: "info", title: "Personal Info" },
-];
-
 const EditProfile = ({ navigation }: HomeNavigationProps<"EditProfile">) => {
+  const authCtc = useContext(AuthContext);
   const theme = useTheme();
+
   return (
     <Box flex={1} backgroundColor="background">
       <Box flex={0.25} backgroundColor="background">
@@ -51,17 +45,20 @@ const EditProfile = ({ navigation }: HomeNavigationProps<"EditProfile">) => {
         /> */}
         <Box marginVertical="m" style={{ marginTop: 50 + theme.spacing.m }}>
           <Text variant="title1" textAlign="center">
-            Mike Peter
+            {authCtc.currentUser?.user.name}
           </Text>
           <Text variant="body" textAlign="center">
-            mike@flexinstudio.com
+            {authCtc.currentUser?.user.email}
           </Text>
         </Box>
       </Box>
-      <Tabs tabs={tabs}>
+      {/* <Tabs tabs={tabs}>
         <Configuration />
         <PersonalInfo />
-      </Tabs>
+      </Tabs> */}
+      <Box>
+        <PersonalInfo />
+      </Box>
     </Box>
   );
 };
