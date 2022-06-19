@@ -33,12 +33,12 @@
                                 <h4 class="card-title">List Pengguna</h4>
 
                                 <div class="container-button">
-                                    <button class="btn btn-success">
+                                    <a href=" {{ route('pdf-users') }} " class="btn btn-success" target="__blank">
                                         <span class="btn-label">
                                             <i class="fas fa-file-pdf"></i>
                                         </span>
                                         PDF
-                                    </button>
+                                    </a>
                                     <a href=" {{ route('users.create') }} " class="btn btn-primary">
                                         <span class="btn-label">
                                             <i class="fa fa-plus"></i>
