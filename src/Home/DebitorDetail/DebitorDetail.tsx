@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from "react";
-import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 import {
   Icon,
@@ -10,8 +10,9 @@ import {
   Input,
   FlatList,
   Heading,
+  Fab,
 } from "native-base";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useFocusEffect } from "@react-navigation/native";
 
 import { HomeNavigationProps } from "../../components/Navigation";
@@ -23,6 +24,7 @@ import { RoleEnum } from "../../constants/role-enum";
 
 import CardDebitor from "./CardDebitor";
 import NoteList from "./NoteList";
+import { log } from "react-native-reanimated";
 
 type TNoteFetch = {
   id: number;
@@ -95,6 +97,27 @@ const DebitorDetail = ({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [route.params.debitorId]);
+
+  const updateStatus = useCallback(
+    (status: DebitorEnum) => {
+      axios(`${baseUrl}/debitors/${route.params.debitorId}`, {
+        headers: {
+          Authorization: `Bearer ${authCtx?.currentUser?.token}`,
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        method: "PATCH",
+        data: {
+          status,
+        },
+      })
+        .then(({ data }) => {
+          console.log(data);
+        })
+        .catch((e: AxiosError) => console.log(e.response?.data));
+    },
+    [authCtx?.currentUser?.token, route.params.debitorId]
+  );
 
   const sendMessage = useCallback(() => {
     setIsSendMessage(true);
@@ -243,6 +266,33 @@ const DebitorDetail = ({
                   role={item.user.role}
                 />
               )}
+            />
+
+            <Fab
+              renderInPortal={false}
+              onPress={() => {
+                const arStatus = Object.values(DebitorEnum).filter(
+                  (v) => v !== cardStatus
+                );
+
+                const status = Math.random() > 0.5 ? arStatus[0] : arStatus[1];
+
+                updateStatus(status);
+                setCardStatus(status);
+              }}
+              colorScheme={
+                // eslint-disable-next-line no-nested-ternary
+                cardStatus === DebitorEnum.Done
+                  ? "green"
+                  : cardStatus === DebitorEnum.Progress
+                  ? "yellow"
+                  : "danger"
+              }
+              shadow={2}
+              size="sm"
+              icon={
+                <Icon color="white" as={MaterialIcons} name="swipe" size="sm" />
+              }
             />
           </>
         )}

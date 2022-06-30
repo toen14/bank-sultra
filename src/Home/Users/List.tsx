@@ -26,7 +26,7 @@ const List = ({ name, no, role }: ListProps) => {
       <ListItem.Content>
         <ScrollView horizontal>
           <Box alignSelf={"center"}>
-            <ListItem.Title>{"Cabang " + name}</ListItem.Title>
+            <ListItem.Title>{name}</ListItem.Title>
             <ListItem.Subtitle>{role}</ListItem.Subtitle>
           </Box>
         </ScrollView>
