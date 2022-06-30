@@ -19,7 +19,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/pdf/debitors', [\App\Http\Controllers\PdfController::class, 'PdfDebitor'])->name('pdf-debitors');
-    Route::get('/pdf/users', [\App\Http\Controllers\PdfController::class, 'PdfDebitor'])->name('pdf-users');
+    Route::get('/pdf/users', [\App\Http\Controllers\PdfController::class, 'PdfUser'])->name('pdf-users');
     Route::get('/pdf/branches', [\App\Http\Controllers\PdfController::class, 'PdfBranch'])->name('pdf-branches');
 
     Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');

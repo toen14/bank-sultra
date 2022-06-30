@@ -23,13 +23,6 @@
                     <th>Cabang</th>
                 </tr>
             </thead>
-            <tfoot>
-                <tr>
-                    <th>Nama</th>
-                    <th>Role</th>
-                    <th>Cabang</th>
-                </tr>
-            </tfoot>
             <tbody>
                 @foreach ($users as $user)
                     <tr>
