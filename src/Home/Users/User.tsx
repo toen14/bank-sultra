@@ -9,6 +9,7 @@ import { SearchBar } from "@rneui/themed";
 import { Platform, FlatList, RefreshControl } from "react-native";
 import { HStack, NativeBaseProvider, Spinner } from "native-base";
 import axios from "axios";
+import _ from "lodash";
 
 import { HomeNavigationProps } from "../../components/Navigation";
 import { Box, Header } from "../../components";
@@ -126,7 +127,7 @@ const User = ({ navigation }: HomeNavigationProps<"User">) => {
             containerStyle={{ marginHorizontal: 20 }}
           />
           <FlatList
-            data={users}
+            data={_.uniqWith(users, (l, b) => l.id === b.id)}
             ListFooterComponent={renderLoader}
             onEndReached={loadMoreItem}
             onEndReachedThreshold={0}

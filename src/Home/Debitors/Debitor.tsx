@@ -1,4 +1,10 @@
-import React, { memo, useContext, useEffect, useState } from "react";
+import React, {
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { SearchBar } from "@rneui/themed";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
@@ -20,15 +26,16 @@ import {
 } from "native-base";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import _ from "lodash";
 
 import { HomeNavigationProps } from "../../components/Navigation";
 import { Box, Header } from "../../components";
 import { baseUrl } from "../../constants/base-url";
 import { AuthContext } from "../../Authentication/store/AuthContex";
 import { DebitorEnum } from "../../constants/debitor-enum";
+import { RoleEnum } from "../../constants/role-enum";
 
 import List from "./List";
-import { RoleEnum } from "../../constants/role-enum";
 
 export type Debitor = {
   id: number;
@@ -118,7 +125,7 @@ const Debitor = ({ navigation }: HomeNavigationProps<"Debitor">) => {
       )
       .then((res) => {
         if (res.data.data.length) {
-          setDebitors((e) => [...res.data.data, ...e]);
+          setDebitors([...debitors, ...res.data.data]);
         } else {
           setIsCanFetch(false);
         }
@@ -222,7 +229,7 @@ const Debitor = ({ navigation }: HomeNavigationProps<"Debitor">) => {
                   setShowDate(false);
                   if (type === "set") {
                     setDate(
-                      `${date.getFullYear()}/${date.getMonth()}/${date.getDay()}`
+                      `${date!.getFullYear()}/${date!.getMonth()}/${date!.getDay()}`
                     );
                   }
                 }}
@@ -232,18 +239,25 @@ const Debitor = ({ navigation }: HomeNavigationProps<"Debitor">) => {
 
           <FlatList
             style={{ height: "100%" }}
-            data={debitors}
+            data={_.uniqWith(
+              debitors,
+              (l: Debitor, r: Debitor) => l.id === r.id
+            )}
             ListFooterComponent={renderLoader}
             onEndReached={loadMoreItem}
-            renderItem={({ item, index }) => (
-              <MemoList
-                id={item.id}
-                name={item.name}
-                no={index + 1}
-                status={item.status}
-                branch={item.branch}
-                boxColor={"black"}
-              />
+            renderItem={useCallback(
+              ({ item, index }) => (
+                <MemoList
+                  key={item.id}
+                  id={item.id}
+                  name={item.name}
+                  no={index + 1}
+                  status={item.status}
+                  branch={item.branch}
+                  boxColor={"black"}
+                />
+              ),
+              []
             )}
             keyExtractor={(_, index) => index.toString()}
             refreshControl={
