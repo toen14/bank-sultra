@@ -78,7 +78,7 @@ class DebitorController extends Controller
         $debitor = Debitor::findOrFail($id);
         $debitor->fill($validated);
 
-        if ($validated['notaris_id']) {
+        if (isset($validated['notaris_id'])) {
             // get current notaris ids
             $currentUserDebitor = array_map(
                 fn ($userDebitor) => $userDebitor['id'],
