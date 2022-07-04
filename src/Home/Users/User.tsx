@@ -90,9 +90,9 @@ const User = ({ navigation }: HomeNavigationProps<"User">) => {
   };
 
   const loadMoreItem = async () => {
-    if (isCanFetch) {
+    if (isCanFetch && !isSearch && !search) {
       setPage((previousPage) => previousPage + 1);
-      await fetchData(page);
+      fetchData(page);
     }
   };
 
@@ -110,7 +110,6 @@ const User = ({ navigation }: HomeNavigationProps<"User">) => {
         <Box flex={1}>
           <SearchBar
             onEndEditing={() => {
-              setUsers([]);
               searchUser();
             }}
             onClear={() => {
@@ -127,6 +126,7 @@ const User = ({ navigation }: HomeNavigationProps<"User">) => {
             containerStyle={{ marginHorizontal: 20 }}
           />
           <FlatList
+            style={{ flex: 1 }}
             data={_.uniqWith(users, (l, b) => l.id === b.id)}
             ListFooterComponent={renderLoader}
             onEndReached={loadMoreItem}
@@ -142,7 +142,7 @@ const User = ({ navigation }: HomeNavigationProps<"User">) => {
               ),
               []
             )}
-            keyExtractor={(_, index) => index.toString()}
+            keyExtractor={(item) => item.id.toString()}
             refreshControl={
               <RefreshControl
                 refreshing={false}
