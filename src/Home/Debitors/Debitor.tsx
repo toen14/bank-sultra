@@ -1,10 +1,4 @@
-import React, {
-  memo,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { memo, useContext, useEffect, useMemo, useState } from "react";
 import { SearchBar } from "@rneui/themed";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
@@ -148,7 +142,7 @@ const Debitor = ({ navigation }: HomeNavigationProps<"Debitor">) => {
   };
 
   const loadMoreItem = () => {
-    if (isCanFetch) {
+    if (isCanFetch && !isSearch) {
       setPage((previousPage) => previousPage + 1);
       fetchData(page);
     }
@@ -237,43 +231,47 @@ const Debitor = ({ navigation }: HomeNavigationProps<"Debitor">) => {
             )}
           </Box>
 
-          <FlatList
-            style={{ height: "100%" }}
-            data={_.uniqWith(
-              debitors,
-              (l: Debitor, r: Debitor) => l.id === r.id
-            )}
-            ListFooterComponent={renderLoader}
-            onEndReached={loadMoreItem}
-            renderItem={useCallback(
-              ({ item, index }) => (
-                <MemoList
-                  key={item.id}
-                  id={item.id}
-                  name={item.name}
-                  no={index + 1}
-                  status={item.status}
-                  branch={item.branch}
-                  boxColor={"black"}
-                />
-              ),
-              []
-            )}
-            keyExtractor={(_, index) => index.toString()}
-            refreshControl={
-              <RefreshControl
-                refreshing={false}
-                onRefresh={() => {
-                  setDebitors([]);
-                  setPage(1);
-                  setIsCanFetch(true);
-                  setSearch("");
-                  setDate("Tanggal");
-                  fetchData(1);
-                }}
+          {useMemo(
+            () => (
+              <FlatList
+                style={{ height: "100%" }}
+                data={_.uniqWith(
+                  debitors,
+                  (l: Debitor, r: Debitor) => l.id === r.id
+                )}
+                onEndReachedThreshold={0.1}
+                ListFooterComponent={renderLoader}
+                onEndReached={loadMoreItem}
+                renderItem={({ item, index }) => (
+                  <MemoList
+                    key={item.id}
+                    id={item.id}
+                    name={item.name}
+                    no={index + 1}
+                    status={item.status}
+                    branch={item.branch}
+                    boxColor={"black"}
+                  />
+                )}
+                keyExtractor={(item) => item.id.toString()}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={false}
+                    onRefresh={() => {
+                      setDebitors([]);
+                      setPage(1);
+                      setIsCanFetch(true);
+                      setSearch("");
+                      setDate("Tanggal");
+                      fetchData(1);
+                    }}
+                  />
+                }
               />
-            }
-          />
+            ),
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+            [debitors]
+          )}
         </Box>
       </Box>
       {authCtx.currentUser?.user.role !== RoleEnum.Notaris && (
