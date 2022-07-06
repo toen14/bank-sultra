@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from "react";
-import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 import {
   Icon,
@@ -24,7 +24,6 @@ import { RoleEnum } from "../../constants/role-enum";
 
 import CardDebitor from "./CardDebitor";
 import NoteList from "./NoteList";
-import { log } from "react-native-reanimated";
 
 type TNoteFetch = {
   id: number;
@@ -64,7 +63,7 @@ const DebitorDetail = ({
     axios
       .get(`${baseUrl}/debitors/${route.params.debitorId}`, {
         headers: {
-          Authorization: `Bearer ${authCtx.currentUser.token}`,
+          Authorization: `Bearer ${authCtx.currentUser?.token}`,
         },
       })
       .then(({ data }) => {
@@ -121,24 +120,24 @@ const DebitorDetail = ({
 
   const sendMessage = useCallback(() => {
     setIsSendMessage(true);
-    axios(`${baseUrl}/notes/users/${authCtx.currentUser.user.id}`, {
+    axios(`${baseUrl}/notes/users/${authCtx.currentUser?.user.id}`, {
       headers: {
-        Authorization: `Bearer ${authCtx.currentUser.token}`,
+        Authorization: `Bearer ${authCtx.currentUser?.token}`,
         "Content-Type": "application/json",
         Accept: "application/json",
       },
       method: "POST",
       data: {
         /* eslint-disable camelcase */
-        user_id: authCtx.currentUser.user.id,
+        user_id: authCtx.currentUser?.user.id,
         debitor_id: route.params.debitorId,
         /* eslint-enable camelcase */
         description: message,
       },
     })
       .then(({ data }) => {
-        data.user = authCtx.currentUser.user;
-        setNotes((currentNotes) => [data, ...currentNotes]);
+        data.user = authCtx.currentUser?.user;
+        setNotes((currentNotes) => [data, ...currentNotes!]);
         setCardDescription(data.description);
         setMessage("");
       })
@@ -199,7 +198,7 @@ const DebitorDetail = ({
               desc={cardDescription}
               id={cardNomor}
               name={cardName}
-              status={cardStatus}
+              status={cardStatus!}
             />
 
             <BoxN px="0.5">
@@ -268,32 +267,40 @@ const DebitorDetail = ({
               )}
             />
 
-            <Fab
-              renderInPortal={false}
-              onPress={() => {
-                const arStatus = Object.values(DebitorEnum).filter(
-                  (v) => v !== cardStatus
-                );
+            {authCtx.currentUser?.user.role !== RoleEnum.Notaris && (
+              <Fab
+                renderInPortal={false}
+                onPress={() => {
+                  const arStatus = Object.values(DebitorEnum).filter(
+                    (v) => v !== cardStatus
+                  );
 
-                const status = Math.random() > 0.5 ? arStatus[0] : arStatus[1];
+                  const status =
+                    Math.random() > 0.5 ? arStatus[0] : arStatus[1];
 
-                updateStatus(status);
-                setCardStatus(status);
-              }}
-              colorScheme={
-                // eslint-disable-next-line no-nested-ternary
-                cardStatus === DebitorEnum.Done
-                  ? "green"
-                  : cardStatus === DebitorEnum.Progress
-                  ? "yellow"
-                  : "danger"
-              }
-              shadow={2}
-              size="sm"
-              icon={
-                <Icon color="white" as={MaterialIcons} name="swipe" size="sm" />
-              }
-            />
+                  updateStatus(status);
+                  setCardStatus(status);
+                }}
+                colorScheme={
+                  // eslint-disable-next-line no-nested-ternary
+                  cardStatus === DebitorEnum.Done
+                    ? "green"
+                    : cardStatus === DebitorEnum.Progress
+                    ? "yellow"
+                    : "danger"
+                }
+                shadow={2}
+                size="sm"
+                icon={
+                  <Icon
+                    color="white"
+                    as={MaterialIcons}
+                    name="swipe"
+                    size="sm"
+                  />
+                }
+              />
+            )}
           </>
         )}
       </Box>
