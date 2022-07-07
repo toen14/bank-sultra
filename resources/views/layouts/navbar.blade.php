@@ -8,7 +8,6 @@
         <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
             data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon">
-                <i class="icon-menu">AAAaaaaa</i>
             </span>
         </button>
         <button class="topbar-toggler more">
@@ -58,7 +57,7 @@
                         <li>
                             <div class="notif-center">
                                 @foreach (App\Models\Notification::with('note.user')->where('user_id', auth()->user()->id)->orderBy('id', 'DESC')->get() as $notif)
-                                    <a href="">
+                                    <a href='{{route("users.show", $notif->note->user_id)}}'>
                                         <div class="notif-icon notif-primary"> <i class="fas fa-pen-alt"></i> </div>
                                         <div class="notif-content">
                                             <span class="block">

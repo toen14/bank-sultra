@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Branch;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Models\Note;
 
 class UserController extends Controller
 {
@@ -57,7 +58,7 @@ class UserController extends Controller
     {
         $validated = $request->validated();
         $validated['password'] = Hash::make($validated['password']);
-        
+
         User::create($validated);
 
         return response()->redirectTo(route('users.index'));
@@ -71,7 +72,10 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::with('branch')->findOrFail($id);
+        $notes = Note::with('debitor')->where('user_id', $user->id)->orderBy('id', 'desc')->get()->groupBy('debitor_id');
+
+        return view('user.show', compact('user', 'notes'));
     }
 
     /**
@@ -108,7 +112,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, $id)
     {
         $validated = $request->validated();
-        
+
         $user = User::findOrFail($id);
 
         if ($validated['password']) {
