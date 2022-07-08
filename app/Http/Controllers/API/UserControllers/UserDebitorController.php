@@ -35,6 +35,11 @@ class UserDebitorController extends Controller
             $debitors->where('name', 'LIKE', "%$search%");
         }
 
+        if (request()->date) {
+            $date = request()->date;
+            $debitors->where('created_at', '>=', date($date));
+        }
+
         return $debitors->with('branch')->paginate(request()->limit ?? 0);
     }
 }
