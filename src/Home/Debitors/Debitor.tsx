@@ -90,15 +90,18 @@ const Debitor = ({ navigation }: HomeNavigationProps<"Debitor">) => {
 
   function searchDebitor() {
     setIsSearch(true);
+    let url = `${baseUrl}/users/${authCtx?.currentUser?.user.id}/debitors?search=${search}`;
+
+    if (date !== "Tanggal") {
+      url += `&date=${date}`;
+    }
+
     axios
-      .get(
-        `${baseUrl}/users/${authCtx?.currentUser?.user.id}/debitors?search=${search}`,
-        {
-          headers: {
-            Authorization: `Bearer ${authCtx?.currentUser?.token}`,
-          },
-        }
-      )
+      .get(url, {
+        headers: {
+          Authorization: `Bearer ${authCtx?.currentUser?.token}`,
+        },
+      })
       .then((res) => {
         setDebitors(res.data.data);
       })
