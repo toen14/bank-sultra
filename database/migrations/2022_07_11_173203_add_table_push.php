@@ -4,8 +4,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-use App\Enums\NotificationEnum;
-
 return new class extends Migration
 {
     /**
@@ -15,15 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('note_users', function (Blueprint $table) {
+        Schema::create('pushes', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id');
-            $table->bigInteger('note_id');
-            $table->enum('status', [
-                NotificationEnum::Read->value,
-                NotificationEnum::Unread->value
-            ]);
+            $table->unsignedBigInteger('user_id')->uniqid();
+            $table->string('push_token');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -34,6 +30,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('note_users');
+        Schema::table('pushes', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+        });
+        Schema::dropIfExists('pushes');
     }
 };

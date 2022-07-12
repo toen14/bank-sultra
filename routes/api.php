@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Http;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +16,21 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__ . '/api/auth.php';
 
+Route::get('notif', function () {
+    $response = Http::withHeaders([
+        "Content-Type" => "application/json"
+    ])->post('https://exp.host/--/api/v2/push/send', [
+        "to" => "ExponentPushToken[pGLSLKACvlNb4gF3-MpBUf]",
+        "title" => "from",
+        "body" => "laravel"
+    ]);
+
+    return 'Nice';
+});
+
+
 Route::middleware('auth:sanctum')->group(function () {
+    
     Route::get('debitors', [\App\Http\Controllers\API\DebitorController::class, 'index']);
     Route::post('debitors', [\App\Http\Controllers\API\DebitorController::class, 'store']);
     Route::get('debitors/{id}', [\App\Http\Controllers\API\DebitorController::class, 'show']);
@@ -44,18 +59,20 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('branches/{id}', [\App\Http\Controllers\API\BranchController::class, 'destroy']);
 
     Route::get('branches/{branch}/notaris', [\App\Http\Controllers\API\BranchNotarisController::class, 'index']);
-
+    
     Route::get('users', [\App\Http\Controllers\API\UserController::class, 'index']);
     Route::post('users', [\App\Http\Controllers\API\UserController::class, 'store']);
     Route::get('users/{id}', [\App\Http\Controllers\API\UserController::class, 'show']);
     Route::patch('users/{id}', [\App\Http\Controllers\API\UserController::class, 'update']);
     Route::delete('users/{id}', [\App\Http\Controllers\API\UserController::class, 'destroy']);
-
+    
     Route::get('users/{user}/notifications', [\App\Http\Controllers\API\UserControllers\UserNotificationController::class, 'index']);
-
+    
     Route::get('users/{user}/debitors', [\App\Http\Controllers\API\UserControllers\UserDebitorController::class, 'index']);
-
+    
     Route::get('users/{user}/notes', [\App\Http\Controllers\API\UserControllers\UserNoteController::class, 'index']);
-
+    
     Route::get('notaris', [\App\Http\Controllers\API\NotarisController::class, 'index']);
+
+    Route::post('push', [\App\Http\Controllers\API\PushController::class, 'store']);
 });
