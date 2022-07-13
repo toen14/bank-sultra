@@ -61,20 +61,20 @@
           <div class="collapse" id="administrasi">
             <ul class="nav nav-collapse">
               <li class="">
+                <a href="{{route('backup.index')}}">
+                  <span class="sub-item">Backups</span>
+                </a>
+              </li>
+              {{-- <li class="">
                 <a href="#">
                   <span class="sub-item">History Logs</span>
                 </a>
               </li>
               <li class="">
                 <a href="#">
-                  <span class="sub-item">Backups</span>
-                </a>
-              </li>
-              <li class="">
-                <a href="#">
                   <span class="sub-item">Restore</span>
                 </a>
-              </li>
+              </li> --}}
             </ul>
           </div>
         </li>
