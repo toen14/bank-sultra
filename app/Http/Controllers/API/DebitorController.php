@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Http;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Debitor\StoreDebitorRequest;
 use App\Http\Requests\Debitor\UpdateDebitorRequest;
 use App\Models\Debitor;
 use App\Enums\DebitorStatus;
+use App\Enums\UserRole;
+use App\Models\Push;
+use App\Models\User;
 
 class DebitorController extends Controller
 {
@@ -30,12 +34,47 @@ class DebitorController extends Controller
      */
     public function store(StoreDebitorRequest $request)
     {
+        $userLogin = auth()->user();
         $validated = $request->validated();
         $validated['status'] = DebitorStatus::Progress->value;
 
         $debitor = Debitor::create($validated);
         $debitor->users()->attach($validated['notaris_id']);
         $debitor->save();
+
+        $notarisId = $validated['notaris_id'][0];
+
+        $notaris = User::where('id', $notarisId)->firstOrFail();
+        $apraisals = User::where('cabang_id', $notaris->cabang_id)
+            ->where('id', '!=', $userLogin->id)
+            ->where('role', UserRole::Apraisal->value)->get();
+        $admins = User::where('role', UserRole::AdminPusat->value)
+            ->where('id', '!=', $userLogin->id)->get();
+
+
+        $usersCanGetNotif = $apraisals->merge([$notaris])->merge($admins);
+
+        $pushUserIds = [];
+        $pushTokens = [];
+
+        foreach ($usersCanGetNotif as $userCanGetNotif) {
+            array_push($pushUserIds, $userCanGetNotif->id);
+        }
+
+        $pushes = Push::whereIn('user_id', $pushUserIds)->get();
+
+        foreach ($pushes as $push) {
+            array_push($pushTokens, $push->push_token);
+        }
+
+        Http::withHeaders([
+            "Content-Type" => "application/json",
+            'Authorization' => 'Bearer ' . env('EXPO_PUSH_TOKEN'),
+        ])->post(env('EXPO_URL_NOTIFICATION'), [
+            "to" => $pushTokens,
+            "title" => 'BANK-SULTRA',
+            "body" => $userLogin->name . ' membuat debitur',
+        ]);
 
         return response()->json(
             $debitor,
