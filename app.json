@@ -13,9 +13,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -26,7 +24,8 @@
       "turboModules": true
     },
     "android": {
-      "package": "com.toen14.reactnativefashion"
+      "package": "com.toen14.reactnativefashion",
+      "googleServicesFile": "./google-services.json"
     }
   }
 }

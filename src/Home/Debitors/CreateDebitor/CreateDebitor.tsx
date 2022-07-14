@@ -297,8 +297,10 @@ const CreateDebitor = ({
           {useMemo(
             () => {
               if (authCtx.currentUser?.user.role === RoleEnum.Apraisal) {
-                // eslint-disable-next-line camelcase
+                /* eslint-disable camelcase */
                 setFieldValue("branch", authCtx.currentUser?.user?.cabang_id);
+                getNotaries(authCtx.currentUser?.user?.cabang_id);
+                /* eslint-enable camelcase */
                 return;
               }
 
@@ -625,7 +627,7 @@ const CreateDebitor = ({
                   setFieldValue(
                     "deliveryDate",
                     `${deliveryDate?.getFullYear()}/${
-                      deliveryDate?.getMonth() + 1
+                      deliveryDate!.getMonth() + 1
                     }/${deliveryDate?.getDate()}`
                   );
                 }
@@ -650,7 +652,7 @@ const CreateDebitor = ({
                   setFieldValue(
                     "endDate",
                     `${endDate?.getFullYear()}/${
-                      endDate?.getMonth() + 1
+                      endDate!.getMonth() + 1
                     }/${endDate?.getDate()}`
                   );
                 }
