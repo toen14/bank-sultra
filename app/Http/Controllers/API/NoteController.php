@@ -35,13 +35,16 @@ class NoteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreNoteRequest $request, int $userId)
+    public function store(StoreNoteRequest $request, User $user)
     {
+        $this->authorize('show', $user);
+
         $note = DB::transaction(function () use ($request) {
 
             $userLogged = auth()->user();
 
             $validated = $request->validated();
+            $validated['user_id'] = $userLogged->id;
 
             $note = Note::create($validated);
 

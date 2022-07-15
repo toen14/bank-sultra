@@ -40,7 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('debitors/{id}', [\App\Http\Controllers\API\DebitorController::class, 'destroy']);
 
     Route::get('notes', [\App\Http\Controllers\API\NoteController::class, 'index']);
-    Route::post('notes/users/{user_id}', [\App\Http\Controllers\API\NoteController::class, 'store']);
+    Route::post('notes/users/{user}', [\App\Http\Controllers\API\NoteController::class, 'store']);
     Route::get('notes/{id}', [\App\Http\Controllers\API\NoteController::class, 'show']);
     Route::patch('notes/{id}', [\App\Http\Controllers\API\NoteController::class, 'update']);
     Route::delete('notes/{id}', [\App\Http\Controllers\API\NoteController::class, 'destroy']);
