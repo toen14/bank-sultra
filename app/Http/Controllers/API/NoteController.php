@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 use App\Enums\NotificationEnum;
 use App\Enums\UserRole;
@@ -13,6 +14,7 @@ use App\Http\Requests\API\Note\StoreNoteRequest;
 use App\Http\Requests\API\Note\UpdateNoteRequest;
 use App\Models\Debitor;
 use App\Models\Notification;
+use App\Models\Push;
 use App\Models\User;
 
 class NoteController extends Controller
@@ -37,6 +39,8 @@ class NoteController extends Controller
     {
         $note = DB::transaction(function () use ($request) {
 
+            $userLogged = auth()->user();
+
             $validated = $request->validated();
 
             $note = Note::create($validated);
@@ -48,6 +52,7 @@ class NoteController extends Controller
             $debitorNotaries = (Debitor::with('users')->findOrFail($validated['debitor_id'], ['id']))->users;
 
             $noteUsers = [];
+            $noteUserIds = [];
 
             foreach (($debitorNotaries->merge($admins))->merge($apraisals) as $userCanGetNotif) {
                 array_push($noteUsers, [
@@ -57,9 +62,29 @@ class NoteController extends Controller
                     'created_at' => date("Y-m-d H:i:s", strtotime('now')),
                     'updated_at' => date("Y-m-d H:i:s", strtotime('now'))
                 ]);
+
+                if ($userLogged->id !== $userCanGetNotif->id) {
+                    array_push($noteUserIds, $userCanGetNotif->id);
+                }
             }
 
             Notification::insert($noteUsers);
+
+            $pushes = Push::whereIn('user_id', $noteUserIds)->get();
+            $pushTokens = [];
+
+            foreach ($pushes as $push) {
+                array_push($pushTokens, $push->push_token);
+            }
+
+            Http::withHeaders([
+                "Content-Type" => "application/json",
+                'Authorization' => 'Bearer ' . env('EXPO_PUSH_TOKEN'),
+            ])->post(env('EXPO_URL_NOTIFICATION'), [
+                "to" => $pushTokens,
+                "title" => 'BANK-SULTRA',
+                "body" => $userLogged->name . ' membuat note',
+            ]);
 
             return $note;
         });
