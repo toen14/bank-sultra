@@ -15,7 +15,8 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.toen.iosbanksultra"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -24,8 +25,21 @@
       "turboModules": true
     },
     "android": {
-      "package": "com.toen14.reactnativefashion",
+      "package": "com.toen.sultra",
       "googleServicesFile": "./google-services.json"
-    }
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./local/assets/notification-icon.png",
+          "color": "#ffffff",
+          "sounds": [
+            "./local/assets/notification-sound.wav",
+            "./local/assets/notification-sound-other.wav"
+          ]
+        }
+      ]
+    ]
   }
 }

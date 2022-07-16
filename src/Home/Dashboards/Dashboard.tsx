@@ -46,7 +46,12 @@ const Dashboard = ({ navigation }: HomeNavigationProps<"Dashboard">) => {
         method: "POST",
       })
         .then((res) => console.log(res.data))
-        .catch((e: AxiosError) => console.log("token error", e.response?.data));
+        .catch((e: AxiosError) => {
+          alert(
+            "Gagal registrasi notifikasi" + JSON.stringify(e.response?.data)
+          );
+          console.log("token error", e.response?.data);
+        });
     }
 
     registerPushToken();
