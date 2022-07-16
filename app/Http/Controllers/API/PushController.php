@@ -18,10 +18,12 @@ class PushController extends Controller
      */
     public function store(StorePushRequest $request)
     {
+        error_log($request->push_token);
         $validated = $request->validated();
         $validated['user_id'] = request()->user()->id;
 
-        Push::updateOrCreate(['user_id' => $validated['user_id']], $validated);
+
+        Push::updateOrCreate(['push_token' => $validated['push_token']], $validated);
 
         return response()->json(
             ['message' => 'success'],
