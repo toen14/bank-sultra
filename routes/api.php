@@ -69,6 +69,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('users/{id}', [\App\Http\Controllers\API\UserController::class, 'destroy']);
 
     Route::get('users/{user}/notifications', [\App\Http\Controllers\API\UserControllers\UserNotificationController::class, 'index']);
+    Route::post('users/{user}/notifications/{notification}/status', [\App\Http\Controllers\API\UserControllers\UserNotificationController::class, 'status']);
 
     Route::get('users/{user}/debitors', [\App\Http\Controllers\API\UserControllers\UserDebitorController::class, 'index']);
 
