@@ -21,6 +21,7 @@ import { baseUrl } from "../../constants/base-url";
 import { AuthContext } from "../../Authentication/store/AuthContex";
 import { DebitorEnum } from "../../constants/debitor-enum";
 import { RoleEnum } from "../../constants/role-enum";
+import { StatusNotifEnum } from "../../constants/status-notif-enum";
 
 import CardDebitor from "./CardDebitor";
 import NoteList from "./NoteList";
@@ -56,6 +57,24 @@ const DebitorDetail = ({
   const [notes, setNotes] = useState<TNoteFetch[]>();
 
   const authCtx = useContext(AuthContext);
+
+  if (route.params.status === StatusNotifEnum.Unread) {
+    axios
+      .post(
+        `${baseUrl}/users/${authCtx.currentUser?.user?.id}/notifications/${route.params.notifId}/status`,
+        {
+          status: StatusNotifEnum.Read,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${authCtx?.currentUser?.token}`,
+          },
+        }
+      )
+      .catch((e: AxiosError) => console.log(e.response?.data));
+  }
 
   const fetchData = useCallback(() => {
     setIsFetching(true);

@@ -2,6 +2,8 @@ import { RouteProp, CompositeNavigationProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 
+import { StatusNotifEnum } from "../constants/status-notif-enum";
+
 export interface AuthNavigationProps<
   RouteName extends keyof AuthenticationRoutes
 > {
@@ -46,6 +48,8 @@ export type HomeRoutes = {
   User: undefined;
   DebitorDetail: {
     debitorId: number;
+    notifId: number;
+    status: StatusNotifEnum;
   };
   CreateDebitor: undefined;
 };

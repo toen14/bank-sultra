@@ -7,6 +7,7 @@ import { AuthContext } from "../../Authentication/store/AuthContex";
 import { Box, Header } from "../../components";
 import { HomeNavigationProps } from "../../components/Navigation";
 import { baseUrl } from "../../constants/base-url";
+import { StatusNotifEnum } from "../../constants/status-notif-enum";
 
 import Notification from "./Notification";
 
@@ -14,6 +15,7 @@ type TNotification = {
   id: number;
   name: string;
   role: string;
+  status: StatusNotifEnum;
   // eslint-disable-next-line camelcase
   created_at: string;
   note: {
@@ -103,6 +105,11 @@ const NotificationScreen = ({
                 role={item.note.user.role}
                 createdAt={item.created_at}
                 debitorId={item.note.debitor_id}
+                backgroundColor={
+                  item.status === StatusNotifEnum.Unread ? "#F9F9C5" : "white"
+                }
+                status={item.status}
+                id={item.id}
               />
             );
           }}

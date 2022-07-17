@@ -6,21 +6,28 @@ import { useNavigation } from "@react-navigation/native";
 
 import { iconName } from "../../constants/icon-name";
 import { timeSince } from "../../constants/time-since";
+import { StatusNotifEnum } from "../../constants/status-notif-enum";
 
 interface NotificationProps {
+  id: number;
   description: string;
   name: string;
   role: string;
   createdAt: string;
   debitorId: string;
+  backgroundColor?: string;
+  status: StatusNotifEnum;
 }
 
 const Notification = ({
+  id,
   description,
   name,
   role,
   createdAt,
   debitorId,
+  backgroundColor,
+  status,
 }: NotificationProps) => {
   const nav = useNavigation();
 
@@ -31,8 +38,13 @@ const Notification = ({
         onPress={() =>
           nav.navigate("DebitorDetail", {
             debitorId: debitorId,
+            status,
+            notifId: id,
           })
         }
+        containerStyle={{
+          backgroundColor: backgroundColor ?? "white",
+        }}
       >
         <Avatar
           rounded={true}
