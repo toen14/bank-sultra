@@ -40,8 +40,10 @@ const NoteList = ({ date, desc, name, role }: TNoteListProps) => {
         <VStack flex={1}>
           <HStack justifyContent="space-between" alignItems="center">
             <VStack>
-              <Text color="black">{name}</Text>
-              <Text italic color="black">
+              <Text fontWeight="bold" color="black">
+                {name}
+              </Text>
+              <Text fontWeight="bold" italic color="black">
                 {role}
               </Text>
             </VStack>
@@ -49,9 +51,11 @@ const NoteList = ({ date, desc, name, role }: TNoteListProps) => {
               {date.toLocaleDateString()}
             </Text>
           </HStack>
-          <Box bg="black" marginY="1" w="56" h="0.5" alignSelf="center" />
+          <Box marginY="1" />
           <HStack>
-            <Text color="black">Deskripsi : </Text>
+            <Text fontWeight="bold" color="black">
+              Deskripsi :{" "}
+            </Text>
             <ScrollView h="12" nestedScrollEnabled>
               <Text color="black">{desc}</Text>
             </ScrollView>
