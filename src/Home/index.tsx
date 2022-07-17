@@ -15,6 +15,7 @@ import Branch from "./Branches/Branch";
 import User from "./Users";
 import DebitorDetail from "./DebitorDetail";
 import CreateDebitor from "./Debitors/CreateDebitor/CreateDebitor";
+import Starting from "./Starting/Starting";
 export { assets } from "./Drawer";
 
 const Drawer = createDrawerNavigator<HomeRoutes>();
@@ -25,6 +26,7 @@ export const HomeNavigator = () => (
       width: DRAWER_WIDTH,
     }}
   >
+    <Drawer.Screen name="Starting" component={Starting} />
     <Drawer.Screen name="Dashboard" component={Dashboard} />
     <Drawer.Screen name="Debitor" component={Debitor} />
     <Drawer.Screen name="Branch" component={Branch} />

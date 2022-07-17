@@ -33,6 +33,7 @@ export type AuthenticationRoutes = {
 };
 
 export type HomeRoutes = {
+  Starting: undefined;
   Dashboard: undefined;
   FavoriteOutfits: undefined;
   TransactionHistory: undefined;
