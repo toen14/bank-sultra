@@ -224,6 +224,7 @@ const DebitorDetail = ({
               <Input
                 mx="1"
                 w="full"
+                value={message}
                 onChangeText={setMessage}
                 _focus={{
                   bg: "white",
