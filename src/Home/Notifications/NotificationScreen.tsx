@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { FlatList } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import { FlatList, RefreshControl } from "react-native";
 import axios from "axios";
 import { Heading, HStack, NativeBaseProvider, Spinner } from "native-base";
 
@@ -38,7 +38,7 @@ const NotificationScreen = ({
   const [notifications, setNotifications] = useState<TNotification[]>();
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
+  const fetchData = useCallback(() => {
     setIsLoading(true);
     axios
       .get(`${baseUrl}/users/${authCtx.currentUser?.user.id}/notifications`, {
@@ -54,6 +54,10 @@ const NotificationScreen = ({
         setNotifications(parseNotif);
       })
       .finally(() => setIsLoading(false));
+  }, [authCtx.currentUser?.token, authCtx.currentUser?.user.id]);
+
+  useEffect(() => {
+    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -86,6 +90,15 @@ const NotificationScreen = ({
       {!isLoading && (
         <FlatList
           data={notifications}
+          refreshControl={
+            <RefreshControl
+              refreshing={false}
+              onRefresh={() => {
+                setNotifications([]);
+                fetchData();
+              }}
+            />
+          }
           renderItem={({ item }) => {
             let desc = item.note.description.substring(0, 24);
 
