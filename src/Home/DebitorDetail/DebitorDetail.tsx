@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
-import { TouchableOpacity } from "react-native";
+import { RefreshControl, TouchableOpacity } from "react-native";
 import {
   Icon,
   NativeBaseProvider,
@@ -275,6 +275,15 @@ const DebitorDetail = ({
             <FlatList
               px="1"
               data={notes}
+              refreshControl={
+                <RefreshControl
+                  refreshing={false}
+                  onRefresh={() => {
+                    setNotes([]);
+                    fetchData();
+                  }}
+                />
+              }
               keyExtractor={(item) => item.id.toString()}
               renderItem={({ item }) => (
                 <NoteList
