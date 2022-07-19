@@ -22,6 +22,9 @@ const fonts = {
   "SFProDisplay-Semibold": require("./assets/fonts/SF-Pro-Display-Semibold.otf"),
   "SFProDisplay-Regular": require("./assets/fonts/SF-Pro-Display-Regular.otf"),
   "SFProDisplay-Medium": require("./assets/fonts/SF-Pro-Display-Medium.otf"),
+  Rubik: require("./assets/fonts/Rubik.ttf"),
+  "Rubik-Bold": require("./assets/fonts/Rubik-Bold.ttf"),
+  "Rubik-Italic": require("./assets/fonts/Rubik-Italic.ttf"),
 };
 
 const AppStack = createStackNavigator<AppRoutes>();

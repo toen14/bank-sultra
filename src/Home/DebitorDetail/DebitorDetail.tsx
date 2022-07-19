@@ -234,6 +234,7 @@ const DebitorDetail = ({
                 shadow="2"
                 maxHeight="24"
                 multiline
+                fontFamily="Rubik"
                 placeholder="Kirim note..."
                 InputLeftElement={
                   <BoxN mr="-8px" ml="1">
