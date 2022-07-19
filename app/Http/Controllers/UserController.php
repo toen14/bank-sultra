@@ -115,7 +115,7 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
 
-        if ($validated['password']) {
+        if (isset($validated['password'])) {
             $validated['password'] = Hash::make($validated['password']);
         }
 

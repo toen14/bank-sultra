@@ -34,7 +34,6 @@ class UpdateUserRequest extends FormRequest
             ])],
             'alamat'    => 'string',
             'email'     => 'email',
-            'password'  => 'string',
             'cabang_id' => 'numeric'
         ];
     }
