@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { FlatList, RefreshControl } from "react-native";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Heading, HStack, NativeBaseProvider, Spinner } from "native-base";
 
 import { AuthContext } from "../../Authentication/store/AuthContex";
@@ -38,6 +38,12 @@ const NotificationScreen = ({
   const [notifications, setNotifications] = useState<TNotification[]>();
   const [isLoading, setIsLoading] = useState(false);
 
+  if (!authCtx.isAuthenticated) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    navigation.navigate("Authentication");
+  }
+
   const fetchData = useCallback(() => {
     setIsLoading(true);
     axios
@@ -53,6 +59,7 @@ const NotificationScreen = ({
         );
         setNotifications(parseNotif);
       })
+      .catch((e: AxiosError) => console.log("error notif", e.response?.data))
       .finally(() => setIsLoading(false));
   }, [authCtx.currentUser?.token, authCtx.currentUser?.user.id]);
 

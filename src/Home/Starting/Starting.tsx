@@ -28,7 +28,9 @@ const Starting = () => {
       Notifications.addNotificationResponseReceivedListener((e) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { body } = e.notification.request.content;
-        navigation.navigate("Notification");
+        if (authCtx.isAuthenticated) {
+          navigation.navigate("Notification");
+        }
       });
 
       axios(`${baseUrl}/push`, {
@@ -47,16 +49,13 @@ const Starting = () => {
           console.log(res.data);
         })
         .catch((e: AxiosError) => {
-          alert(
-            "Gagal registrasi notifikasi" + JSON.stringify(e.response?.data)
-          );
           console.log("token error", e.response?.data);
         });
     }
 
     registerPushToken();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [authCtx.isAuthenticated]);
 
   useFocusEffect(
     useCallback(() => {
