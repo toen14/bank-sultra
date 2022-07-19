@@ -2,7 +2,6 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { HStack, Spinner, Heading, ScrollView } from "native-base";
 import { RefreshControl } from "react-native";
-import * as Notifications from "expo-notifications";
 
 import { HomeNavigationProps } from "../../components/Navigation";
 import { Box, Header } from "../../components";
@@ -11,14 +10,6 @@ import { baseUrl } from "../../constants/base-url";
 import { DebitorEnum } from "../../constants/debitor-enum";
 
 import List from "./List";
-
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-  }),
-});
 
 type TDebitor = {
   status: DebitorEnum;

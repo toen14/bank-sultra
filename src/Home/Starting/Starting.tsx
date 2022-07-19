@@ -9,6 +9,14 @@ import { AuthContext } from "../../Authentication/store/AuthContex";
 import { baseUrl } from "../../constants/base-url";
 import { RoleEnum } from "../../constants/role-enum";
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
 const Starting = () => {
   const authCtx = useContext(AuthContext);
   const navigation = useNavigation();
@@ -16,6 +24,12 @@ const Starting = () => {
   useEffect(() => {
     async function registerPushToken() {
       const pushToken: string = await registerForPushNotificationsAsync();
+
+      Notifications.addNotificationResponseReceivedListener((e) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { body } = e.notification.request.content;
+        navigation.navigate("Notification");
+      });
 
       axios(`${baseUrl}/push`, {
         data: {
@@ -29,7 +43,9 @@ const Starting = () => {
         },
         method: "POST",
       })
-        .then((res) => console.log(res.data))
+        .then((res) => {
+          console.log(res.data);
+        })
         .catch((e: AxiosError) => {
           alert(
             "Gagal registrasi notifikasi" + JSON.stringify(e.response?.data)
