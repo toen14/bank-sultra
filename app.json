@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "bank-sultra",
-    "slug": "bank-sultra",
+    "name": "Bank SULTRA",
+    "slug": "Bank-SULTRA",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
