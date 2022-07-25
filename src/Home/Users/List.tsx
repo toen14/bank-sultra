@@ -33,7 +33,7 @@ const List = ({ name, no, role }: ListProps) => {
       </ListItem.Content>
       <Box alignSelf={"flex-start"}>
         <TouchableOpacity>
-          <Text style={{ color: "black" }}>o o o</Text>
+          {/* <Text style={{ color: "black" }}>o o o</Text> */}
         </TouchableOpacity>
       </Box>
     </ListItem>
