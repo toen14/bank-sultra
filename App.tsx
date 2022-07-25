@@ -16,6 +16,7 @@ import AuthContextProvider, {
   AuthContext,
 } from "./src/Authentication/store/AuthContex";
 import Logout from "./src/Authentication/Logout";
+import BadgeContextProvider from "./src/Authentication/store/BadgeContex";
 const assets = [...authenticationAssets, ...homeAssets];
 const fonts = {
   "SFProDisplay-Bold": require("./assets/fonts/SF-Pro-Display-Bold.otf"),
@@ -55,7 +56,9 @@ export default function App() {
         <LoadAssets {...{ fonts, assets }}>
           <SafeAreaProvider>
             <AuthContextProvider>
-              <Navigation />
+              <BadgeContextProvider>
+                <Navigation />
+              </BadgeContextProvider>
             </AuthContextProvider>
           </SafeAreaProvider>
         </LoadAssets>

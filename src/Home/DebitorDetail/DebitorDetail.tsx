@@ -22,6 +22,7 @@ import { AuthContext } from "../../Authentication/store/AuthContex";
 import { DebitorEnum } from "../../constants/debitor-enum";
 import { RoleEnum } from "../../constants/role-enum";
 import { StatusNotifEnum } from "../../constants/status-notif-enum";
+import { BadgeContext } from "../../Authentication/store/BadgeContex";
 
 import CardDebitor from "./CardDebitor";
 import NoteList from "./NoteList";
@@ -57,6 +58,7 @@ const DebitorDetail = ({
   const [notes, setNotes] = useState<TNoteFetch[]>();
 
   const authCtx = useContext(AuthContext);
+  const badgeCtx = useContext(BadgeContext);
 
   if (route.params.status === StatusNotifEnum.Unread) {
     axios
@@ -73,6 +75,32 @@ const DebitorDetail = ({
           },
         }
       )
+      .then(() => {
+        axios(
+          `${baseUrl}/users/${authCtx.currentUser?.user.id}/notifications`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              Authorization: `Bearer ${authCtx?.currentUser?.token}`,
+            },
+            method: "GET",
+          }
+        )
+          .then((res) => {
+            badgeCtx.setBadge!(
+              res.data.data.filter((notif) => {
+                return (
+                  notif.status === StatusNotifEnum.Unread &&
+                  notif.note.user.id !== authCtx.currentUser?.user?.id
+                );
+              }).length ?? 0
+            );
+          })
+          .catch((e: AxiosError) => {
+            console.log("badge error", e.response?.data);
+          });
+      })
       .catch((e: AxiosError) => console.log(e.response?.data));
   }
 

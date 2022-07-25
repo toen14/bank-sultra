@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import React, { useCallback, useContext, useEffect } from "react";
+import React, { useCallback, useContext, useEffect, useMemo } from "react";
 import { Platform } from "react-native";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
@@ -8,6 +8,8 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../Authentication/store/AuthContex";
 import { baseUrl } from "../../constants/base-url";
 import { RoleEnum } from "../../constants/role-enum";
+import { BadgeContext } from "../../Authentication/store/BadgeContex";
+import { StatusNotifEnum } from "../../constants/status-notif-enum";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -19,19 +21,30 @@ Notifications.setNotificationHandler({
 
 const Starting = () => {
   const authCtx = useContext(AuthContext);
+  const badgeCtx = useContext(BadgeContext);
   const navigation = useNavigation();
+
+  useMemo(() => {
+    Notifications.addNotificationResponseReceivedListener((e) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { body } = e.notification.request.content;
+      if (authCtx.isAuthenticated) {
+        getNotifBadge();
+        navigation.navigate("Notification");
+      }
+    });
+
+    Notifications.addNotificationReceivedListener(() => {
+      if (authCtx.isAuthenticated) {
+        getNotifBadge();
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authCtx.isAuthenticated]);
 
   useEffect(() => {
     async function registerPushToken() {
       const pushToken: string = await registerForPushNotificationsAsync();
-
-      Notifications.addNotificationResponseReceivedListener((e) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { body } = e.notification.request.content;
-        if (authCtx.isAuthenticated) {
-          navigation.navigate("Notification");
-        }
-      });
 
       axios(`${baseUrl}/push`, {
         data: {
@@ -56,6 +69,43 @@ const Starting = () => {
     registerPushToken();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authCtx.isAuthenticated]);
+
+  const getNotifBadge = useCallback(() => {
+    axios(`${baseUrl}/users/${authCtx.currentUser?.user.id}/notifications`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${authCtx?.currentUser?.token}`,
+      },
+      method: "GET",
+    })
+      .then((res) => {
+        badgeCtx.setBadge!(
+          res.data.data.filter((notif) => {
+            return (
+              notif.status === StatusNotifEnum.Unread &&
+              notif.note.user.id !== authCtx.currentUser?.user?.id
+            );
+          }).length ?? 0
+        );
+      })
+      .catch((e: AxiosError) => {
+        console.log("badge error", e.response?.data);
+      });
+  }, [
+    authCtx.currentUser?.token,
+    authCtx.currentUser?.user.id,
+    badgeCtx.setBadge,
+  ]);
+
+  useEffect(() => {
+    getNotifBadge();
+  }, [
+    authCtx?.currentUser?.token,
+    authCtx?.currentUser?.user.id,
+    badgeCtx.setBadge,
+    getNotifBadge,
+  ]);
 
   useFocusEffect(
     useCallback(() => {

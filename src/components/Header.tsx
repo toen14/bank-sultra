@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { View } from "react-native";
+import { Badge, VStack } from "native-base";
+
+import { BadgeContext } from "../Authentication/store/BadgeContex";
 
 import { Box, Text } from "./Theme";
 import RoundedIconButton from "./RoundedIconButton";
@@ -21,6 +24,9 @@ interface HeaderProps {
 const Header = ({ title, left, right, dark }: HeaderProps) => {
   const insets = useSafeAreaInsets();
   const color = dark ? "background" : "secondary";
+
+  const badgeCtx = useContext(BadgeContext);
+
   return (
     <Box
       flexDirection="row"
@@ -41,14 +47,33 @@ const Header = ({ title, left, right, dark }: HeaderProps) => {
         {title.toUpperCase()}
       </Text>
       {right ? (
-        <RoundedIconButton
-          size={44}
-          iconRatio={0.4}
-          name={right.icon}
-          onPress={right.onPress}
-          align={"center"}
-          {...{ color }}
-        />
+        <VStack>
+          {badgeCtx.badge > 0 && (
+            <Badge
+              colorScheme="info"
+              rounded="full"
+              mb={-6}
+              mr={0}
+              zIndex={1}
+              variant="solid"
+              alignSelf="flex-end"
+              _text={{
+                fontSize: 10,
+              }}
+            >
+              {badgeCtx.badge}
+            </Badge>
+          )}
+
+          <RoundedIconButton
+            size={44}
+            iconRatio={0.4}
+            name={right.icon}
+            onPress={right.onPress}
+            align={"center"}
+            {...{ color }}
+          />
+        </VStack>
       ) : (
         <View style={{ width: 44 }} />
       )}
