@@ -1,8 +1,9 @@
 {
   "expo": {
     "name": "Bank SULTRA",
-    "slug": "Bank-SULTRA",
+    "slug": "apps-technoindo-banksultra",
     "version": "1.0.0",
+    "owner": "technoindo",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -16,7 +17,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.toen.iosbanksultra"
+      "bundleIdentifier": "com.technoindo.iosbanksultra"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -25,7 +26,7 @@
       "turboModules": true
     },
     "android": {
-      "package": "com.toen.sultra",
+      "package": "com.technoindo.androidbanksultra",
       "googleServicesFile": "./google-services.json"
     },
     "plugins": [

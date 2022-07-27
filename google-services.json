@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "723470492555",
-    "project_id": "push-76877",
-    "storage_bucket": "push-76877.appspot.com"
+    "project_number": "245247663013",
+    "project_id": "sisfo-e-mitra-bank-sultra",
+    "storage_bucket": "sisfo-e-mitra-bank-sultra.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:723470492555:android:8fb68d46c73afe28b9458e",
+        "mobilesdk_app_id": "1:245247663013:android:ab82084cd914fc4383a64c",
         "android_client_info": {
-          "package_name": "com.toen.sultra"
+          "package_name": "com.technoindo.androidbanksultra"
         }
       },
       "oauth_client": [
         {
-          "client_id": "723470492555-j4mkme8vvla7s707bd044gikte5hf28t.apps.googleusercontent.com",
+          "client_id": "245247663013-etv87j9focvvi4heb64a1nnd04k9ph6m.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAme7K05sAf8A_0vV0g7z_P55WVSKUqx-0"
+          "current_key": "AIzaSyCD1m789Mx0xMSFpB3noAcHWwrGUjQIDRI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "723470492555-j4mkme8vvla7s707bd044gikte5hf28t.apps.googleusercontent.com",
+              "client_id": "245247663013-etv87j9focvvi4heb64a1nnd04k9ph6m.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
