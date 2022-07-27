@@ -25,13 +25,13 @@ const List = ({ name, no }: ListProps) => {
       <ListItem.Content>
         <ScrollView horizontal>
           <ListItem.Title style={{ alignSelf: "center" }}>
-            {"Cabang " + name}
+            {name}
           </ListItem.Title>
         </ScrollView>
       </ListItem.Content>
       <Box alignSelf={"flex-start"}>
         <TouchableOpacity>
-          <Text style={{ color: "black" }}>o o o</Text>
+          {/* <Text style={{ color: "black" }}>o o o</Text> */}
         </TouchableOpacity>
       </Box>
     </ListItem>
