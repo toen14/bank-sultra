@@ -22,7 +22,7 @@ const items: DrawerItemProps[] = [
   // },
   {
     icon: "book",
-    label: "Debitor",
+    label: "Daftar Berkas",
     screen: "Debitor",
     color: "drawer1",
   },
@@ -166,7 +166,7 @@ const Drawer = () => {
                 key={"briefcase"}
                 {...{
                   icon: "briefcase",
-                  label: "Cabang",
+                  label: "Daftar Cabang",
                   screen: "Branch",
                   color: "drawer3",
                 }}
