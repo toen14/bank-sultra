@@ -178,7 +178,7 @@ const Debitor = ({ navigation }: HomeNavigationProps<"Debitor">) => {
                 showLoading={isSearch}
                 value={search}
                 onChangeText={setSearch}
-                placeholder="Search"
+                placeholder="Cari nasabah"
                 containerStyle={{
                   justifyContent: "center",
                   alignItems: "center",
