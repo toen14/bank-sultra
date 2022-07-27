@@ -1,15 +1,23 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { HStack, Spinner, Heading, ScrollView } from "native-base";
+import {
+  HStack,
+  Spinner,
+  Heading,
+  ScrollView,
+  Box as BoxN,
+  VStack,
+  Text,
+  Icon,
+} from "native-base";
 import { RefreshControl } from "react-native";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 import { HomeNavigationProps } from "../../components/Navigation";
 import { Box, Header } from "../../components";
 import { AuthContext } from "../../Authentication/store/AuthContex";
 import { baseUrl } from "../../constants/base-url";
 import { DebitorEnum } from "../../constants/debitor-enum";
-
-import List from "./List";
 
 type TDebitor = {
   status: DebitorEnum;
@@ -104,37 +112,129 @@ const Dashboard = ({ navigation }: HomeNavigationProps<"Dashboard">) => {
               />
             }
           >
-            <List
-              title="Total Dokumen"
-              value={totalDocument}
-              boxColor="info"
-              icon="book"
-              iconColor="#808080"
-            />
+            <BoxN
+              h="32"
+              w="5/6"
+              alignSelf="center"
+              bg="coolGray.500"
+              rounded="sm"
+              mb="2.5"
+            >
+              <HStack
+                justifyContent="space-between"
+                alignItems="center"
+                flex={1}
+                px="4"
+              >
+                <Icon
+                  as={FontAwesome5}
+                  name="book"
+                  size={"6xl"}
+                  color="white"
+                />
+                <VStack alignItems="flex-end">
+                  <Text color="white" fontFamily="Rubik-Bold" fontSize="3xl">
+                    {totalDocument}
+                  </Text>
+                  <Text color="white" fontFamily="Rubik-Bold" fontSize="lg">
+                    Total Document
+                  </Text>
+                </VStack>
+              </HStack>
+            </BoxN>
 
-            <List
-              title="Done"
-              value={done}
-              boxColor="primary"
-              icon="check-square"
-              iconColor="#2CB9B0"
-            />
+            <BoxN
+              h="32"
+              w="5/6"
+              alignSelf="center"
+              bg="cyan.400"
+              rounded="sm"
+              mb="2.5"
+            >
+              <HStack
+                justifyContent="space-between"
+                alignItems="center"
+                flex={1}
+                px="4"
+              >
+                <Icon
+                  as={FontAwesome5}
+                  name="check-square"
+                  size={"6xl"}
+                  color="white"
+                />
+                <VStack alignItems="flex-end">
+                  <Text color="white" fontFamily="Rubik-Bold" fontSize="3xl">
+                    {done}
+                  </Text>
+                  <Text color="white" fontFamily="Rubik-Bold" fontSize="lg">
+                    Done
+                  </Text>
+                </VStack>
+              </HStack>
+            </BoxN>
 
-            <List
-              title="Progress"
-              value={progress}
-              boxColor="drawer2"
-              icon="hourglass-half"
-              iconColor="#FFC641"
-            />
+            <BoxN
+              h="32"
+              w="5/6"
+              alignSelf="center"
+              bg="yellow.400"
+              rounded="sm"
+              mb="2.5"
+            >
+              <HStack
+                justifyContent="space-between"
+                alignItems="center"
+                flex={1}
+                px="4"
+              >
+                <Icon
+                  as={FontAwesome5}
+                  name="hourglass-half"
+                  size={"6xl"}
+                  color="white"
+                />
+                <VStack alignItems="flex-end">
+                  <Text color="white" fontFamily="Rubik-Bold" fontSize="3xl">
+                    {progress}
+                  </Text>
+                  <Text color="white" fontFamily="Rubik-Bold" fontSize="lg">
+                    On Progress
+                  </Text>
+                </VStack>
+              </HStack>
+            </BoxN>
 
-            <List
-              title="Pending"
-              value={pending}
-              boxColor="danger"
-              icon="info-circle"
-              iconColor="#FE0058"
-            />
+            <BoxN
+              h="32"
+              w="5/6"
+              alignSelf="center"
+              bg="danger.500"
+              rounded="sm"
+              mb="2.5"
+            >
+              <HStack
+                justifyContent="space-between"
+                alignItems="center"
+                flex={1}
+                px="4"
+              >
+                <Icon
+                  as={FontAwesome5}
+                  name="info-circle"
+                  size={"6xl"}
+                  color="white"
+                />
+                <VStack alignItems="flex-end">
+                  <Text color="white" fontFamily="Rubik-Bold" fontSize="3xl">
+                    {pending}
+                  </Text>
+                  <Text color="white" fontFamily="Rubik-Bold" fontSize="lg">
+                    Pending
+                  </Text>
+                </VStack>
+              </HStack>
+            </BoxN>
           </ScrollView>
         </Box>
       )}
