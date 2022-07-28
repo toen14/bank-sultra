@@ -47,8 +47,10 @@ const NoteList = ({ date, desc, name, role }: TNoteListProps) => {
                 {role}
               </Text>
             </VStack>
-            <Text fontFamily="Rubik" mr="2" color="black">
-              {date.toLocaleDateString()}
+            <Text fontFamily="Rubik" mr="2" color="black" fontSize="xs">
+              {`${date.getDate()}/${
+                date.getMonth() + 1
+              }/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`}
             </Text>
           </HStack>
           <Box marginY="1" />
