@@ -2,6 +2,7 @@ import React from "react";
 import { Box, HStack, ScrollView, VStack, Text } from "native-base";
 
 import { DebitorEnum } from "../../constants/debitor-enum";
+import { dateToFormatIndonesia } from "../../constants/date-format";
 
 export type TCardDebitorProps = {
   id: string | number;
@@ -9,9 +10,19 @@ export type TCardDebitorProps = {
   status: DebitorEnum;
   date: Date;
   desc: string;
+  datePenyerahan: Date;
+  dateBerakhir: Date;
 };
 
-const CardDebitor = ({ date, desc, id, name, status }: TCardDebitorProps) => {
+const CardDebitor = ({
+  date,
+  desc,
+  id,
+  name,
+  status,
+  datePenyerahan,
+  dateBerakhir,
+}: TCardDebitorProps) => {
   return (
     <Box alignItems="center" px="0.5">
       <Box
@@ -30,56 +41,50 @@ const CardDebitor = ({ date, desc, id, name, status }: TCardDebitorProps) => {
             </Text>
           </ScrollView>
           <ScrollView w="1/3" nestedScrollEnabled horizontal>
-            <Text fontFamily="Rubik" marginX="1" color="white" fontSize="sm">
-              ID : {id}
-            </Text>
+            <VStack>
+              <Text fontFamily="Rubik" marginX="1" color="white" fontSize="sm">
+                <Text fontFamily="Rubik-Bold">ID</Text> {"        "} :{" "}
+                <Text fontSize="xs">{id}</Text>
+              </Text>
+              <Text fontFamily="Rubik" marginX="1" color="white" fontSize="sm">
+                <Text fontFamily="Rubik-Bold">Dibuat</Text> :{" "}
+                <Text fontSize="xs">{dateToFormatIndonesia(date)}</Text>
+              </Text>
+            </VStack>
           </ScrollView>
         </HStack>
         <VStack width="full" pl="3">
-          <HStack>
-            <Text fontFamily="Rubik" color="white" fontSize="sm">
-              Tanggal
+          <HStack alignItems="center">
+            <Text fontFamily="Rubik-Bold" color="white" fontSize="sm">
+              Penyerahan{" "}
             </Text>
-            <Text
-              fontFamily="Rubik"
-              color="white"
-              ml="3.5"
-              mr="2"
-              fontSize="sm"
-            >
-              :
+            <Text fontFamily="Rubik" color="white" mt="0" fontSize="xs">
+              : {dateToFormatIndonesia(datePenyerahan)}
             </Text>
-            <Text fontFamily="Rubik" color="white" fontSize="sm">
-              {date.toLocaleDateString()}
+          </HStack>
+          <HStack alignItems="center">
+            <Text fontFamily="Rubik-Bold" color="white" fontSize="sm">
+              Berakhir{"         "}
+            </Text>
+            <Text fontFamily="Rubik" color="white" mt="0" fontSize="xs">
+              : {dateToFormatIndonesia(dateBerakhir)}
             </Text>
           </HStack>
           <HStack>
-            <Text fontFamily="Rubik" color="white" fontSize="sm">
-              Status
+            <Text fontFamily="Rubik-Bold" color="white" fontSize="sm">
+              Status{"              "}
             </Text>
-            <Text fontFamily="Rubik" color="white" ml="6" mr="2" fontSize="sm">
-              :
-            </Text>
-            <Text fontFamily="Rubik" color="white" fontSize="sm">
-              {status}
+            <Text fontFamily="Rubik" color="white" fontSize="xs">
+              : {status}
             </Text>
           </HStack>
           <HStack>
-            <Text fontFamily="Rubik" color="white" fontSize="sm">
-              Deskripsi
-            </Text>
-            <Text
-              fontFamily="Rubik"
-              color="white"
-              ml="1.5"
-              mr="2"
-              fontSize="sm"
-            >
-              :
+            <Text fontFamily="Rubik-Bold" color="white" fontSize="sm">
+              Deskripsi {"      "}
             </Text>
             <ScrollView mr="2" h="32">
-              <Text fontFamily="Rubik" color="white">
-                {desc}
+              <Text fontFamily="Rubik" color="white" fontSize="xs">
+                {""}: {desc}
               </Text>
             </ScrollView>
           </HStack>

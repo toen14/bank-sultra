@@ -30,8 +30,11 @@ import NoteList from "./NoteList";
 type TNoteFetch = {
   id: number;
   description: string;
-  // eslint-disable-next-line camelcase
+  /* eslint-disable camelcase */
   created_at: string;
+  tanggal_penyerahan: string;
+  tanggal_berakhir: string;
+  /* eslint-enable camelcase */
   user: {
     name: string;
     role: RoleEnum;
@@ -51,6 +54,8 @@ const DebitorDetail = ({
   const [cardNomor, setCardNomor] = useState("");
   const [cardStatus, setCardStatus] = useState<DebitorEnum | undefined>();
   const [cardPenyerahan, setCardPenyerahan] = useState("");
+  const [cardBerakhir, setCardBerakhir] = useState("");
+  const [cardCreated, setCardCreated] = useState("");
   const [cardDescription, setCardDescription] = useState("");
 
   const [message, setMessage] = useState("");
@@ -118,6 +123,8 @@ const DebitorDetail = ({
         setCardNomor(data.nomor);
         setCardStatus(data.status);
         setCardPenyerahan(data.tanggal_penyerahan);
+        setCardBerakhir(data.tanggal_berakhir);
+        setCardCreated(data.created_at);
         setCardDescription(data?.notes[0]?.description ?? "");
 
         setNotes(data?.notes as TNoteFetch[]);
@@ -241,11 +248,13 @@ const DebitorDetail = ({
         {isReady && (
           <>
             <CardDebitor
-              date={new Date(cardPenyerahan.replace(/ /g, "T"))}
+              date={new Date(cardCreated.replace(/ /g, "T"))}
               desc={cardDescription}
               id={cardNomor}
               name={cardName}
               status={cardStatus!}
+              datePenyerahan={new Date(cardPenyerahan.replace(/ /g, "T"))}
+              dateBerakhir={new Date(cardBerakhir.replace(/ /g, "T"))}
             />
 
             <BoxN px="0.5">
