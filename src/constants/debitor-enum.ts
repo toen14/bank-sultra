@@ -1,5 +1,5 @@
 export enum DebitorEnum {
-  Done = "done",
-  Progress = "progress",
-  Pending = "pending",
+  Done = "Done",
+  Progress = "On Progress",
+  Pending = "Pending",
 }

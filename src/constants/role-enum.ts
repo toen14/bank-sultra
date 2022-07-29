@@ -1,6 +1,6 @@
 export enum RoleEnum {
-  AdminPusat = "admin pusat",
-  Apraisal = "apraisal",
-  Notaris = "notaris",
-  Administrator = "administrator",
+  AdminPusat = "Admin Pusat",
+  Apraisal = "Apraisal",
+  Notaris = "Notaris",
+  Administrator = "Administrator",
 }
