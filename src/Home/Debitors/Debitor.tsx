@@ -74,7 +74,7 @@ const MemoList = memo(
   (prev, next) => prev.id === next.id
 );
 
-const Debitor = ({ navigation }: HomeNavigationProps<"Debitor">) => {
+const Debitor = ({ navigation, route }: HomeNavigationProps<"Debitor">) => {
   const [showDate, setShowDate] = useState(false);
   const [date, setDate] = useState<Date | string>("Tanggal");
   const [debitors, setDebitors] = useState<Debitor[]>([]);
@@ -88,9 +88,13 @@ const Debitor = ({ navigation }: HomeNavigationProps<"Debitor">) => {
 
   const authCtx = useContext(AuthContext);
 
-  function searchDebitor() {
+  function searchDebitor(status?: string | DebitorEnum) {
     setIsSearch(true);
     let url = `${baseUrl}/users/${authCtx?.currentUser?.user.id}/debitors?search=${search}`;
+
+    if (status) {
+      url += `&status=${status}`;
+    }
 
     if (date !== "Tanggal") {
       url += `&date=${date}`;
@@ -135,6 +139,13 @@ const Debitor = ({ navigation }: HomeNavigationProps<"Debitor">) => {
     fetchData(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (route?.params?.status) {
+      searchDebitor(route.params.status);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [route?.params?.status]);
 
   const renderLoader = () => {
     return isLoading ? (
@@ -256,7 +267,7 @@ const Debitor = ({ navigation }: HomeNavigationProps<"Debitor">) => {
                     boxColor={"black"}
                   />
                 )}
-                keyExtractor={(item) => item.id.toString()}
+                keyExtractor={(item, index) => index.toString()}
                 refreshControl={
                   <RefreshControl
                     refreshing={false}
@@ -267,6 +278,7 @@ const Debitor = ({ navigation }: HomeNavigationProps<"Debitor">) => {
                       setSearch("");
                       setDate("Tanggal");
                       fetchData(1);
+                      navigation.setParams({ status: "" });
                     }}
                   />
                 }

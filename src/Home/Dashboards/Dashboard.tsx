@@ -10,7 +10,7 @@ import {
   Text,
   Icon,
 } from "native-base";
-import { RefreshControl } from "react-native";
+import { RefreshControl, TouchableOpacity } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 import { HomeNavigationProps } from "../../components/Navigation";
@@ -112,129 +112,161 @@ const Dashboard = ({ navigation }: HomeNavigationProps<"Dashboard">) => {
               />
             }
           >
-            <BoxN
-              h="32"
-              w="5/6"
-              alignSelf="center"
-              bg="coolGray.500"
-              rounded="sm"
-              mb="2.5"
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Debitor", {
+                  status: " ",
+                });
+              }}
             >
-              <HStack
-                justifyContent="space-between"
-                alignItems="center"
-                flex={1}
-                px="4"
+              <BoxN
+                h="32"
+                w="5/6"
+                alignSelf="center"
+                bg="coolGray.500"
+                rounded="sm"
+                mb="2.5"
               >
-                <Icon
-                  as={FontAwesome5}
-                  name="book"
-                  size={"6xl"}
-                  color="white"
-                />
-                <VStack alignItems="flex-end">
-                  <Text color="white" fontFamily="Rubik-Bold" fontSize="3xl">
-                    {totalDocument}
-                  </Text>
-                  <Text color="white" fontFamily="Rubik-Bold" fontSize="lg">
-                    Total Document
-                  </Text>
-                </VStack>
-              </HStack>
-            </BoxN>
+                <HStack
+                  justifyContent="space-between"
+                  alignItems="center"
+                  flex={1}
+                  px="4"
+                >
+                  <Icon
+                    as={FontAwesome5}
+                    name="book"
+                    size={"6xl"}
+                    color="white"
+                  />
+                  <VStack alignItems="flex-end">
+                    <Text color="white" fontFamily="Rubik-Bold" fontSize="3xl">
+                      {totalDocument}
+                    </Text>
+                    <Text color="white" fontFamily="Rubik-Bold" fontSize="lg">
+                      Total Document
+                    </Text>
+                  </VStack>
+                </HStack>
+              </BoxN>
+            </TouchableOpacity>
 
-            <BoxN
-              h="32"
-              w="5/6"
-              alignSelf="center"
-              bg="cyan.400"
-              rounded="sm"
-              mb="2.5"
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Debitor", {
+                  status: DebitorEnum.Done,
+                })
+              }
             >
-              <HStack
-                justifyContent="space-between"
-                alignItems="center"
-                flex={1}
-                px="4"
+              <BoxN
+                h="32"
+                w="5/6"
+                alignSelf="center"
+                bg="cyan.400"
+                rounded="sm"
+                mb="2.5"
               >
-                <Icon
-                  as={FontAwesome5}
-                  name="check-square"
-                  size={"6xl"}
-                  color="white"
-                />
-                <VStack alignItems="flex-end">
-                  <Text color="white" fontFamily="Rubik-Bold" fontSize="3xl">
-                    {done}
-                  </Text>
-                  <Text color="white" fontFamily="Rubik-Bold" fontSize="lg">
-                    Done
-                  </Text>
-                </VStack>
-              </HStack>
-            </BoxN>
+                <HStack
+                  justifyContent="space-between"
+                  alignItems="center"
+                  flex={1}
+                  px="4"
+                >
+                  <Icon
+                    as={FontAwesome5}
+                    name="check-square"
+                    size={"6xl"}
+                    color="white"
+                  />
+                  <VStack alignItems="flex-end">
+                    <Text color="white" fontFamily="Rubik-Bold" fontSize="3xl">
+                      {done}
+                    </Text>
+                    <Text color="white" fontFamily="Rubik-Bold" fontSize="lg">
+                      Done
+                    </Text>
+                  </VStack>
+                </HStack>
+              </BoxN>
+            </TouchableOpacity>
 
-            <BoxN
-              h="32"
-              w="5/6"
-              alignSelf="center"
-              bg="yellow.400"
-              rounded="sm"
-              mb="2.5"
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Debitor", {
+                  status: DebitorEnum.Progress,
+                })
+              }
             >
-              <HStack
-                justifyContent="space-between"
-                alignItems="center"
-                flex={1}
-                px="4"
+              <BoxN
+                h="32"
+                w="5/6"
+                alignSelf="center"
+                bg="yellow.400"
+                rounded="sm"
+                mb="2.5"
               >
-                <Icon
-                  as={FontAwesome5}
-                  name="hourglass-half"
-                  size={"6xl"}
-                  color="white"
-                />
-                <VStack alignItems="flex-end">
-                  <Text color="white" fontFamily="Rubik-Bold" fontSize="3xl">
-                    {progress}
-                  </Text>
-                  <Text color="white" fontFamily="Rubik-Bold" fontSize="lg">
-                    On Progress
-                  </Text>
-                </VStack>
-              </HStack>
-            </BoxN>
+                <HStack
+                  justifyContent="space-between"
+                  alignItems="center"
+                  flex={1}
+                  px="4"
+                >
+                  <Icon
+                    as={FontAwesome5}
+                    name="hourglass-half"
+                    size={"6xl"}
+                    color="white"
+                  />
+                  <VStack alignItems="flex-end">
+                    <Text color="white" fontFamily="Rubik-Bold" fontSize="3xl">
+                      {progress}
+                    </Text>
+                    <Text color="white" fontFamily="Rubik-Bold" fontSize="lg">
+                      On Progress
+                    </Text>
+                  </VStack>
+                </HStack>
+              </BoxN>
+            </TouchableOpacity>
 
-            <BoxN
-              h="32"
-              w="5/6"
-              alignSelf="center"
-              bg="danger.500"
-              rounded="sm"
-              mb="2.5"
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Debitor", {
+                  status: DebitorEnum.Pending,
+                })
+              }
             >
-              <HStack
-                justifyContent="space-between"
-                alignItems="center"
-                flex={1}
-                px="4"
+              <BoxN
+                h="32"
+                w="5/6"
+                alignSelf="center"
+                bg="danger.500"
+                rounded="sm"
+                mb="2.5"
               >
-                <Icon
-                  as={FontAwesome5}
-                  name="info-circle"
-                  size={"6xl"}
-                  color="white"
-                />
-                <VStack alignItems="flex-end">
-                  <Text color="white" fontFamily="Rubik-Bold" fontSize="3xl">
-                    {pending}
-                  </Text>
-                  <Text color="white" fontFamily="Rubik-Bold" fontSize="lg">
-                    Pending
-                  </Text>
-                </VStack>
-              </HStack>
-            </BoxN>
+                <HStack
+                  justifyContent="space-between"
+                  alignItems="center"
+                  flex={1}
+                  px="4"
+                >
+                  <Icon
+                    as={FontAwesome5}
+                    name="info-circle"
+                    size={"6xl"}
+                    color="white"
+                  />
+                  <VStack alignItems="flex-end">
+                    <Text color="white" fontFamily="Rubik-Bold" fontSize="3xl">
+                      {pending}
+                    </Text>
+                    <Text color="white" fontFamily="Rubik-Bold" fontSize="lg">
+                      Pending
+                    </Text>
+                  </VStack>
+                </HStack>
+              </BoxN>
+            </TouchableOpacity>
           </ScrollView>
         </Box>
       )}

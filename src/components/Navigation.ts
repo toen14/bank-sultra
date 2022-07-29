@@ -43,7 +43,9 @@ export type HomeRoutes = {
   Settings: undefined;
   Cart: undefined;
   Notification: undefined;
-  Debitor: undefined;
+  Debitor: {
+    status?: string;
+  };
   Branch: undefined;
   User: undefined;
   DebitorDetail: {
