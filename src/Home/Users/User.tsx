@@ -121,7 +121,7 @@ const User = ({ navigation }: HomeNavigationProps<"User">) => {
             showLoading={isSearch}
             value={search}
             onChangeText={setSearch}
-            placeholder="Cari user"
+            placeholder="Cari User"
             platform={Platform.OS === "android" ? "android" : "ios"}
             containerStyle={{ marginHorizontal: 20 }}
           />

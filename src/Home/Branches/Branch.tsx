@@ -82,7 +82,7 @@ const Branch = ({ navigation }: HomeNavigationProps<"Branch">) => {
             showLoading={isSearch}
             value={search}
             onChangeText={setSearch}
-            placeholder="Cari cabang"
+            placeholder="Cari Cabang"
             platform={Platform.OS === "android" ? "android" : "ios"}
             containerStyle={{ marginHorizontal: 20 }}
           />

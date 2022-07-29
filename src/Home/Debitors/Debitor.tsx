@@ -113,6 +113,7 @@ const Debitor = ({ navigation, route }: HomeNavigationProps<"Debitor">) => {
       .finally(() => setIsSearch(false));
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   function fetchData(p: number) {
     setIsLoading(true);
     axios
@@ -147,6 +148,7 @@ const Debitor = ({ navigation, route }: HomeNavigationProps<"Debitor">) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [route?.params?.status]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const renderLoader = () => {
     return isLoading ? (
       <HStack space={8} justifyContent="center" alignItems="center">
@@ -155,6 +157,7 @@ const Debitor = ({ navigation, route }: HomeNavigationProps<"Debitor">) => {
     ) : null;
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const loadMoreItem = () => {
     if (isCanFetch && !isSearch) {
       setPage((previousPage) => previousPage + 1);
@@ -189,7 +192,7 @@ const Debitor = ({ navigation, route }: HomeNavigationProps<"Debitor">) => {
                 showLoading={isSearch}
                 value={search}
                 onChangeText={setSearch}
-                placeholder="Cari nasabah"
+                placeholder="Cari Nasabah"
                 containerStyle={{
                   justifyContent: "center",
                   alignItems: "center",
