@@ -40,6 +40,11 @@ class UserDebitorController extends Controller
             $debitors->where('created_at', '>=', date($date));
         }
 
+        if (request()->status) {
+            $status = request()->status;
+            $debitors->where('status', $status);
+        }
+
         return $debitors->with('branch')->paginate(request()->limit ?? 0);
     }
 }
