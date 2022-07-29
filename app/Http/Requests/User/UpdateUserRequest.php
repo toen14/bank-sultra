@@ -34,7 +34,9 @@ class UpdateUserRequest extends FormRequest
             ])],
             'alamat'    => 'string',
             'email'     => 'email',
-            'cabang_id' => 'numeric'
+            'cabang_id' => 'numeric',
+            'oldPassword' => 'max:200',
+            'password' => 'max:200'
         ];
     }
 }

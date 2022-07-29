@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\User;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class UserController extends Controller
 {
@@ -76,9 +77,17 @@ class UserController extends Controller
 
         $validated = $request->validated();
 
+        if (isset($validated['oldPassword']) && Hash::check($validated['oldPassword'], $user->password) == false) {
+            throw new BadRequestException("Invalid old password", 400);            
+        }
+
         if ($user->role !== UserRole::AdminPusat->value || $user->role !== UserRole::Administrator->value) {
             unset($validated['cabang_id']);
             unset($validated['role']);
+        }
+
+        if (isset($validated['password']) && isset($validated['oldPassword'])) {
+            $validated['password'] = Hash::make($validated['password']);
         }
 
         $user->update($validated);
