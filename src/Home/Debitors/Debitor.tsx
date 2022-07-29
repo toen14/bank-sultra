@@ -248,7 +248,7 @@ const Debitor = ({ navigation, route }: HomeNavigationProps<"Debitor">) => {
           {useMemo(
             () => (
               <FlatList
-                style={{ height: "100%" }}
+                style={{ height: "100%", flex: 1 }}
                 data={_.uniqWith(
                   debitors,
                   (l: Debitor, r: Debitor) => l.id === r.id
@@ -284,8 +284,7 @@ const Debitor = ({ navigation, route }: HomeNavigationProps<"Debitor">) => {
                 }
               />
             ),
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-            [debitors]
+            [debitors, fetchData, loadMoreItem, navigation, renderLoader]
           )}
         </Box>
       </Box>

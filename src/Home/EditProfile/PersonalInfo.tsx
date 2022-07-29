@@ -1,7 +1,8 @@
+import React, { useContext, useMemo, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import axios, { AxiosError } from "axios";
-import React, { useContext, useState } from "react";
 import { TouchableOpacity } from "react-native";
+import { Button as Btn } from "native-base";
 import { ScrollView } from "react-native-gesture-handler";
 
 import { AuthContext } from "../../Authentication/store/AuthContex";
@@ -13,10 +14,16 @@ const PersonalInfo = () => {
   const authCtx = useContext(AuthContext);
 
   const [edit, setEdit] = useState(false);
+  const [canChangePass, setCanChangePass] = useState(false);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [alamat, setAlamat] = useState("");
+
+  const [errPass, setErrPass] = useState("");
+  const [oldPass, setOldPass] = useState("");
+  const [newPass, setNewPass] = useState("");
+  const [reNewPass, setReNewPass] = useState("");
 
   useFocusEffect(
     React.useCallback(() => {
@@ -36,7 +43,107 @@ const PersonalInfo = () => {
     }, [authCtx.currentUser?.user])
   );
 
-  return (
+  const changePass = useMemo(
+    () => (
+      <ScrollView>
+        <Box padding="m">
+          <Box marginBottom="m" justifyContent="space-between">
+            <Text variant="body">Ubah Password</Text>
+            {!!errPass && (
+              <Text fontSize={10} color="danger" style={{ marginBottom: -2 }}>
+                {errPass}
+              </Text>
+            )}
+          </Box>
+          <Box marginBottom="m">
+            <TextInput
+              icon="lock"
+              placeholder={"Password lama"}
+              secureTextEntry
+              value={oldPass}
+              onChangeText={setOldPass}
+            />
+          </Box>
+          <Box marginBottom="m">
+            <TextInput
+              icon="lock"
+              placeholder={"Password baru"}
+              secureTextEntry
+              value={newPass}
+              onChangeText={setNewPass}
+            />
+          </Box>
+          <Box marginBottom="m">
+            <TextInput
+              icon="lock"
+              placeholder={"Konfirmasi password baru"}
+              secureTextEntry
+              value={reNewPass}
+              onChangeText={setReNewPass}
+            />
+          </Box>
+          <Box flexDirection="row">
+            <Btn
+              variant="outline"
+              colorScheme="blue"
+              onPress={() => {
+                if (newPass !== reNewPass) {
+                  setErrPass("Pastikan password anda valid");
+                  return;
+                }
+
+                const updateProfile = async () => {
+                  axios
+                    .patch(
+                      `${baseUrl}/users/${authCtx.currentUser?.user.id}`,
+                      {
+                        oldPassword: oldPass,
+                        password: newPass,
+                      },
+                      {
+                        headers: {
+                          Authorization: `Bearer ${authCtx?.currentUser?.token}`,
+                        },
+                      }
+                    )
+                    .then(() => {
+                      setErrPass("");
+                      setOldPass("");
+                      setNewPass("");
+                      setReNewPass("");
+                      setCanChangePass(false);
+                    })
+                    .catch(() => setErrPass("Password lama tidak valid"));
+                };
+
+                updateProfile();
+              }}
+            >
+              Ubah password
+            </Btn>
+            <Btn
+              variant="outline"
+              ml="1"
+              colorScheme="red"
+              onPress={() => setCanChangePass(false)}
+            >
+              Batal
+            </Btn>
+          </Box>
+        </Box>
+      </ScrollView>
+    ),
+    [
+      authCtx.currentUser?.token,
+      authCtx.currentUser?.user.id,
+      errPass,
+      newPass,
+      oldPass,
+      reNewPass,
+    ]
+  );
+
+  return !canChangePass ? (
     <ScrollView>
       <Box padding="m">
         <Box
@@ -45,9 +152,17 @@ const PersonalInfo = () => {
           justifyContent="space-between"
         >
           <Text variant="body">Tentang Akun</Text>
-          <TouchableOpacity onPress={() => setEdit(true)}>
-            {!edit && <Text variant="body">Edit</Text>}
-          </TouchableOpacity>
+          {!edit && (
+            <Box flexDirection="row">
+              <TouchableOpacity onPress={() => setEdit(true)}>
+                <Text variant="body">Edit</Text>
+              </TouchableOpacity>
+              <Text> | </Text>
+              <TouchableOpacity onPress={() => setCanChangePass(true)}>
+                <Text variant="body">Ubah password</Text>
+              </TouchableOpacity>
+            </Box>
+          )}
         </Box>
         <Box marginBottom="m">
           <TextInput
@@ -69,14 +184,14 @@ const PersonalInfo = () => {
           />
         </Box>
         {/* <Box marginBottom="m">
-          <TextInput
-            icon="lock"
-            placeholder={authCtx.currentUser?.user.alamat as string}
-            value={"1"}
-            // editable={edit}
-            secureTextEntry
-          />
-        </Box> */}
+      <TextInput
+        icon="lock"
+        placeholder={authCtx.currentUser?.user.alamat as string}
+        value={"1"}
+        // editable={edit}
+        secureTextEntry
+      />
+    </Box> */}
         <Box marginBottom="m">
           <TextInput
             icon="pen-tool"
@@ -139,6 +254,8 @@ const PersonalInfo = () => {
         </Box>
       </Box>
     </ScrollView>
+  ) : (
+    changePass
   );
 };
 
