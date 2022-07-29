@@ -65,7 +65,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('users', [\App\Http\Controllers\API\UserController::class, 'index']);
     Route::post('users', [\App\Http\Controllers\API\UserController::class, 'store']);
     Route::get('users/{id}', [\App\Http\Controllers\API\UserController::class, 'show']);
-    Route::patch('users/{id}', [\App\Http\Controllers\API\UserController::class, 'update']);
+    Route::patch('users/{user}', [\App\Http\Controllers\API\UserController::class, 'update']);
     Route::delete('users/{id}', [\App\Http\Controllers\API\UserController::class, 'destroy']);
 
     Route::get('users/{user}/notifications', [\App\Http\Controllers\API\UserControllers\UserNotificationController::class, 'index']);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -69,11 +70,16 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUserRequest $request, $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
+        $this->authorize('show', $user);
+
         $validated = $request->validated();
 
-        $user = User::findOrFail($id);
+        if ($user->role !== UserRole::AdminPusat->value || $user->role !== UserRole::Administrator->value) {
+            unset($validated['cabang_id']);
+            unset($validated['role']);
+        }
 
         $user->update($validated);
 
