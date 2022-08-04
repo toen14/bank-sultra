@@ -127,7 +127,8 @@ const Debitor = ({ navigation, route }: HomeNavigationProps<"Debitor">) => {
       )
       .then((res) => {
         if (res.data.data.length) {
-          setDebitors([...debitors, ...res.data.data]);
+          // setDebitors([...debitors, ...res.data.data]);
+          setDebitors((oldDeb) => [...oldDeb, ...res.data.data]);
         } else {
           setIsCanFetch(false);
         }
