@@ -17,6 +17,7 @@ import {
   Spinner,
   Theme,
   Fab,
+  ScrollView,
 } from "native-base";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
@@ -76,7 +77,7 @@ const MemoList = memo(
 
 const Debitor = ({ navigation, route }: HomeNavigationProps<"Debitor">) => {
   const [showDate, setShowDate] = useState(false);
-  const [date, setDate] = useState<Date | string>("Tanggal");
+  const [date, setDate] = useState<Date | string>("Tanggal Pembuatan");
   const [debitors, setDebitors] = useState<Debitor[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isCanFetch, setIsCanFetch] = useState(true);
@@ -96,7 +97,7 @@ const Debitor = ({ navigation, route }: HomeNavigationProps<"Debitor">) => {
       url += `&status=${status}`;
     }
 
-    if (date !== "Tanggal") {
+    if (date !== "Tanggal Pembuatan") {
       url += `&date=${date}`;
     }
 
@@ -212,7 +213,7 @@ const Debitor = ({ navigation, route }: HomeNavigationProps<"Debitor">) => {
                 platform={Platform.OS === "android" ? "android" : "ios"}
               />
             </Box>
-            <Box width="32%" height={"100%"} mr="m">
+            <Box width="32%" height={"100%"} mr="m" flexDirection="row">
               <Button
                 rounded="none"
                 leftIcon={
@@ -223,13 +224,21 @@ const Debitor = ({ navigation, route }: HomeNavigationProps<"Debitor">) => {
                     size="lg"
                   />
                 }
-                width={"full"}
-                height="full"
                 style={{ backgroundColor: "white" }}
                 onPress={() => setShowDate(true)}
-              >
-                <Text style={{ color: "#707179" }}>{date}</Text>
-              </Button>
+              />
+              <ScrollView horizontal={true} flex={1}>
+                <Text
+                  style={{
+                    color: "#707179",
+                    // backgroundColor: "blue",
+                    alignSelf: "center",
+                    // width: 10,
+                  }}
+                >
+                  {date}
+                </Text>
+              </ScrollView>
             </Box>
             {showDate && (
               <DateTimePicker
@@ -280,7 +289,7 @@ const Debitor = ({ navigation, route }: HomeNavigationProps<"Debitor">) => {
                       setPage(1);
                       setIsCanFetch(true);
                       setSearch("");
-                      setDate("Tanggal");
+                      setDate("Tanggal Pembuatan");
                       fetchData(1);
                       navigation.setParams({ status: "" });
                     }}
