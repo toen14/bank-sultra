@@ -44,8 +44,11 @@ class StoreDebitorRequest extends FormRequest
                     }
                 }
             }],
-            'tanggal_penyerahan' => 'required|date',
-            'tanggal_berakhir' => 'required|date',
+            'tanggal_penyerahan' => 'date',
+            'tanggal_berakhir' => 'date',
+            'nilai_pengikatan' => 'numeric',
+            'plafond_kredit' => 'numeric',
+            'no_surat' => '',
         ];
     }
 }
