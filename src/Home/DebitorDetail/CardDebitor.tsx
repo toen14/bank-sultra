@@ -59,7 +59,10 @@ const CardDebitor = ({
               Tanggal Order{"         "}
             </Text>
             <Text fontFamily="Rubik" color="white" mt="0" fontSize="xs">
-              : {dateToFormatIndonesia(datePenyerahan)}
+              :{" "}
+              {isNaN(datePenyerahan.valueOf())
+                ? "-"
+                : dateToFormatIndonesia(datePenyerahan)}
             </Text>
           </HStack>
           <HStack alignItems="center">
@@ -67,7 +70,10 @@ const CardDebitor = ({
               Akhir Cover Note{"  "}
             </Text>
             <Text fontFamily="Rubik" color="white" mt="0" fontSize="xs">
-              : {dateToFormatIndonesia(dateBerakhir)}
+              :{" "}
+              {isNaN(dateBerakhir.valueOf())
+                ? "-"
+                : dateToFormatIndonesia(dateBerakhir)}
             </Text>
           </HStack>
           <HStack>

@@ -37,8 +37,11 @@ type ICreateDebiorSchema = {
   notaris: string;
   dataAgunan: string;
   deliveryDate: string;
-  endDate: string;
+  // endDate: string;
   no: string;
+  refNumber: string;
+  bindingValue: number;
+  plafondCredit: number;
 };
 
 const CreateDebiorSchema = Yup.object().shape<ICreateDebiorSchema>({
@@ -49,21 +52,26 @@ const CreateDebiorSchema = Yup.object().shape<ICreateDebiorSchema>({
   notaris: Yup.string().required("Wajib diisi!"),
   dataAgunan: Yup.string().required("Wajib diisi!"),
   deliveryDate: Yup.string().required("Wajib diisi!"),
-  endDate: Yup.string().required("Wajib diisi!"),
+  // endDate: Yup.string().required("Wajib diisi!"),
   no: Yup.string().required("Wajib diisi!"),
+  bindingValue: Yup.number().required("Wajib diisi!"),
+  plafondCredit: Yup.number().required("Wajib diisi!"),
+  refNumber: Yup.string().required("Wajib diisi!"),
 });
 
 const CreateDebitor = ({
   navigation,
 }: HomeNavigationProps<"CreateDebitor">) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [branches, setBranches] = useState<any[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [notaries, setNotaries] = useState<any[]>([]);
   const [isInitial, setIsInitial] = useState(true);
 
   const [showDeliveryDate, setShowDeliveryDate] = useState(false);
-  const [showEndDate, setShowEndDate] = useState(false);
+  // const [showEndDate, setShowEndDate] = useState(false);
   const deliveryDate = useMemo(() => "Tanggal Penyerahan", []);
-  const endDate = useMemo(() => "Tanggal Berakhir", []);
+  // const endDate = useMemo(() => "Tanggal Berakhir", []);
 
   const authCtx = useContext(AuthContext);
 
@@ -84,8 +92,11 @@ const CreateDebitor = ({
       notaris: "",
       dataAgunan: "",
       deliveryDate: "",
-      endDate: "",
+      // endDate: "",
       no: "",
+      bindingValue: 0,
+      plafondCredit: 0,
+      refNumber: "",
     },
     onSubmit: () => {
       axios
@@ -101,7 +112,10 @@ const CreateDebitor = ({
             alamat: values.address,
             notaris_id: [values.notaris],
             tanggal_penyerahan: values.deliveryDate,
-            tanggal_berakhir: values.endDate,
+            // tanggal_berakhir: values.endDate,
+            nilai_pengikatan: values.bindingValue,
+            plafond_kredit: values.plafondCredit,
+            no_surat: values.refNumber,
             /* eslint-enable camelcase */
           },
           {
@@ -246,7 +260,7 @@ const CreateDebitor = ({
                       as={<MaterialIcons name="home" />}
                     />
                   }
-                  placeholder="Alamat Debitur"
+                  placeholder="Alamat Jaminan"
                 />
                 <FormControl.ErrorMessage
                   leftIcon={<WarningOutlineIcon size="2xs" />}
@@ -290,8 +304,111 @@ const CreateDebitor = ({
                 </FormControl.ErrorMessage>
               </FormControl>
             ),
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-            [errors.managementType, values.managementType]
+            [errors.managementType, handleChange, values.managementType]
+          )}
+
+          {useMemo(
+            () => (
+              <FormControl isInvalid={!!errors.bindingValue}>
+                <Input
+                  value={`${values.bindingValue}`}
+                  onChangeText={handleChange("bindingValue")}
+                  keyboardType="numeric"
+                  alignSelf="center"
+                  mt="2"
+                  shadow="2"
+                  bg="white"
+                  _focus={{
+                    bg: "white",
+                    borderColor: "gray.300",
+                  }}
+                  InputLeftElement={
+                    <Icon
+                      ml="1"
+                      size={"xl"}
+                      color="fuchsia.700"
+                      as={<MaterialIcons name="home" />}
+                    />
+                  }
+                  placeholder="Nilai Pengikatan"
+                />
+                <FormControl.ErrorMessage
+                  leftIcon={<WarningOutlineIcon size="2xs" />}
+                >
+                  {errors.bindingValue}
+                </FormControl.ErrorMessage>
+              </FormControl>
+            ),
+            [errors.bindingValue, handleChange, values.bindingValue]
+          )}
+
+          {useMemo(
+            () => (
+              <FormControl isInvalid={!!errors.plafondCredit}>
+                <Input
+                  value={`${values.plafondCredit}`}
+                  onChangeText={handleChange("plafondCredit")}
+                  keyboardType="numeric"
+                  alignSelf="center"
+                  mt="2"
+                  shadow="2"
+                  bg="white"
+                  _focus={{
+                    bg: "white",
+                    borderColor: "gray.300",
+                  }}
+                  InputLeftElement={
+                    <Icon
+                      ml="1"
+                      size={"xl"}
+                      color="fuchsia.700"
+                      as={<MaterialIcons name="home" />}
+                    />
+                  }
+                  placeholder="Plafond Kredit"
+                />
+                <FormControl.ErrorMessage
+                  leftIcon={<WarningOutlineIcon size="2xs" />}
+                >
+                  {errors.plafondCredit}
+                </FormControl.ErrorMessage>
+              </FormControl>
+            ),
+            [errors.plafondCredit, handleChange, values.plafondCredit]
+          )}
+
+          {useMemo(
+            () => (
+              <FormControl isInvalid={!!errors.refNumber}>
+                <Input
+                  value={`${values.refNumber}`}
+                  onChangeText={handleChange("refNumber")}
+                  alignSelf="center"
+                  mt="2"
+                  shadow="2"
+                  bg="white"
+                  _focus={{
+                    bg: "white",
+                    borderColor: "gray.300",
+                  }}
+                  InputLeftElement={
+                    <Icon
+                      ml="1"
+                      size={"xl"}
+                      color="fuchsia.700"
+                      as={<MaterialIcons name="home" />}
+                    />
+                  }
+                  placeholder="No Surat"
+                />
+                <FormControl.ErrorMessage
+                  leftIcon={<WarningOutlineIcon size="2xs" />}
+                >
+                  {errors.refNumber}
+                </FormControl.ErrorMessage>
+              </FormControl>
+            ),
+            [errors.refNumber, handleChange, values.refNumber]
           )}
 
           {useMemo(
@@ -546,7 +663,7 @@ const CreateDebitor = ({
             [deliveryDate, errors.deliveryDate, values.deliveryDate]
           )}
 
-          {useMemo(
+          {/* {useMemo(
             () => (
               <FormControl isInvalid={!!errors.endDate}>
                 <Pressable onPress={() => setShowEndDate(true)}>
@@ -580,7 +697,7 @@ const CreateDebitor = ({
               </FormControl>
             ),
             [endDate, errors.endDate, values.endDate]
-          )}
+          )} */}
         </ScrollView>
         <HStack w="full" justifyContent={"space-evenly"}>
           <Button
@@ -637,7 +754,7 @@ const CreateDebitor = ({
         [setFieldValue, showDeliveryDate, values.deliveryDate]
       )}
 
-      {useMemo(
+      {/* {useMemo(
         () =>
           showEndDate && (
             <DateTimePicker
@@ -660,7 +777,7 @@ const CreateDebitor = ({
             />
           ),
         [setFieldValue, showEndDate, values.endDate]
-      )}
+      )} */}
     </NativeBaseProvider>
   );
 };

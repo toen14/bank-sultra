@@ -34,8 +34,8 @@ type IEditDebiorSchema = {
   deliveryDate: string;
   endDate: string;
   no: string;
-  bindingValue: number;
-  plafondCredit: number;
+  bindingValue: string;
+  plafondCredit: string;
   status: DebitorEnum;
   branchId: number;
   notarisId: string;
@@ -67,8 +67,8 @@ const DebitorDetailAndEdit = ({
         deliveryDate: "",
         endDate: "",
         no: "",
-        bindingValue: 0,
-        plafondCredit: 0,
+        bindingValue: "0",
+        plafondCredit: "0",
         status: DebitorEnum.Progress,
         branchId: 0,
         notarisId: "0",
