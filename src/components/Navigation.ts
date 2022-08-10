@@ -54,4 +54,7 @@ export type HomeRoutes = {
     status: StatusNotifEnum;
   };
   CreateDebitor: undefined;
+  DebitorDetailAndEdit: {
+    debitorId: number;
+  };
 };

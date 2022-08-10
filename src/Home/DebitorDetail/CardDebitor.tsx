@@ -56,7 +56,7 @@ const CardDebitor = ({
         <VStack width="full" pl="3">
           <HStack alignItems="center">
             <Text fontFamily="Rubik-Bold" color="white" fontSize="sm">
-              Penyerahan{" "}
+              Tanggal Order{"         "}
             </Text>
             <Text fontFamily="Rubik" color="white" mt="0" fontSize="xs">
               : {dateToFormatIndonesia(datePenyerahan)}
@@ -64,7 +64,7 @@ const CardDebitor = ({
           </HStack>
           <HStack alignItems="center">
             <Text fontFamily="Rubik-Bold" color="white" fontSize="sm">
-              Berakhir{"         "}
+              Akhir Cover Note{"  "}
             </Text>
             <Text fontFamily="Rubik" color="white" mt="0" fontSize="xs">
               : {dateToFormatIndonesia(dateBerakhir)}
@@ -72,7 +72,7 @@ const CardDebitor = ({
           </HStack>
           <HStack>
             <Text fontFamily="Rubik-Bold" color="white" fontSize="sm">
-              Status{"              "}
+              Status{"                           "}
             </Text>
             <Text fontFamily="Rubik" color="white" fontSize="xs">
               : {status}
@@ -80,7 +80,7 @@ const CardDebitor = ({
           </HStack>
           <HStack>
             <Text fontFamily="Rubik-Bold" color="white" fontSize="sm">
-              Deskripsi {"      "}
+              Deskripsi {"                   "}
             </Text>
             <ScrollView mr="2" h="32">
               <Text fontFamily="Rubik" color="white" fontSize="xs">

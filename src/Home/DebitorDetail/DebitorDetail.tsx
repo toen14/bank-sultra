@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from "react";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { RefreshControl, TouchableOpacity } from "react-native";
 import {
   Icon,
@@ -10,7 +10,9 @@ import {
   Input,
   FlatList,
   Heading,
-  Fab,
+  Stagger,
+  IconButton,
+  useDisclose,
 } from "native-base";
 import axios, { AxiosError } from "axios";
 import { useFocusEffect } from "@react-navigation/native";
@@ -61,6 +63,8 @@ const DebitorDetail = ({
   const [message, setMessage] = useState("");
 
   const [notes, setNotes] = useState<TNoteFetch[]>();
+
+  const { isOpen, onToggle } = useDisclose();
 
   const authCtx = useContext(AuthContext);
   const badgeCtx = useContext(BadgeContext);
@@ -256,7 +260,6 @@ const DebitorDetail = ({
               datePenyerahan={new Date(cardPenyerahan.replace(/ /g, "T"))}
               dateBerakhir={new Date(cardBerakhir.replace(/ /g, "T"))}
             />
-
             <BoxN px="0.5">
               <Input
                 mx="1"
@@ -310,7 +313,6 @@ const DebitorDetail = ({
                 mt="2"
               />
             </BoxN>
-
             <FlatList
               px="1"
               data={notes}
@@ -335,38 +337,126 @@ const DebitorDetail = ({
             />
 
             {authCtx.currentUser?.user.role !== RoleEnum.Notaris && (
-              <Fab
-                renderInPortal={false}
-                onPress={() => {
-                  const arStatus = Object.values(DebitorEnum).filter(
-                    (v) => v !== cardStatus
-                  );
+              <Box
+                position={"absolute"}
+                bottom={15}
+                right={15}
+                alignSelf={"flex-end"}
+              >
+                <Box alignItems="center">
+                  <Stagger
+                    visible={isOpen}
+                    initial={{
+                      opacity: 0,
+                      scale: 0,
+                      translateY: 34,
+                    }}
+                    animate={{
+                      translateY: 0,
+                      scale: 1,
+                      opacity: 1,
+                      transition: {
+                        type: "spring",
+                        mass: 0.8,
+                        stagger: {
+                          offset: 30,
+                          reverse: true,
+                        },
+                      },
+                    }}
+                    exit={{
+                      translateY: 34,
+                      scale: 0.5,
+                      opacity: 0,
+                      transition: {
+                        duration: 100,
+                        stagger: {
+                          offset: 30,
+                          reverse: true,
+                        },
+                      },
+                    }}
+                  >
+                    <IconButton
+                      onPress={() => {
+                        navigation.navigate("DebitorDetailAndEdit", {
+                          debitorId: route.params.debitorId,
+                        });
+                      }}
+                      mb="4"
+                      variant="solid"
+                      colorScheme="info"
+                      borderRadius="full"
+                      icon={
+                        <Icon
+                          as={MaterialIcons}
+                          size="6"
+                          name="person"
+                          _dark={{
+                            color: "warmGray.50",
+                          }}
+                          color="warmGray.50"
+                        />
+                      }
+                    />
+                    <IconButton
+                      mb="4"
+                      onPress={() => {
+                        const arStatus = Object.values(DebitorEnum).filter(
+                          (v) => v !== cardStatus
+                        );
 
-                  const status =
-                    Math.random() > 0.5 ? arStatus[0] : arStatus[1];
+                        const status =
+                          Math.random() > 0.5 ? arStatus[0] : arStatus[1];
 
-                  updateStatus(status);
-                  setCardStatus(status);
-                }}
-                colorScheme={
-                  // eslint-disable-next-line no-nested-ternary
-                  cardStatus === DebitorEnum.Done
-                    ? "green"
-                    : cardStatus === DebitorEnum.Progress
-                    ? "yellow"
-                    : "danger"
-                }
-                shadow={2}
-                size="sm"
-                icon={
-                  <Icon
-                    color="white"
-                    as={MaterialIcons}
-                    name="swipe"
-                    size="sm"
+                        updateStatus(status);
+                        setCardStatus(status);
+                      }}
+                      variant="solid"
+                      colorScheme={
+                        // eslint-disable-next-line no-nested-ternary
+                        cardStatus === DebitorEnum.Done
+                          ? "green"
+                          : cardStatus === DebitorEnum.Progress
+                          ? "yellow"
+                          : "danger"
+                      }
+                      borderRadius="full"
+                      icon={
+                        <Icon
+                          as={MaterialCommunityIcons}
+                          _dark={{
+                            color: "warmGray.50",
+                          }}
+                          size="6"
+                          name="gesture-swipe-horizontal"
+                          color="warmGray.50"
+                        />
+                      }
+                    />
+                  </Stagger>
+                </Box>
+                <HStack alignItems="center">
+                  <IconButton
+                    variant="solid"
+                    borderRadius="full"
+                    size="lg"
+                    onPress={onToggle}
+                    bg="cyan.400"
+                    icon={
+                      <Icon
+                        as={MaterialCommunityIcons}
+                        size="6"
+                        name="dots-horizontal"
+                        color="warmGray.50"
+                        _dark={{
+                          color: "warmGray.50",
+                        }}
+                      />
+                    }
                   />
-                }
-              />
+                </HStack>
+              </Box>
             )}
           </>
         )}
