@@ -155,7 +155,9 @@ const DebitorDetailAndEdit = ({
           resetForm();
 
           if (authCtx.currentUser?.user?.role === RoleEnum.Apraisal) {
-            setBranches(data.cabang);
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            setBranches([data.branch]);
           }
 
           setFieldValue("notarisId", data.users[0]?.id);
@@ -451,7 +453,7 @@ const DebitorDetailAndEdit = ({
                   mt="1"
                   onValueChange={(val) => fetchNotaries(val)}
                 >
-                  {branches.map((v) => (
+                  {branches?.map((v) => (
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore
                     <Select.Item key={v} label={v.name} value={v.id} />
