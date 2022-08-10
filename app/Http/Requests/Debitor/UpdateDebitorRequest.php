@@ -37,7 +37,7 @@ class UpdateDebitorRequest extends FormRequest
             'status' => [new Enum(DebitorStatus::class)],
             'alamat' => 'string',
             'notaris_id' => ['array',  function ($attribute, $notarisIds, $fail) {
-                $listNotaris = array_map(function($notaris) {
+                $listNotaris = array_map(function ($notaris) {
                     return $notaris['id'];
                 }, User::where('role', '=', UserRole::Notaris->value)->get()->toArray());
 
@@ -49,6 +49,9 @@ class UpdateDebitorRequest extends FormRequest
             }],
             'tanggal_penyerahan' => 'date',
             'tanggal_berakhir' => 'date',
+            'nilai_pengikatan' => '',
+            'plafond_kredit' => '',
+            'no_surat' => '',
         ];
     }
 }

@@ -95,6 +95,8 @@ class DebitorController extends Controller
                 $query->orderBy('id', 'desc');
             },
             'notes.user',
+            'branch',
+            'users',
         ])->findOrFail($id);
 
         return response()->json(
@@ -125,7 +127,7 @@ class DebitorController extends Controller
             );
 
             // update relations
-            $debitor->users()->sync($validated['notaris_id'] + $currentUserDebitor);
+            $debitor->users()->sync($validated['notaris_id']);
         }
 
         $debitor->save();

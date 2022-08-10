@@ -60,7 +60,10 @@ class Debitor extends Model
         'status',
         'alamat',
         'tanggal_penyerahan',
-        'tanggal_berakhir'
+        'tanggal_berakhir',
+        'nilai_pengikatan',
+        'plafond_kredit',
+        'no_surat',
     ];
 
     /**
