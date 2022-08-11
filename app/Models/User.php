@@ -98,4 +98,12 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Branch::class, 'cabang_id');
     }
+
+    /**
+     * Get the notaris record associated with the user.
+     */
+    public function notaris()
+    {
+        return $this->hasOne(Notaris::class, 'user_id');
+    }
 }

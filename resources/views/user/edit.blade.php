@@ -75,17 +75,23 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="role">Role</label>
-                                    <select class="form-control" id="role" name="role" required>
+                                    <select class="form-control" id="role" name="role" required
+                                        onchange="getRole(this)">
                                         <option value="" disabled> Pilih role </option>
                                         @foreach ($roles as $role)
                                             @if ($role['value'] === $user->role)
-                                                <option value=" {{ $role['value'] }} " selected> {{ $role['name'] }}
+                                                <option value="{{ $role['value'] }}" selected> {{ $role['name'] }}
                                                 </option>
                                             @else
-                                                <option value=" {{ $role['value'] }} "> {{ $role['name'] }} </option>
+                                                <option value="{{ $role['value'] }}"> {{ $role['name'] }} </option>
                                             @endif
                                         @endforeach
                                     </select>
+                                </div>
+                                <div class="form-group" style="display: none" id="c_tanggal_berakhir">
+                                    <label for="tanggal_berakhir">Tanggal Notaris Berakhir</label>
+                                    <input required type="date" name="tanggal_berakhir" class="form-control"
+                                        id="tanggal_berakhir" placeholder="Tanggal notaris berakhir">
                                 </div>
                                 <div class="form-group">
                                     <label for="alamat">Alamat</label>
@@ -114,12 +120,32 @@
         </div>
     </div>
     @include('layouts.footer')
-    <script>
+    <script defer>
         $("#users-datatables").DataTable({
             pageLength: 5,
         });
 
         const dataMasterContainer = document.getElementById('data-master').parentElement;
-        dataMasterContainer.classList.add('active')
+        dataMasterContainer.classList.add('active');
+
+        const cTanggalBerakhir = document.getElementById("c_tanggal_berakhir");
+        const tanggalBerakhir = document.getElementById("tanggal_berakhir");
+        const role = document.getElementById('role');
+        const notaris = {{ Js::from($user->notaris) }};
+
+        if (role.value === "Notaris") {
+            cTanggalBerakhir.style.display = "";
+
+            tanggalBerakhir.valueAsDate = new Date(notaris.tanggal_berakhir);
+        }
+
+        function getRole(ctx) {
+            if (ctx.value !== "Notaris") {
+                cTanggalBerakhir.style.display = "none";
+                return;
+            }
+
+            cTanggalBerakhir.style.display = "";
+        }
     </script>
 @endsection

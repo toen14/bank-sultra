@@ -100,7 +100,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::with('notaris')->findOrFail($id);
         $branches = Branch::all();
         $roles = [
             [
@@ -127,14 +127,25 @@ class UserController extends Controller
     {
         $validated = $request->validated();
 
+
         $user = User::findOrFail($id);
+
+        if (!isset($validated['password'])) {
+            unset($validated['password']);
+        }
 
         if (isset($validated['password'])) {
             $validated['password'] = Hash::make($validated['password']);
         }
 
-        $user->fill($validated);
-        $user->save();
+        DB::transaction(function () use ($validated, $user) {
+            $user->fill($validated);
+            $user->save();
+
+            if ($user->role === UserRole::Notaris->value) {
+                Notaris::updateOrCreate(['user_id' => $user->id], $validated);
+            }
+        });
 
         return response()->redirectTo(route('users.edit', $id));
     }

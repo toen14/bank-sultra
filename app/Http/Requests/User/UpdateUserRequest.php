@@ -27,16 +27,17 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'      => 'string',
-            'role'      => [Rule::in([
+            'name'              => 'string',
+            'role'              => [Rule::in([
                 UserRole::Apraisal->value,
                 UserRole::Notaris->value
             ])],
-            'alamat'    => 'string',
-            'email'     => 'email',
-            'cabang_id' => 'numeric',
-            'oldPassword' => 'max:200',
-            'password' => 'max:200'
+            'alamat'            => 'string',
+            'email'             => 'email',
+            'cabang_id'         => 'numeric',
+            'oldPassword'       => 'max:200',
+            'password'          => 'max:200',
+            'tanggal_berakhir'  => 'date',
         ];
     }
 }
