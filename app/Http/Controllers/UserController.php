@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Enums\UserRole;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\User;
 use App\Models\Branch;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Models\Notaris;
 use App\Models\Note;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends Controller
 {
@@ -56,10 +59,21 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
+
         $validated = $request->validated();
         $validated['password'] = Hash::make($validated['password']);
 
-        User::create($validated);
+
+        DB::transaction(function () use ($validated) {
+            $user = User::create($validated);
+
+            if ($validated['role'] === UserRole::Notaris->value) {
+                Notaris::create([
+                    'user_id'           => $user->id,
+                    'tanggal_berakhir'  => $validated['tanggal_berakhir'],
+                ]);
+            }
+        });
 
         return response()->redirectTo(route('users.index'));
     }

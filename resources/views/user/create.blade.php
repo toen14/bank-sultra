@@ -69,12 +69,18 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="role">Role</label>
-                                    <select class="form-control" id="role" name="role" required>
+                                    <select class="form-control" id="role" name="role" required
+                                        onchange="getRole(this)">
                                         <option value="" disabled selected> Pilih role </option>
                                         @foreach ($roles as $role)
-                                            <option value=" {{ $role['value'] }} "> {{ $role['name'] }} </option>
+                                            <option value="{{ $role['value'] }}"> {{ $role['name'] }} </option>
                                         @endforeach
                                     </select>
+                                </div>
+                                <div class="form-group" style="display: none" id="c_tanggal_berakhir">
+                                    <label for="tanggal_berakhir">Tanggal Notaris Berakhir</label>
+                                    <input required type="date" name="tanggal_berakhir" class="form-control" id="tanggal_berakhir"
+                                        placeholder="Tanggal notaris berakhir">
                                 </div>
                                 <div class="form-group">
                                     <label for="alamat">Alamat</label>
@@ -109,6 +115,22 @@
         });
 
         const dataMasterContainer = document.getElementById('data-master').parentElement;
-        dataMasterContainer.classList.add('active')
+        dataMasterContainer.classList.add('active');
+
+        const cTanggalBerakhir = document.getElementById("c_tanggal_berakhir");
+        const role = document.getElementById('role');
+
+        if (role.value === "Notaris") {
+            cTanggalBerakhir.style.display = "";
+        }
+
+        function getRole(ctx) {
+            if (ctx.value !== "Notaris") {
+                cTanggalBerakhir.style.display = "none";
+                return;
+            }
+
+            cTanggalBerakhir.style.display = "";
+        }
     </script>
 @endsection

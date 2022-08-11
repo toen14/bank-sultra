@@ -35,7 +35,8 @@ class StoreUserRequest extends FormRequest
             'alamat'    => 'required|string',
             'email'     => 'required|email',
             'password'  => 'required|string',
-            'cabang_id' => 'required|numeric'
+            'cabang_id' => 'required|numeric',
+            'tanggal_berakhir' => 'required_if:role,' .  UserRole::Notaris->value . '|date',
         ];
     }
 }
