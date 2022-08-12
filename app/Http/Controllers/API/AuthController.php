@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Enums\UserRole;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Notaris;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -28,6 +30,17 @@ class AuthController extends Controller
                 ['message' => 'Email atau password salah!'],
                 Response::HTTP_BAD_REQUEST
             );
+        }
+
+        if ($user->role === UserRole::Notaris->value) {
+            $notaris = Notaris::where('user_id', $user->id)->whereDate('tanggal_berakhir', '>', now())->first();
+            
+            if (!$notaris) {
+                return response()->json(
+                    ['message' => 'Masa berlaku notaris sudah berakhir!'],
+                    Response::HTTP_BAD_REQUEST
+                );
+            }
         }
 
         return response()->json(
