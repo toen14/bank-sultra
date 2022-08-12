@@ -4,8 +4,10 @@ namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 
 use App\Enums\UserRole;
+use App\Enums\UserStatus;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -38,6 +40,10 @@ class UpdateUserRequest extends FormRequest
             'oldPassword'       => 'max:200',
             'password'          => 'max:200',
             'tanggal_berakhir'  => 'date',
+            'status'            => [Rule::in([
+                UserStatus::Aktif->value,
+                UserStatus::NonAktif->value
+            ])],
         ];
     }
 }

@@ -68,6 +68,14 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <select class="form-control" id="status" name="status">
+                                        <option value="" disabled selected> Pilih status </option>
+                                        <option value="Aktif"> Aktif </option>
+                                        <option value="Non Aktif"> Non Aktif </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <label for="role">Role</label>
                                     <select class="form-control" id="role" name="role" required
                                         onchange="getRole(this)">
@@ -79,8 +87,8 @@
                                 </div>
                                 <div class="form-group" style="display: none" id="c_tanggal_berakhir">
                                     <label for="tanggal_berakhir">Tanggal Notaris Berakhir</label>
-                                    <input required type="date" name="tanggal_berakhir" class="form-control" id="tanggal_berakhir"
-                                        placeholder="Tanggal notaris berakhir">
+                                    <input required type="date" name="tanggal_berakhir" class="form-control"
+                                        id="tanggal_berakhir" placeholder="Tanggal notaris berakhir">
                                 </div>
                                 <div class="form-group">
                                     <label for="alamat">Alamat</label>
@@ -118,19 +126,25 @@
         dataMasterContainer.classList.add('active');
 
         const cTanggalBerakhir = document.getElementById("c_tanggal_berakhir");
+        const tanggalBerakhir = document.getElementById('tanggal_berakhir');
         const role = document.getElementById('role');
+
+        tanggalBerakhir.valueAsDate = new Date();
 
         if (role.value === "Notaris") {
             cTanggalBerakhir.style.display = "";
+            tanggalBerakhir.required = true;
         }
 
         function getRole(ctx) {
             if (ctx.value !== "Notaris") {
                 cTanggalBerakhir.style.display = "none";
+                tanggalBerakhir.required = false;
                 return;
             }
 
             cTanggalBerakhir.style.display = "";
+            tanggalBerakhir.required = true;
         }
     </script>
 @endsection

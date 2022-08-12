@@ -62,6 +62,7 @@ class User extends Authenticatable
         'email',
         'password',
         'cabang_id',
+        'status'
     ];
 
     /**

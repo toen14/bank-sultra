@@ -127,7 +127,6 @@ class UserController extends Controller
     {
         $validated = $request->validated();
 
-
         $user = User::findOrFail($id);
 
         if (!isset($validated['password'])) {

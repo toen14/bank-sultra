@@ -4,8 +4,10 @@ namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 
 use App\Enums\UserRole;
+use App\Enums\UserStatus;
 
 class StoreUserRequest extends FormRequest
 {
@@ -37,6 +39,7 @@ class StoreUserRequest extends FormRequest
             'password'  => 'required|string',
             'cabang_id' => 'required|numeric',
             'tanggal_berakhir' => 'required_if:role,' .  UserRole::Notaris->value . '|date',
+            'status'    => [new Enum(UserStatus::class)]
         ];
     }
 }

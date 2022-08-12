@@ -74,6 +74,14 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <select class="form-control" id="status" name="status">
+                                        <option value="" disabled > Pilih status </option>
+                                        <option value="Aktif" {{$user->status === "Aktif" ? 'selected' : ''}}> Aktif </option>
+                                        <option value="Non Aktif" {{$user->status === "Non Aktif" ? 'selected' : ''}}> Non Aktif </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <label for="role">Role</label>
                                     <select class="form-control" id="role" name="role" required
                                         onchange="getRole(this)">
@@ -129,23 +137,28 @@
         dataMasterContainer.classList.add('active');
 
         const cTanggalBerakhir = document.getElementById("c_tanggal_berakhir");
-        const tanggalBerakhir = document.getElementById("tanggal_berakhir");
+        const tanggalBerakhir = document.getElementById('tanggal_berakhir');
         const role = document.getElementById('role');
-        const notaris = {{ Js::from($user->notaris) }};
 
-        if (role.value === "Notaris") {
+        const user = {{Js::from($user)}}
+
+        tanggalBerakhir.valueAsDate = new Date();
+
+        if (user.role === "Notaris") {
             cTanggalBerakhir.style.display = "";
-
-            tanggalBerakhir.valueAsDate = new Date(notaris.tanggal_berakhir);
+            tanggalBerakhir.required = true;
+            tanggalBerakhir.valueAsDate = new Date(user.notaris.tanggal_berakhir);
         }
 
         function getRole(ctx) {
             if (ctx.value !== "Notaris") {
                 cTanggalBerakhir.style.display = "none";
+                tanggalBerakhir.required = false;
                 return;
             }
 
             cTanggalBerakhir.style.display = "";
+            tanggalBerakhir.required = true;
         }
     </script>
 @endsection

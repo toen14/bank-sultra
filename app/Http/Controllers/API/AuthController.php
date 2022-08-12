@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Enums\UserRole;
+use App\Enums\UserStatus;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
@@ -32,9 +33,20 @@ class AuthController extends Controller
             );
         }
 
+        if (
+            $user->status === UserStatus::NonAktif->value && 
+            $user->role === UserRole::Notaris->value || 
+            $user->role === UserRole::Apraisal->value
+            ) {
+                return response()->json(
+                    ['message' => 'Akun anda sudah non aktif!'],
+                    Response::HTTP_BAD_REQUEST
+                );
+        }
+
         if ($user->role === UserRole::Notaris->value) {
             $notaris = Notaris::where('user_id', $user->id)->whereDate('tanggal_berakhir', '>', now())->first();
-            
+
             if (!$notaris) {
                 return response()->json(
                     ['message' => 'Masa berlaku notaris sudah berakhir!'],
