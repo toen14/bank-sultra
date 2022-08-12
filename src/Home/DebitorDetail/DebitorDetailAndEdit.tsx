@@ -18,6 +18,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { useFormik } from "formik";
 import axios, { AxiosError } from "axios";
 import { useFocusEffect } from "@react-navigation/native";
+import * as Yup from "yup";
 
 import { HomeNavigationProps } from "../../components/Navigation";
 import { Box, Header } from "../../components";
@@ -27,20 +28,24 @@ import { AuthContext } from "../../Authentication/store/AuthContex";
 import { RoleEnum } from "../../constants/role-enum";
 
 type IEditDebiorSchema = {
-  name: string;
-  address: string;
-  managementType: string;
-  dataAgunan: string;
-  deliveryDate: string;
-  endDate: string;
-  no: string;
-  bindingValue: string;
-  plafondCredit: string;
-  status: DebitorEnum;
-  branchId: number;
-  notarisId: string;
-  refNumber: string;
+  name?: string;
+  address?: string;
+  managementType?: string;
+  dataAgunan?: string;
+  deliveryDate?: string;
+  endDate?: string;
+  no?: string;
+  bindingValue?: string;
+  plafondCredit?: string;
+  status?: DebitorEnum;
+  branchId?: number;
+  notarisId?: string;
+  refNumber?: string;
 };
+
+const CreateDebiorSchema = Yup.object().shape<IEditDebiorSchema>({
+  notarisId: Yup.string().required("Wajib diisi!"),
+});
 
 const DebitorDetailAndEdit = ({
   navigation,
@@ -56,61 +61,67 @@ const DebitorDetailAndEdit = ({
 
   const authCtx = useContext(AuthContext);
 
-  const { handleChange, handleSubmit, resetForm, values, setFieldValue } =
-    useFormik<IEditDebiorSchema>({
-      // validationSchema: CreateDebiorSchema,
-      initialValues: {
-        name: "",
-        address: "",
-        managementType: "",
-        dataAgunan: "",
-        deliveryDate: "",
-        endDate: "",
-        no: "",
-        bindingValue: "0",
-        plafondCredit: "0",
-        status: DebitorEnum.Progress,
-        branchId: 0,
-        notarisId: "0",
-        refNumber: "",
-      },
-      onSubmit: () => {
-        axios
-          .patch(
-            `${baseUrl}/debitors/${route.params.debitorId}`,
-            {
-              /* eslint-disable camelcase */
-              name: values.name,
-              jenis_pengurusan: values.managementType,
-              data_agunan: values.dataAgunan,
-              cabang_id: values.branchId,
-              nomor: values.no,
-              alamat: values.address,
-              notaris_id: [values.notarisId],
-              tanggal_penyerahan: values.deliveryDate,
-              tanggal_berakhir: values.endDate,
-              nilai_pengikatan: values.bindingValue,
-              plafond_kredit: values.plafondCredit,
-              no_surat: values.refNumber,
-              /* eslint-enable camelcase */
+  const {
+    handleChange,
+    handleSubmit,
+    resetForm,
+    values,
+    setFieldValue,
+    errors,
+  } = useFormik<IEditDebiorSchema>({
+    validationSchema: CreateDebiorSchema,
+    initialValues: {
+      name: "",
+      address: "",
+      managementType: "",
+      dataAgunan: "",
+      deliveryDate: "",
+      endDate: "",
+      no: "",
+      bindingValue: "0",
+      plafondCredit: "0",
+      status: DebitorEnum.Progress,
+      branchId: 0,
+      notarisId: "",
+      refNumber: "",
+    },
+    onSubmit: () => {
+      axios
+        .patch(
+          `${baseUrl}/debitors/${route.params.debitorId}`,
+          {
+            /* eslint-disable camelcase */
+            name: values.name,
+            jenis_pengurusan: values.managementType,
+            data_agunan: values.dataAgunan,
+            cabang_id: values.branchId,
+            nomor: values.no,
+            alamat: values.address,
+            notaris_id: [values.notarisId],
+            tanggal_penyerahan: values.deliveryDate,
+            tanggal_berakhir: values.endDate,
+            nilai_pengikatan: values.bindingValue,
+            plafond_kredit: values.plafondCredit,
+            no_surat: values.refNumber,
+            /* eslint-enable camelcase */
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${authCtx.currentUser?.token}`,
             },
-            {
-              headers: {
-                Authorization: `Bearer ${authCtx.currentUser?.token}`,
-              },
-            }
-          )
-          .then(() => {
-            // resetForm();
-            // setBranches([]);
-            // setNotaries([]);
-            // // setIsInitial(true);
-            // setIsLoading(true);
-            navigation.goBack();
-          })
-          .catch((e: AxiosError) => console.log(e.response));
-      },
-    });
+          }
+        )
+        .then(() => {
+          // resetForm();
+          // setBranches([]);
+          // setNotaries([]);
+          // // setIsInitial(true);
+          // setIsLoading(true);
+          navigation.goBack();
+        })
+        .catch((e: AxiosError) => console.log(e.response));
+    },
+  });
 
   const fetchNotaries = useCallback(
     (branchId) => {
@@ -160,7 +171,11 @@ const DebitorDetailAndEdit = ({
             setBranches([data.branch]);
           }
 
-          setFieldValue("notarisId", data.users[0]?.id);
+          const isSelectedNotarisValid = notaries.find(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (v: any) => v.id == data.users[0]?.id
+          );
+
           setFieldValue("refNumber", data.no_surat);
           setFieldValue("branchId", data.cabang_id);
           setFieldValue("plafondCredit", data.plafond_kredit);
@@ -175,6 +190,12 @@ const DebitorDetailAndEdit = ({
           setFieldValue("status", data.status);
 
           setIsLoading(false);
+
+          if (isSelectedNotarisValid) {
+            setFieldValue("notarisId", data.users[0]?.id);
+          } else {
+            alert("Notaris sudah tidak aktif, silahkan pilih notari lain");
+          }
         })
         .catch((e: AxiosError) => console.log(e.response));
     }
@@ -187,10 +208,12 @@ const DebitorDetailAndEdit = ({
       setNotaries([]);
       setIsLoading(true);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     authCtx.currentUser?.token,
     authCtx.currentUser?.user.role,
     fetchNotaries,
+    // notaries,
     resetForm,
     route.params.debitorId,
     setFieldValue,
@@ -478,6 +501,7 @@ const DebitorDetailAndEdit = ({
                     endIcon: <CheckIcon size={5} />,
                   }}
                   mt="1"
+                  onValueChange={(val) => setFieldValue("notarisId", val)}
                 >
                   {notaries.map((v) => (
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -485,9 +509,12 @@ const DebitorDetailAndEdit = ({
                     <Select.Item key={v} label={v.name} value={v.id} />
                   ))}
                 </Select>
+                {errors.notarisId && (
+                  <Text style={{ color: "red" }}>{errors.notarisId}</Text>
+                )}
               </Stack>
             ),
-            [notaries, values.notarisId]
+            [errors.notarisId, notaries, setFieldValue, values.notarisId]
           )}
         </ScrollView>
         <HStack mt="1" w="full" justifyContent={"space-evenly"}>
