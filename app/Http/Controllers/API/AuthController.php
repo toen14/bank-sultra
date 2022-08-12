@@ -35,8 +35,8 @@ class AuthController extends Controller
 
         if (
             $user->status === UserStatus::NonAktif->value && 
-            $user->role === UserRole::Notaris->value || 
-            $user->role === UserRole::Apraisal->value
+            ($user->role === UserRole::Notaris->value || 
+            $user->role === UserRole::Apraisal->value)
             ) {
                 return response()->json(
                     ['message' => 'Akun anda sudah non aktif!'],
