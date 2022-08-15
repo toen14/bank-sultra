@@ -9,6 +9,7 @@ use App\Models\Debitor;
 use App\Models\User;
 use App\Enums\UserRole;
 use App\Enums\DebitorStatus;
+use App\Enums\UserStatus;
 use App\Http\Requests\Debitor\StoreDebitorRequest;
 use App\Http\Requests\Debitor\UpdateDebitorRequest;
 use App\Models\Branch;
@@ -115,9 +116,15 @@ class DebitorController extends Controller
     {
         $debitor = Debitor::with('users')->findOrFail($id);
         $branches = Branch::all();
-        $notaries = User::where('role', '=', UserRole::Notaris->value)->get();
+        $notaries = User::with(['notaris' => function ($q) {
+            $q->where('tanggal_berakhir', '>', now());
+        }])
+            ->where('role', UserRole::Notaris->value)
+            ->where('status', UserStatus::Aktif->value)
+            ->where('cabang_id', $debitor->cabang_id)->get();
+        $selectedNotaris = $debitor->users[0]?->id;
 
-        return view('debitor.edit', compact('debitor', 'branches', 'notaries'));
+        return view('debitor.edit', compact('debitor', 'branches', 'notaries', 'selectedNotaris'));
     }
 
     /**
