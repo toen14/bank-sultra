@@ -50,7 +50,11 @@ const NoteList = ({ date, desc, name, role }: TNoteListProps) => {
             <Text fontFamily="Rubik" mr="2" color="black" fontSize="xs">
               {`${date.getDate()}/${
                 date.getMonth() + 1
-              }/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`}
+              }/${date.getFullYear()} ${date.getHours()}:${
+                date.getMinutes() > 9
+                  ? date.getMinutes()
+                  : `0${date.getMinutes()}`
+              }`}
             </Text>
           </HStack>
           <Box marginY="1" />
