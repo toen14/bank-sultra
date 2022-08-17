@@ -162,6 +162,7 @@ const CreateDebitor = ({
     })
       .then(({ data }) => {
         setBranches(data.data);
+        console.log(data.data);
       })
       .catch((e) => console.log(e))
       .finally(() => setIsInitial(false));

@@ -103,6 +103,7 @@ const DebitorDetailAndEdit = ({
             nilai_pengikatan: values.bindingValue,
             plafond_kredit: values.plafondCredit,
             no_surat: values.refNumber,
+            status: values.status,
             /* eslint-enable camelcase */
           },
           {
@@ -119,7 +120,7 @@ const DebitorDetailAndEdit = ({
           // setIsLoading(true);
           navigation.goBack();
         })
-        .catch((e: AxiosError) => console.log(e.response));
+        .catch((e: AxiosError) => console.log("error", e.response));
     },
   });
 
@@ -171,11 +172,6 @@ const DebitorDetailAndEdit = ({
             setBranches([data.branch]);
           }
 
-          const isSelectedNotarisValid = notaries.find(
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (v: any) => v.id == data.users[0]?.id
-          );
-
           setFieldValue("refNumber", data.no_surat);
           setFieldValue("branchId", data.cabang_id);
           setFieldValue("plafondCredit", data.plafond_kredit);
@@ -191,7 +187,7 @@ const DebitorDetailAndEdit = ({
 
           setIsLoading(false);
 
-          if (isSelectedNotarisValid) {
+          if (data.users[0].notaris) {
             setFieldValue("notarisId", data.users[0]?.id);
           } else {
             alert("Notaris sudah tidak aktif, silahkan pilih notari lain");
@@ -474,7 +470,10 @@ const DebitorDetailAndEdit = ({
                     endIcon: <CheckIcon size={5} />,
                   }}
                   mt="1"
-                  onValueChange={(val) => fetchNotaries(val)}
+                  onValueChange={(val) => {
+                    fetchNotaries(val);
+                    setFieldValue("branchId", val);
+                  }}
                 >
                   {branches?.map((v) => (
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -484,7 +483,7 @@ const DebitorDetailAndEdit = ({
                 </Select>
               </Stack>
             ),
-            [branches, fetchNotaries, values.branchId]
+            [branches, fetchNotaries, setFieldValue, values.branchId]
           )}
 
           {useMemo(
