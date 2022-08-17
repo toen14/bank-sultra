@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Enums\UserRole;
+use App\Enums\UserStatus;
 use App\Http\Controllers\Controller;
 
 use App\Models\Branch;
@@ -21,12 +22,13 @@ class BranchNotarisController extends Controller
 
         $userLoginned = auth()->user();
 
-        $notaries = User::where('role', UserRole::Notaris->value);
+        $notaries = User::whereHas('notaris', function ($q) {
+            $q->where('tanggal_berakhir', '>', now());
+        })
+            ->where('role', UserRole::Notaris->value)
+            ->where('status', UserStatus::Aktif->value)
+            ->where('cabang_id', $branch->id);
 
-        if ($userLoginned->role !== UserRole::Apraisal->value) {
-            $notaries = $notaries->where('cabang_id', $branch->id);
-        }
-
-        return response()->json($notaries->paginate(request()->limit ?? 0));
+        return response()->json($notaries->paginate(request()->limit ?? 1000000000));
     }
 }

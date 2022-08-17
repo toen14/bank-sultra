@@ -26,7 +26,7 @@ class BranchController extends Controller
             $branches->where('name', 'LIKE', "%$search%");
         }
 
-        return response()->json($branches->paginate(request()->limit ?? 0));
+        return response()->json($branches->paginate(request()->limit ?? 100));
     }
 
     /**
@@ -53,6 +53,7 @@ class BranchController extends Controller
      */
     public function show($id)
     {
+        error_log($id);
         $kabupatenKota = Branch::findOrFail($id);
 
         return response()->json(

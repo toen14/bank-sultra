@@ -97,6 +97,9 @@ class DebitorController extends Controller
             'notes.user',
             'branch',
             'users',
+            'users.notaris' => function ($query) {
+                $query->where('tanggal_berakhir', '>', now());
+            },
         ])->findOrFail($id);
 
         return response()->json(
