@@ -146,8 +146,9 @@ const CreateDebitor = ({
       })
         .then(({ data }) => {
           setNotaries(data.data);
+
         })
-        .catch((e: AxiosError) => console.log(e.response));
+        .catch((e: AxiosError) => console.log('error get branches', e.response));
       // .finally(() => setIsFetching(false));
     },
     [authCtx.currentUser?.token]
@@ -327,8 +328,8 @@ const CreateDebitor = ({
                     <Icon
                       ml="1"
                       size={"xl"}
-                      color="fuchsia.700"
-                      as={<MaterialIcons name="home" />}
+                      color="blue.900"
+                      as={<MaterialIcons name="note" />}
                     />
                   }
                   placeholder="Nilai Pengikatan"
@@ -362,8 +363,8 @@ const CreateDebitor = ({
                     <Icon
                       ml="1"
                       size={"xl"}
-                      color="fuchsia.700"
-                      as={<MaterialIcons name="home" />}
+                      color="coolGray.500"
+                      as={<MaterialIcons name="tag" />}
                     />
                   }
                   placeholder="Plafond Kredit"
@@ -397,7 +398,7 @@ const CreateDebitor = ({
                       ml="1"
                       size={"xl"}
                       color="fuchsia.700"
-                      as={<MaterialIcons name="home" />}
+                      as={<MaterialIcons name="list" />}
                     />
                   }
                   placeholder="No Surat"
@@ -744,8 +745,7 @@ const CreateDebitor = ({
                 if (type === "set") {
                   setFieldValue(
                     "deliveryDate",
-                    `${deliveryDate?.getFullYear()}/${
-                      deliveryDate!.getMonth() + 1
+                    `${deliveryDate?.getFullYear()}/${deliveryDate!.getMonth() + 1
                     }/${deliveryDate?.getDate()}`
                   );
                 }
