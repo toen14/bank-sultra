@@ -76,9 +76,11 @@
                                 <div class="form-group">
                                     <label for="status">Status</label>
                                     <select class="form-control" id="status" name="status">
-                                        <option value="" disabled > Pilih status </option>
-                                        <option value="Aktif" {{$user->status === "Aktif" ? 'selected' : ''}}> Aktif </option>
-                                        <option value="Non Aktif" {{$user->status === "Non Aktif" ? 'selected' : ''}}> Non Aktif </option>
+                                        <option value="" disabled> Pilih status </option>
+                                        <option value="Aktif" {{ $user->status === 'Aktif' ? 'selected' : '' }}> Aktif
+                                        </option>
+                                        <option value="Non Aktif" {{ $user->status === 'Non Aktif' ? 'selected' : '' }}> Non
+                                            Aktif </option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -140,18 +142,19 @@
         const tanggalBerakhir = document.getElementById('tanggal_berakhir');
         const role = document.getElementById('role');
 
-        const user = {{Js::from($user)}}
+        const user = {{ Js::from($user) }}
+        const notaris = "Notaris/PPAT";
 
         tanggalBerakhir.valueAsDate = new Date();
 
-        if (user.role === "Notaris") {
+        if (user.role === notaris) {
             cTanggalBerakhir.style.display = "";
             tanggalBerakhir.required = true;
             tanggalBerakhir.valueAsDate = new Date(user.notaris.tanggal_berakhir);
         }
 
         function getRole(ctx) {
-            if (ctx.value !== "Notaris") {
+            if (ctx.value !== notaris) {
                 cTanggalBerakhir.style.display = "none";
                 tanggalBerakhir.required = false;
                 return;

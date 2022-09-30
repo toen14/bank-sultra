@@ -131,13 +131,15 @@
 
         tanggalBerakhir.valueAsDate = new Date();
 
-        if (role.value === "Notaris") {
+        const notaris = "Notaris/PPAT";
+
+        if (role.value === notaris) {
             cTanggalBerakhir.style.display = "";
             tanggalBerakhir.required = true;
         }
 
         function getRole(ctx) {
-            if (ctx.value !== "Notaris") {
+            if (ctx.value !== notaris) {
                 cTanggalBerakhir.style.display = "none";
                 tanggalBerakhir.required = false;
                 return;
