@@ -191,7 +191,10 @@ const DebitorDetailAndEdit = ({
           if (data.users[0].notaris) {
             setFieldValue("notarisId", data.users[0]?.id);
           } else {
-            alert("Notaris sudah tidak aktif, silahkan pilih notari lain");
+            alert("Notaris sudah tidak aktif");
+            // @ts-ignore
+            setNotaries((oldNotaries) => [...oldNotaries, data.users[0]])
+            setFieldValue("notarisId", data.users[0]?.id);
           }
         })
         .catch((e: AxiosError) => console.log(e.response));
