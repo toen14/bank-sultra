@@ -28,6 +28,7 @@ import { HomeNavigationProps } from "../../../components/Navigation";
 import { AuthContext } from "../../../Authentication/store/AuthContex";
 import { baseUrl } from "../../../constants/base-url";
 import { RoleEnum } from "../../../constants/role-enum";
+import { formatCurrency } from "../../../constants/format-currency";
 
 type ICreateDebiorSchema = {
   name: string;
@@ -40,8 +41,8 @@ type ICreateDebiorSchema = {
   // endDate: string;
   no: string;
   refNumber: string;
-  bindingValue: number;
-  plafondCredit: number;
+  bindingValue: string;
+  plafondCredit: string;
 };
 
 const CreateDebiorSchema = Yup.object().shape<ICreateDebiorSchema>({
@@ -54,8 +55,8 @@ const CreateDebiorSchema = Yup.object().shape<ICreateDebiorSchema>({
   deliveryDate: Yup.string().required("Wajib diisi!"),
   // endDate: Yup.string().required("Wajib diisi!"),
   no: Yup.string().required("Wajib diisi!"),
-  bindingValue: Yup.number().required("Wajib diisi!"),
-  plafondCredit: Yup.number().required("Wajib diisi!"),
+  bindingValue: Yup.string().required("Wajib diisi!"),
+  plafondCredit: Yup.string().required("Wajib diisi!"),
   refNumber: Yup.string().required("Wajib diisi!"),
 });
 
@@ -94,8 +95,8 @@ const CreateDebitor = ({
       deliveryDate: "",
       // endDate: "",
       no: "",
-      bindingValue: 0,
-      plafondCredit: 0,
+      bindingValue: "",
+      plafondCredit: "",
       refNumber: "",
     },
     onSubmit: () => {
@@ -113,8 +114,8 @@ const CreateDebitor = ({
             notaris_id: [values.notaris],
             tanggal_penyerahan: values.deliveryDate,
             // tanggal_berakhir: values.endDate,
-            nilai_pengikatan: values.bindingValue,
-            plafond_kredit: values.plafondCredit,
+            nilai_pengikatan: values.bindingValue === "" ? 0 : formatCurrency(values.bindingValue).format(),
+            plafond_kredit: values.plafondCredit === "" ? 0 : formatCurrency(values.plafondCredit).format(),
             no_surat: values.refNumber,
             /* eslint-enable camelcase */
           },
@@ -313,7 +314,7 @@ const CreateDebitor = ({
             () => (
               <FormControl isInvalid={!!errors.bindingValue}>
                 <Input
-                  value={`${values.bindingValue}`}
+                  value={values.bindingValue === "" ? "" : formatCurrency(values.bindingValue).format({ thousandSeparated: true })}
                   onChangeText={handleChange("bindingValue")}
                   keyboardType="numeric"
                   alignSelf="center"
@@ -348,12 +349,13 @@ const CreateDebitor = ({
             () => (
               <FormControl isInvalid={!!errors.plafondCredit}>
                 <Input
-                  value={`${values.plafondCredit}`}
+                  value={values.plafondCredit === "" ? "" : formatCurrency(values.plafondCredit).format({ thousandSeparated: true })}
                   onChangeText={handleChange("plafondCredit")}
                   keyboardType="numeric"
                   alignSelf="center"
                   mt="2"
                   shadow="2"
+                  ty
                   bg="white"
                   _focus={{
                     bg: "white",

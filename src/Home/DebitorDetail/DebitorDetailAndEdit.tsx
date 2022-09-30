@@ -26,6 +26,7 @@ import { DebitorEnum } from "../../constants/debitor-enum";
 import { baseUrl } from "../../constants/base-url";
 import { AuthContext } from "../../Authentication/store/AuthContex";
 import { RoleEnum } from "../../constants/role-enum";
+import { formatCurrency } from "../../constants/format-currency";
 
 type IEditDebiorSchema = {
   name?: string;
@@ -78,8 +79,8 @@ const DebitorDetailAndEdit = ({
       deliveryDate: "",
       endDate: "",
       no: "",
-      bindingValue: "0",
-      plafondCredit: "0",
+      bindingValue: "",
+      plafondCredit: "",
       status: DebitorEnum.Progress,
       branchId: 0,
       notarisId: "",
@@ -100,8 +101,8 @@ const DebitorDetailAndEdit = ({
             notaris_id: [values.notarisId],
             tanggal_penyerahan: values.deliveryDate,
             tanggal_berakhir: values.endDate,
-            nilai_pengikatan: values.bindingValue,
-            plafond_kredit: values.plafondCredit,
+            nilai_pengikatan: values.bindingValue === "" ? 0 : formatCurrency(values.bindingValue).format(),
+            plafond_kredit: values.plafondCredit === "" ? 0 : formatCurrency(values.plafondCredit).format(),
             no_surat: values.refNumber,
             status: values.status,
             /* eslint-enable camelcase */
@@ -299,7 +300,7 @@ const DebitorDetailAndEdit = ({
                   keyboardType="numeric"
                   type="text"
                   placeholder="nilai pengikatan"
-                  value={`${values.bindingValue}`}
+                  value={values.bindingValue === "" ? "" : formatCurrency(values.bindingValue).format({ thousandSeparated: true })}
                   onChangeText={handleChange("bindingValue")}
                 />
               </Stack>
@@ -315,7 +316,7 @@ const DebitorDetailAndEdit = ({
                   keyboardType="numeric"
                   type="text"
                   placeholder="plafond kredit"
-                  value={`${values.plafondCredit}`}
+                  value={values.plafondCredit === "" ? "" : formatCurrency(values.plafondCredit).format({ thousandSeparated: true })}
                   onChangeText={handleChange("plafondCredit")}
                 />
               </Stack>
@@ -560,8 +561,7 @@ const DebitorDetailAndEdit = ({
                 if (type === "set") {
                   setFieldValue(
                     "deliveryDate",
-                    `${deliveryDate?.getFullYear()}/${
-                      deliveryDate!.getMonth() + 1
+                    `${deliveryDate?.getFullYear()}/${deliveryDate!.getMonth() + 1
                     }/${deliveryDate?.getDate()}`
                   );
                 }
@@ -584,8 +584,7 @@ const DebitorDetailAndEdit = ({
                 if (type === "set") {
                   setFieldValue(
                     "endDate",
-                    `${endDate?.getFullYear()}/${
-                      endDate!.getMonth() + 1
+                    `${endDate?.getFullYear()}/${endDate!.getMonth() + 1
                     }/${endDate?.getDate()}`
                   );
                 }
