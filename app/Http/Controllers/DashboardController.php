@@ -27,11 +27,14 @@ class DashboardController extends Controller
             }
         }
 
+        $user = auth()->user();
+
         return view('dashboard', compact(
             'countDebitor',
             'countDone',
             'countProgress',
-            'countPending'
+            'countPending',
+            'user'
         ));
     }
 }
