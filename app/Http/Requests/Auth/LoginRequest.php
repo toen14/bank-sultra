@@ -30,6 +30,8 @@ class LoginRequest extends FormRequest
      */
     public function rules()
     {
+        $this->setOldValues();
+
         return [
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
@@ -99,5 +101,11 @@ class LoginRequest extends FormRequest
     public function throttleKey()
     {
         return Str::lower($this->input('email')) . '|' . $this->ip();
+    }
+
+    public function setOldValues(): void
+    {
+        session()->put('_old_input.email', request()->get('email') ?? '');
+        session()->put('_old_input.password', request()->get('password') ?? '');
     }
 }
