@@ -95,7 +95,7 @@
             icon: "fa fa-bell",
             url: "www.google.com",
             target: "_blank",
-            message: payload.notification.message,
+            message: payload.notification.body,
             title: payload.notification.title,
         };
 
