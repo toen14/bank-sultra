@@ -6,13 +6,14 @@ importScripts(
 // Initialize the Firebase app in the service worker by passing in the
 // messagingSenderId.
 firebase.initializeApp({
-    apiKey: "AIzaSyAww9tKPn-_b6w_ApX1mlMsLIpe1MrG-I4",
-    databaseURL: 'https://push-76877.firebaseio.com',
-    authDomain: "push-76877.firebaseapp.com",
-    projectId: "push-76877",
-    storageBucket: "push-76877.appspot.com",
-    messagingSenderId: "723470492555",
-    appId: "1:723470492555:web:be72570aa5f91a7eb9458e",
+    apiKey: "AIzaSyBXzIHhTm_i7LNl9XW1BrFy8irVa1SskpI",
+    databaseURL: 'https://sisfo-e-mitra-bank-sultra.firebaseio.com',
+    authDomain: "sisfo-e-mitra-bank-sultra.firebaseapp.com",
+    projectId: "sisfo-e-mitra-bank-sultra",
+    storageBucket: "sisfo-e-mitra-bank-sultra.appspot.com",
+    messagingSenderId: "245247663013",
+    appId: "1:245247663013:web:34d2c2d4548e9a3783a64c",
+    measurementId: "G-512B7QQDCZ"
 });
 
 // Retrieve an instance of Firebase Messaging so that it can handle background

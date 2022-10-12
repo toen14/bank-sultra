@@ -5,13 +5,13 @@
 
     // TODO: Replace firebaseConfig you get from Firebase Console
     const firebaseConfig = {
-        apiKey: "AIzaSyAww9tKPn-_b6w_ApX1mlMsLIpe1MrG-I4",
-        databaseURL: 'https://push-76877.firebaseio.com',
-        authDomain: "push-76877.firebaseapp.com",
-        projectId: "push-76877",
-        storageBucket: "push-76877.appspot.com",
-        messagingSenderId: "723470492555",
-        appId: "1:723470492555:web:be72570aa5f91a7eb9458e",
+        apiKey: {{ Js::from(env('FCM_API_KEY')) }},
+        databaseURL: {{ Js::from(env('FCM_DATABASE_URL')) }},
+        authDomain: {{ Js::from(env('FCM_AUTH_DOMAIN')) }},
+        projectId: {{ Js::from(env('FCM_PROJECT_ID')) }},
+        storageBucket: {{ Js::from(env('FCM_STORAGE_BUCKET')) }},
+        messagingSenderId: {{ Js::from(env('FCM_MESSAGING_SENDER_ID')) }},
+        appId: {{ Js::from(env('FCM_APP_ID')) }},
     };
     firebase.initializeApp(firebaseConfig);
 
