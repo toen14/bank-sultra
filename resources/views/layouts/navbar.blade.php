@@ -348,8 +348,8 @@
                                     <div class="avatar-lg"><img src="../../assets/img/profile.jpg"
                                             alt="image profile" class="avatar-img rounded"></div>
                                     <div class="u-text">
-                                        <h4>{{ $user->name }}</h4>
-                                        <p class="text-muted">{{ $user->email }}</p>
+                                        <h4>{{ auth()->user()->name }}</h4>
+                                        <p class="text-muted">{{ auth()->user()->email }}</p>
                                     </div>
                                 </div>
                             </li>
