@@ -8,21 +8,23 @@
 @include('layouts.script')
 
 <body>
-  <div class="wrapper">
-    <!-- Navbar -->
-    @include('layouts.navbar')
-    <!-- End Navbar -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        @include('layouts.navbar')
+        <!-- End Navbar -->
 
-    <!-- Sidebar -->
-    @include('layouts.sidebar')
-    <!-- End Sidebar -->
+        <!-- Sidebar -->
+        @include('layouts.sidebar')
+        <!-- End Sidebar -->
 
-    <!-- Content -->
-    <div class="main-panel">
-      @yield('content')
+        <!-- Content -->
+        <div class="main-panel">
+            @yield('content')
+
+            @include('layouts.notification')
+        </div>
+        <!-- End Content -->
     </div>
-    <!-- End Content -->
-  </div>
 </body>
 
 </html>
