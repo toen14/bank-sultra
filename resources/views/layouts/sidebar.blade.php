@@ -52,6 +52,12 @@
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item submenu" id="daftar-note">
+                    <a href="{{ route('user-debitors.index', ['user' => auth()->user()->id]) }}" aria-expanded="true">
+                        <i class="far fa-paper-plane"></i>
+                        <p>Daftar Note</p>
+                    </a>
+                </li>
                 @if (Auth::user()->role === 'Administrator')
                     <li class="nav-item  submenu">
                         <a data-toggle="collapse" href="#administrasi">

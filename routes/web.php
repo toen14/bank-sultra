@@ -27,6 +27,11 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/debitors', \App\Http\Controllers\DebitorController::class);
     Route::resource('/branches', \App\Http\Controllers\BranchController::class);
     Route::resource('/administrasi/backup', \App\Http\Controllers\BackupController::class);
+
+    Route::resource('users/{user}/debitors', \App\Http\Controllers\UserControllers\UserDebitorController::class)->names('user-debitors');
+    Route::patch('users/{user}/debitors/{debitor}/status', [\App\Http\Controllers\UserControllers\UserDebitorController::class, 'updateStatus'])->name('user-debitors.status');
+
+    Route::post('notes/users/{user}', [\App\Http\Controllers\NoteController::class, 'store'])->name('note.store');
 });
 
 require __DIR__ . '/auth.php';
