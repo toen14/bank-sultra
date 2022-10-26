@@ -78,4 +78,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('notaris', [\App\Http\Controllers\API\NotarisController::class, 'index']);
 
     Route::post('push', [\App\Http\Controllers\API\PushController::class, 'store']);
+    Route::post('push-web', [\App\Http\Controllers\API\PushController::class, 'storeWeb'])->name('push-web');
 });

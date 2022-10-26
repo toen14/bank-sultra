@@ -22,6 +22,24 @@ class PushController extends Controller
         $validated = $request->validated();
         $validated['user_id'] = request()->user()->id;
 
+        Push::updateOrCreate(['push_token' => $validated['push_token']], $validated);
+
+        return response()->json(
+            ['message' => 'success'],
+            Response::HTTP_CREATED,
+        );
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeWeb(StorePushRequest $request)
+    {
+        $validated = $request->validated();
+        $validated['user_id'] = request()->user()->id;
 
         Push::updateOrCreate(['push_token' => $validated['push_token']], $validated);
 

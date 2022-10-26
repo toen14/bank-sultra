@@ -7,6 +7,8 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -53,11 +55,30 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request)
     {
+        $request->session()->forget('token');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         Auth::guard('web')->logout();
 
-        $request->session()->invalidate();
 
-        $request->session()->regenerateToken();
+        // // Session::forget('token');
+
+        // $currentUserSession = DB::table('sessions')->where('user_id',  $request->user()->id)->first();
+        // if ($currentUserSession) {
+        //     $decoded = unserialize(base64_decode($currentUserSession->payload));
+        //     unset($decoded['token']);
+
+        //     $encoded = base64_encode(json_encode($decoded));
+
+        //     DB::table('sessions')
+        //         ->where('user_id', $request->user()->id)
+        //         ->update(['payload' => $encoded]);
+
+        //     dd(base64_decode(DB::table('sessions')->where('user_id',  $request->user()->id)->first()->payload));
+        // }
+
+        // Session::regenerateToken();
 
         return redirect('/');
     }
