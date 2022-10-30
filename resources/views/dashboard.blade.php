@@ -188,7 +188,6 @@
         </div>
     </div>
     @include('layouts.footer')
-    @include('layouts.script')
     <script>
         // add active class
         const liDashboard = document.getElementById('li-dashboard');
@@ -239,7 +238,6 @@
             initComplete: function() {
                 this.api().columns().every(function() {
                     var column = this;
-                    console.log(column);
                     var select = $(
                             '<select class="form-control"><option value=""></option></select>'
                         )
