@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Enums\DebitorStatus;
 use App\Models\Debitor;
+use App\Models\KabupatenKota;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
@@ -29,12 +31,18 @@ class DashboardController extends Controller
 
         $user = auth()->user();
 
+        $totalAllUsers = User::whereNotNull('cabang_id')->count();
+
+        $kabKota = KabupatenKota::with(['branches', 'branches.users'])->get();
+
         return view('dashboard', compact(
             'countDebitor',
             'countDone',
             'countProgress',
             'countPending',
-            'user'
+            'user',
+            'kabKota',
+            'totalAllUsers',
         ));
     }
 }

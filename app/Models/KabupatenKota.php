@@ -40,4 +40,12 @@ class KabupatenKota extends Model
     protected $fillable = [
         'name',
     ];
+
+    /**
+     * Get the branches record associated.
+     */
+    public function branches()
+    {
+        return $this->hasMany(Branch::class, 'kabupaten_kota_id');
+    }
 }

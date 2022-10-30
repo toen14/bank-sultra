@@ -45,4 +45,12 @@ class Branch extends Model
     {
         return $this->belongsTo(KabupatenKota::class, 'kabupaten_kota_id');
     }
+
+    /**
+     * The branch has many users.
+     */
+    public function users()
+    {
+        return $this->hasMany(User::class, 'cabang_id');
+    }
 }

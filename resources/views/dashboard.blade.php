@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="content">
+    <div class="container container-full">
         <div class="panel-header bg-primary-gradient">
             <div class="page-inner py-5">
                 <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
@@ -113,9 +113,82 @@
                 </div>
             </div>
         </div>
+
+        <div class="page-inner mt--5">
+            <div class="row row-card-no-pd">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-head-row card-tools-still-right">
+                                <h4 class="card-title">Users Geolocation</h4>
+                            </div>
+                            <p class="card-category">
+                                Distribution of users
+                            </p>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-responsive table-hover table-sales">
+                                        <table class="table" id="table-percentage-users">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 10%">No</th>
+                                                    <th>Kabupatan/Kota</th>
+                                                    <th>Total Users</th>
+                                                    <th style="width: 10%">Presentase</th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <th style="width: 10%; height: 35px;">No</th>
+                                                    <th style="height: 35px;">Kabupatan/Kota</th>
+                                                    <th style="height: 35px;">Total Users</th>
+                                                    <th style="width: 10%; height: 35px;">Presentase</th>
+                                                </tr>
+                                            </tfoot>
+                                            <tbody>
+                                                @php
+                                                    $no = 1;
+                                                @endphp
+                                                @foreach ($kabKota as $kK)
+                                                    <tr>
+                                                        <td>
+                                                            {{ $no }}
+                                                        </td>
+                                                        <td>{{ $kK->name }}</td>
+                                                        @php
+                                                            $countUsers = 0;
+                                                        @endphp
+                                                        @foreach ($kK->branches as $branche)
+                                                            @php
+                                                                $countUsers += $branche->users->count();
+                                                            @endphp
+                                                        @endforeach
+                                                        <td class="text-right">
+                                                            {{ $countUsers }}
+                                                        </td>
+                                                        <td class="text-right">
+                                                            {{ number_format(($countUsers / $totalAllUsers) * 100, 2, ',') . '%' }}
+                                                        </td>
+                                                    </tr>
+                                                    @php
+                                                        $no++;
+                                                    @endphp
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     @include('layouts.footer')
-
+    @include('layouts.script')
     <script>
         // add active class
         const liDashboard = document.getElementById('li-dashboard');
@@ -159,6 +232,33 @@
                     },
                 },
             },
+        });
+
+        $('#table-percentage-users').DataTable({
+            "pageLength": 5,
+            initComplete: function() {
+                this.api().columns().every(function() {
+                    var column = this;
+                    console.log(column);
+                    var select = $(
+                            '<select class="form-control"><option value=""></option></select>'
+                        )
+                        .appendTo($(column.footer()).empty())
+                        .on('change', function() {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function(d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
         });
     </script>
 @endsection
