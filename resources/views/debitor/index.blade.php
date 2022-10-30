@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="content">
+    <div class="content container container-full">
         <div class="page-inner">
             <div class="page-header">
                 <h4 class="page-title">Data Debitur</h4>
@@ -114,8 +114,10 @@
 
                                                 <td>
                                                     <div class="action-container d-flex justify-content-center">
-                                                        <a href=" {{ route('debitors.edit', $debitor->id) }} " class="btn btn-info mr-1">edit</a>
-                                                        <form action="{{ route('debitors.destroy', $debitor->id) }}" method="post">
+                                                        <a href=" {{ route('debitors.edit', $debitor->id) }} "
+                                                            class="btn btn-info mr-1">edit</a>
+                                                        <form action="{{ route('debitors.destroy', $debitor->id) }}"
+                                                            method="post">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button onclick="deleteDebitor(this)" type="button"

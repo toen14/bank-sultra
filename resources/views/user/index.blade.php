@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="content">
+    <div class="content container container-full">
         <div class="page-inner">
             <div class="page-header">
                 <h4 class="page-title">Data Pengguna</h4>
