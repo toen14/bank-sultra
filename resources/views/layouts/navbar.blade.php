@@ -25,12 +25,6 @@
 
         <div class="container-fluid">
             <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-                <li class="nav-item toggle-nav-search hidden-caret">
-                    <a class="nav-link" data-toggle="collapse" href="#search-nav" role="button" aria-expanded="false"
-                        aria-controls="search-nav">
-                        <i class="fa fa-search"></i>
-                    </a>
-                </li>
                 <li class="nav-item dropdown hidden-caret">
                     <a class="nav-link dropdown-toggle" href="#" id="messageDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -226,16 +220,20 @@
                 <li class="nav-item dropdown hidden-caret">
                     <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"
                         aria-expanded="false">
-                        <div class="avatar-sm">
-                            <img src="../../assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
-                        </div>
+                        <span
+                            class="avatar-sm rounded-circle d-flex justify-content-center align-items-center text-primary font-weight-bold"
+                            style="background-color: rgb(202, 202, 202);">
+                            {{ iconName(auth()->user()->name) }}
+                        </span>
                     </a>
                     <ul class="dropdown-menu dropdown-user animated fadeIn">
                         <div class="dropdown-user-scroll scrollbar-outer">
                             <li>
                                 <div class="user-box" style="align-items: center;">
-                                    <div class="avatar-lg"><img src="../../assets/img/profile.jpg"
-                                            alt="image profile" class="avatar-img rounded"></div>
+                                    <div class="avatar-lg d-flex justify-content-center align-items-center text-primary font-weight-bold"
+                                        style="background-color: rgb(202, 202, 202); font-size: 24px;">
+                                        {{ iconName(auth()->user()->name) }}
+                                    </div>
                                     <div class="u-text">
                                         <h4>{{ auth()->user()->name }}</h4>
                                         <p class="text-muted">{{ auth()->user()->email }}</p>
@@ -245,16 +243,13 @@
                             <li>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">My Profile</a>
-                                <a class="dropdown-item" href="#">My Balance</a>
-                                <a class="dropdown-item" href="#">Inbox</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Account Setting</a>
+                                <a class="dropdown-item" href="#">Change Password</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                     Logout
                                 </a>
-                                <form id="logout-form" class="dropdown-item" action="{{ route('logout') }}"
+                                <form id="logout-form" class="dropdown-item d-none" action="{{ route('logout') }}"
                                     method="post">
                                     @csrf
                                 </form>
