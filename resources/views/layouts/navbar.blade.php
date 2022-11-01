@@ -1,34 +1,43 @@
+<style>
+    .nav-icon:hover {
+        background-color: #001244 !important;
+    }
+</style>
 <div class="main-header">
     <!-- Logo Header -->
-    <div class="logo-header" data-background-color="blue">
+    <div class="logo-header"
+        style="background-color: #001244; border-right: 1px; border-right-color: rgb(148, 141, 141); background-color: #001244;
+    border-right: 0.01px;
+    border-right-style: solid;">
 
         <a href="../index.html" class="logo">
-            <img src="../../assets/img/logo.svg" alt="navbar brand" class="navbar-brand">
+            <img src={{ asset('/assets/img/bank-sultra.svg') }} width="180px" height="80px" alt="navbar brand"
+                class="navbar-brand mt--2">
         </a>
         <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
             data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon">
-                <i class="icon-menu"></i>
+                <i class="icon-menu text-white"></i>
             </span>
         </button>
-        <button class="topbar-toggler more"><i class="icon-options-vertical"></i></button>
+        <button class="topbar-toggler more"><i class="icon-options-vertical text-white"></i></button>
         <div class="nav-toggle">
             <button class="btn btn-toggle toggle-sidebar">
-                <i class="icon-menu"></i>
+                <i class="icon-menu text-white"></i>
             </button>
         </div>
     </div>
     <!-- End Logo Header -->
 
     <!-- Navbar Header -->
-    <nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
+    <nav class="navbar navbar-header navbar-expand-lg" style="background-color: #001244;">
 
         <div class="container-fluid">
             <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
                 <li class="nav-item dropdown hidden-caret">
-                    <a class="nav-link dropdown-toggle" href="#" id="messageDropdown" role="button"
+                    <a class="nav-link dropdown-toggle nav-icon" href="#" id="messageDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-envelope"></i>
+                        <i class="fa fa-envelope text-white"></i>
                     </a>
                     <ul class="dropdown-menu messages-notif-box animated fadeIn" aria-labelledby="messageDropdown">
                         <li>
@@ -98,9 +107,9 @@
                     </ul>
                 </li>
                 <li class="nav-item dropdown hidden-caret">
-                    <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button"
+                    <a class="nav-link dropdown-toggle nav-icon" href="#" id="notifDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-bell"></i>
+                        <i class="fa fa-bell text-white"></i>
                         <span class="notification">4</span>
                     </a>
                     <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
