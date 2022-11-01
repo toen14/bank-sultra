@@ -32,6 +32,9 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('users/{user}/debitors/{debitor}/status', [\App\Http\Controllers\UserControllers\UserDebitorController::class, 'updateStatus'])->name('user-debitors.status');
 
     Route::post('notes/users/{user}', [\App\Http\Controllers\NoteController::class, 'store'])->name('note.store');
+
+    Route::resource('profile', \App\Http\Controllers\ProfileController::class)->names('profile');
+    Route::resource('change-password', \App\Http\Controllers\ChangePasswordController::class)->names('change-password');
 });
 
 require __DIR__ . '/auth.php';

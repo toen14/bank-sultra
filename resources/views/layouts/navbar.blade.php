@@ -238,8 +238,9 @@
                             </li>
                             <li>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">My Profile</a>
-                                <a class="dropdown-item" href="#">Change Password</a>
+                                <a class="dropdown-item" href="{{ route('profile.index') }}">My Profile</a>
+                                <a class="dropdown-item" href="{{ route('change-password.index') }}">Change
+                                    Password</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();document.getElementById('logout-form').submit();">
