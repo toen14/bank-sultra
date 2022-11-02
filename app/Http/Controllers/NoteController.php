@@ -74,20 +74,22 @@ class NoteController extends Controller
             Notification::insert($noteUsers);
 
             $pushes = Push::whereIn('user_id', $noteUserIds)->get();
-            $pushTokens = [];
 
             foreach ($pushes as $push) {
-                array_push($pushTokens, $push->push_token);
-            }
 
-            Http::withHeaders([
-                "Content-Type" => "application/json",
-                'Authorization' => 'key=' . env('FCM_SERVER_KEY'),
-            ])->post(env('FCM_URL_PUSH_NOTIFICATION'), [
-                "to" => $pushTokens,
-                "title" => 'BANK-SULTRA',
-                "body" => $userLogged->name . ' membuat note',
-            ]);
+                Http::withHeaders([
+                    "Content-Type" => "application/json",
+                    'Authorization' => 'key=' . env('FCM_SERVER_KEY'),
+                ])->post(env('FCM_URL_PUSH_NOTIFICATION'), [
+                    "to" => $push->push_token,
+                    "title" => 'BANK-SULTRA',
+                    "body" => $userLogged->name . ' membuat note',
+                    "notification" => [
+                        "title" => 'BANK-SULTRA',
+                        "body" => $userLogged->name . ' membuat note',
+                    ]
+                ]);
+            }
 
             return $note;
         });

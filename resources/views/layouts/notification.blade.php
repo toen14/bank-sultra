@@ -21,19 +21,22 @@
             console.log('Notification permission granted.');
 
             // get the token in the form of promise
-            return messaging.getToken();
+            return messaging.getToken({
+                vapidKey: 'BDkA_1ijbFY4p3l0Foyqu9l5jpYPRPMpRw202tnPLfr2HjNZ5ZJjyIpH31bFqWn8Ld-XiLVndGWBvWt_8VRG8Hw'
+            });
         })
         .then(function(token) {
             if ({{ Js::from(session()->has('token')) }} && Notification.permission !== 'denied') {
+                const url = "{{ route('push-web') }}";
 
-                fetch({{ Js::from(route('push-web')) }}, {
+                fetch(url, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': 'Bearer ' + {{ Js::from(Session::get('token')) }}
                         },
                         body: JSON.stringify({
-                            token: token
+                            push_token: token
                         }),
                     })
                     .then((response) => {
