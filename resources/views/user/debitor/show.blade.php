@@ -1,21 +1,5 @@
 @extends('layouts.main')
-<style>
-    .hidden-before:before {
-        border: none !important;
-    }
 
-    .option-done {
-        color: #31ce36 !important;
-    }
-
-    .option-pending {
-        color: #f25961 !important;
-    }
-
-    .option-on-progress {
-        color: #ffad46 !important;
-    }
-</style>
 @section('content')
     <div class="container container-full">
         <div class="page-wrapper has-sidebar">
@@ -252,4 +236,21 @@
         const dataMasterContainer = document.getElementById('daftar-note');
         dataMasterContainer.classList.add('active')
     </script>
+    <style>
+        .hidden-before:before {
+            border: none !important;
+        }
+
+        .option-done {
+            color: #31ce36 !important;
+        }
+
+        .option-pending {
+            color: #f25961 !important;
+        }
+
+        .option-on-progress {
+            color: #ffad46 !important;
+        }
+    </style>
 @endsection
