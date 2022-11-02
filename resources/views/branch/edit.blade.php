@@ -1,10 +1,10 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="content">
+    <div class="content container container-full">
         <div class="page-inner">
             <div class="page-header">
-                <h4 class="page-title">Tambah Cabang</h4>
+                <h4 class="page-title">Edit Cabang</h4>
                 <ul class="breadcrumbs">
                     <li class="nav-home">
                         <a href="#">

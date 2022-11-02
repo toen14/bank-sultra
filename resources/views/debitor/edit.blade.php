@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="content">
+    <div class="content container container-full">
         <div class="page-inner">
             <div class="page-header">
                 <h4 class="page-title">Edit Debitur</h4>
@@ -56,12 +56,16 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="nilai_pengikatan">Nilai pengikatan</label>
-                                    <input type="number" value="{{$debitor->nilai_pengikatan}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  class="form-control" name="nilai_pengikatan" id="nilai_pengikatan"
+                                    <input type="number" value="{{ $debitor->nilai_pengikatan }}"
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                        class="form-control" name="nilai_pengikatan" id="nilai_pengikatan"
                                         placeholder="Masukan nilai pengikatan">
                                 </div>
                                 <div class="form-group">
                                     <label for="plafond_kredit">Plafound kredit</label>
-                                    <input type="number" value="{{$debitor->plafond_kredit}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  class="form-control" name="plafond_kredit" id="plafond_kredit"
+                                    <input type="number" value="{{ $debitor->plafond_kredit }}"
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                        class="form-control" name="plafond_kredit" id="plafond_kredit"
                                         placeholder="Masukan plafound_kredit">
                                 </div>
                                 <div class="form-group">
@@ -71,8 +75,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="no_surat">Nomor surat</label>
-                                    <input type="text" class="form-control" value="{{$debitor->no_surat}}" name="no_surat" id="no_surat"
-                                        placeholder="Masukan nomor surat">
+                                    <input type="text" class="form-control" value="{{ $debitor->no_surat }}"
+                                        name="no_surat" id="no_surat" placeholder="Masukan nomor surat">
                                 </div>
                                 <div class="form-group">
                                     <label for="nomor">Nomor</label>
@@ -81,7 +85,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="cabang_id">Cabang</label>
-                                    <select class="form-control" id="cabang_id" name="cabang_id" required onchange="getNotaries(this)">
+                                    <select class="form-control" id="cabang_id" name="cabang_id" required
+                                        onchange="getNotaries(this)">
                                         <option value="" disabled selected> Pilih cabang </option>
                                         @foreach ($branches as $branch)
                                             @if ($branch->id === $debitor->cabang_id)
@@ -107,60 +112,61 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            <div class="form-group">
-                                <label for="alamat">Alamat jaminan</label>
-                                <input type="text" name="alamat" class="form-control" id="alamat"
-                                    placeholder="Masukan alamat jaminan" value=" {{ $debitor->alamat }} ">
-                            </div>
-                            <div class="form-group">
-                                <label for="tanggal_penyerahan">Tanggal order</label>
-                                <input type="date" name="tanggal_penyerahan" class="form-control"
-                                    id="tanggal_penyerahan" placeholder="Masukan tanggal order"
-                                    value="{{ $debitor->tanggal_penyerahan }}" min="1945-01-01" max="3000-12-28">
-                            </div>
-                            <div class="form-group">
-                                <label for="tanggal_berakhir">Tanggal berakhir cover note</label>
-                                <input type="date" name="tanggal_berakhir" class="form-control" id="tanggal_berakhir"
-                                    placeholder="Masukan tanggal berakhir cover note" value="{{ $debitor->tanggal_berakhir }}">
-                            </div>
-                            <div class="container-button ml-2">
-                                <button type="submit" class="btn btn-success">
-                                    <span class="btn-label">
-                                        <i class="far fa-edit"></i>
-                                    </span>
-                                    Edit Data
-                                </button>
-                                <a href=" {{ route('debitors.index') }} " class="btn btn-warning">
-                                    <span class="btn-label">
-                                        <i class="fas fa-angle-double-left"></i>
-                                    </span>
-                                    Kembali
-                                </a>
-                            </div>
-                        </form>
+                                <div class="form-group">
+                                    <label for="alamat">Alamat jaminan</label>
+                                    <input type="text" name="alamat" class="form-control" id="alamat"
+                                        placeholder="Masukan alamat jaminan" value=" {{ $debitor->alamat }} ">
+                                </div>
+                                <div class="form-group">
+                                    <label for="tanggal_penyerahan">Tanggal order</label>
+                                    <input type="date" name="tanggal_penyerahan" class="form-control"
+                                        id="tanggal_penyerahan" placeholder="Masukan tanggal order"
+                                        value="{{ $debitor->tanggal_penyerahan }}" min="1945-01-01" max="3000-12-28">
+                                </div>
+                                <div class="form-group">
+                                    <label for="tanggal_berakhir">Tanggal berakhir cover note</label>
+                                    <input type="date" name="tanggal_berakhir" class="form-control"
+                                        id="tanggal_berakhir" placeholder="Masukan tanggal berakhir cover note"
+                                        value="{{ $debitor->tanggal_berakhir }}">
+                                </div>
+                                <div class="container-button ml-2">
+                                    <button type="submit" class="btn btn-success">
+                                        <span class="btn-label">
+                                            <i class="far fa-edit"></i>
+                                        </span>
+                                        Edit Data
+                                    </button>
+                                    <a href=" {{ route('debitors.index') }} " class="btn btn-warning">
+                                        <span class="btn-label">
+                                            <i class="fas fa-angle-double-left"></i>
+                                        </span>
+                                        Kembali
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-@include('layouts.footer')
-<script>
-    $("#debitors-datatables").DataTable({
-        pageLength: 5,
-    });
+    @include('layouts.footer')
+    <script>
+        $("#debitors-datatables").DataTable({
+            pageLength: 5,
+        });
 
-    const dataMasterContainer = document.getElementById('data-master').parentElement;
-    const notaris = document.getElementById('notaris_id');
-    dataMasterContainer.classList.add('active')
+        const dataMasterContainer = document.getElementById('data-master').parentElement;
+        const notaris = document.getElementById('notaris_id');
+        dataMasterContainer.classList.add('active')
 
-    const token = {{ Js::from(Session::get('token')) }}
+        const token = {{ Js::from(Session::get('token')) }}
 
         function getNotaries(ctx) {
             notaris.disabled = true;
 
             // remove current notaries
-            let child = notaris.lastElementChild; 
+            let child = notaris.lastElementChild;
             while (child) {
                 if (notaris.length === 1) {
                     break;
@@ -171,22 +177,22 @@
             }
 
             fetch(`http://localhost:8001/api/branches/${ctx.value}/notaris`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
-            .then(res => res.json())
-            .then((e) => {
-                e.data.forEach((n) => {
-                    const opt = document.createElement('option');
-                    opt.value = n.id;
-                    opt.innerHTML = n.name;
-                    opt.selected = false;
-                    notaris.appendChild(opt);
-                });
-                notaris.disabled = false;
-            })
-            .catch(e => console.log(e))
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                .then(res => res.json())
+                .then((e) => {
+                    e.data.forEach((n) => {
+                        const opt = document.createElement('option');
+                        opt.value = n.id;
+                        opt.innerHTML = n.name;
+                        opt.selected = false;
+                        notaris.appendChild(opt);
+                    });
+                    notaris.disabled = false;
+                })
+                .catch(e => console.log(e))
         }
-</script>
+    </script>
 @endsection
