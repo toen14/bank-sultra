@@ -35,6 +35,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('profile', \App\Http\Controllers\ProfileController::class)->names('profile');
     Route::resource('change-password', \App\Http\Controllers\ChangePasswordController::class)->names('change-password');
+
+    Route::get('users/{user}/notifications', [App\Http\Controllers\UserControllers\UserNotificationController::class, 'index'])->name('user-notification-index');
+    Route::get('users/{user}/notifications/{notification}/status', [App\Http\Controllers\UserControllers\UserNotificationController::class, 'index'])->name('user-notification-status');
 });
 
 require __DIR__ . '/auth.php';

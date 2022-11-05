@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API\UserControllers;
+namespace App\Http\Controllers\UserControllers;
 
 use Illuminate\Http\Request;
 
@@ -21,9 +21,15 @@ class UserNotificationController extends Controller
     {
         $this->authorize('show', $user);
 
-        $userNotifications = Notification::where('user_id', $user->id)->orderBy('id', 'DESC')->with('note.user')->paginate(request()->limit ?? 0);
+        $notifications = Notification::with(['note', 'note.user'])
+            ->whereHas('note', function ($query) use ($user) {
+                $query->where('user_id', '!=', $user->id);
+            })
+            ->where('user_id', $user->id)
+            ->orderBy('id', 'DESC')
+            ->paginate(8);
 
-        return response()->json($userNotifications);
+        return view('user.notification.index', compact('notifications'));
     }
 
     /**
@@ -31,15 +37,13 @@ class UserNotificationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function status(User $user, Notification $notification, Request $request)
+    public function status(User $user, Notification $notification)
     {
-        $validated = $request->validate(['status' => ['required', new Enum(NotificationEnum::class)]]);
-        
         $this->authorize('show', $notification);
 
-        $notification->status = $validated['status'];
+        $notification->status = NotificationEnum::Read->value;
         $notification->save();
-        
-        return response()->json($notification);
+
+        return redirect(route('user-debitors.show', ['user' => $user->id, 'debitor' => $notification->note->debitor_id]));
     }
 }
