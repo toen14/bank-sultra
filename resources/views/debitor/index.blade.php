@@ -87,7 +87,7 @@
                                                 <td> {{ $debitor['name'] }} </td>
                                                 <td> {{ $debitor['jenis_pengurusan'] }} </td>
                                                 <td> {{ $debitor['data_agunan'] }} </td>
-                                                <td> {{ $debitor['cabang_id'] }} </td>
+                                                <td> {{ $debitor?->branch?->name }} </td>
                                                 <td>
                                                     {{ $debitor?->users[0]?->name }}
                                                 </td>

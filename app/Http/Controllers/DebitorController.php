@@ -24,7 +24,7 @@ class DebitorController extends Controller
      */
     public function index()
     {
-        $debitors = Debitor::with('users')->get();
+        $debitors = Debitor::with(['users', 'branch'])->get();
 
         return view('debitor.index', compact('debitors'));
     }
