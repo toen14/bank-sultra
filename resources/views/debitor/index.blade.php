@@ -89,22 +89,7 @@
                                                 <td> {{ $debitor['data_agunan'] }} </td>
                                                 <td> {{ $debitor['cabang_id'] }} </td>
                                                 <td>
-                                                    @if ($debitor->users->count())
-                                                        <div class="btn-group">
-                                                            <button class="btn btn-secondary btn-sm dropdown-toggle"
-                                                                type="button" data-toggle="dropdown" aria-haspopup="true"
-                                                                aria-expanded="false">
-                                                                Daftar notaris
-                                                            </button>
-                                                            <div class="dropdown-menu">
-                                                                @foreach ($debitor->users as $notaris)
-                                                                    <a class="dropdown-item">
-                                                                        {{ $notaris->name }}
-                                                                    </a>
-                                                                @endforeach
-                                                            </div>
-                                                        </div>
-                                                    @endif
+                                                    {{ $debitor?->users[0]?->name }}
                                                 </td>
                                                 <td> {{ $debitor['nomor'] }} </td>
                                                 <td> {{ $debitor['status'] }} </td>
