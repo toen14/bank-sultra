@@ -1,0 +1,25 @@
+5 November 2022
+- export pdf debitur, sorting by tgl penyerahan, grouping by status, tambahkan footer pencetak oleh nama user yg login dgn tanggalnya.
+- ubah dasboard kotak ke bulat, dasboard ubah data pemberkasan ke statistik pemberkasan
+- distribusi berdasarkan daerah ubah dari user ke debitur
+- pemilihan kata di status note, 
+- untuk tombol, textnya awalnya huruf kapital,
+- debitur bagi dua pada bagian edit, mulai dari agunan
+- widget tanggal ubah
+- platform_kredit form to platform kredit 
+- input angka pakai pemisah titik
+- tombol edit & delete ganti pakaian icon
+- status pakai badge
+- tombol pdf buat modal & bisa filter (cabang / notaris), untuk preview & download pdf
+- all font Rubik
+- untuk report pdf: logo bank Sultra, tahun periode export, footer, formal tgl tahun nama bulan & tanggal
+- delete debitur jadi arsip (soft delete)
+- tombol restore samping tombol debitur 
+- daftar note ke daftar catatan, tombol titik2 hanya edit & detail, edit mengarah ke data master debitur 
+- radio status di note ubah jadi badge 
+- form ikut susunan excel 
+- nomor surat adalah no surat agunan,  nomor adalah nomor cover note, tambah tanggal akad,
+- buat input date di hp dan web sama
+- tombol edit/tambah data ubah simpan saja
+- ubah status di edit debitur 
+- di dashboard ubah distribusi user ke distribusi debitur, hitung total done, progress, pending

@@ -5,6 +5,7 @@
     <link rel="icon" href="{{ asset('/assets/img/banksultra-ico.png') }}" type="image/x-icon" />
 
     <!-- Fonts and icons -->
+    <link href="https://fonts.cdnfonts.com/css/rubik" rel="stylesheet">
     <script src="{{ asset('assets/js/plugin/webfont/webfont.min.js') }}"></script>
     <script>
         WebFont.load({
@@ -26,6 +27,11 @@
             },
         });
     </script>
+    <style>
+        * {
+            font-family: 'Rubik', sans-serif !important;
+        }
+    </style>
 
     <!-- CSS Files -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" />
