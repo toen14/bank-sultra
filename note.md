@@ -11,7 +11,7 @@
 - tombol edit & delete ganti pakaian icon
 - status pakai badge
 - tombol pdf buat modal & bisa filter (cabang / notaris), untuk preview & download pdf
-- all font Rubik
+- all font Rubik - Done
 - untuk report pdf: logo bank Sultra, tahun periode export, footer, formal tgl tahun nama bulan & tanggal
 - delete debitur jadi arsip (soft delete)
 - tombol restore samping tombol debitur 
@@ -20,6 +20,6 @@
 - form ikut susunan excel 
 - nomor surat adalah no surat agunan,  nomor adalah nomor cover note, tambah tanggal akad,
 - buat input date di hp dan web sama
-- tombol edit/tambah data ubah simpan saja
+- tombol edit/tambah data ubah simpan saja - Done
 - ubah status di edit debitur 
 - di dashboard ubah distribusi user ke distribusi debitur, hitung total done, progress, pending

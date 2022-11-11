@@ -134,7 +134,7 @@
                                         <span class="btn-label">
                                             <i class="far fa-edit"></i>
                                         </span>
-                                        Edit Data
+                                        Simpan
                                     </button>
                                     <a href=" {{ route('debitors.index') }} " class="btn btn-warning">
                                         <span class="btn-label">
@@ -176,7 +176,9 @@
                 child = notaris.lastElementChild;
             }
 
-            fetch(`http://localhost:8001/api/branches/${ctx.value}/notaris`, {
+            const url = "{{ env('APP_URL') }}";
+
+            fetch(`${url}/api/branches/${ctx.value}/notaris`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

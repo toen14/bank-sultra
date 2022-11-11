@@ -113,7 +113,7 @@
                                         <span class="btn-label">
                                             <i class="far fa-edit"></i>
                                         </span>
-                                        Edit Data
+                                        Simpan
                                     </button>
                                     <a href=" {{ route('users.index') }} " class="btn btn-warning">
                                         <span class="btn-label">

@@ -100,7 +100,7 @@
                                         <span class="btn-label">
                                             <i class="fa fa-plus"></i>
                                         </span>
-                                        Tambah Data
+                                        Simpan
                                     </button>
                                     <a href=" {{ route('users.index') }} " class="btn btn-warning">
                                         <span class="btn-label">

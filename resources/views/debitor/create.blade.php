@@ -118,7 +118,7 @@
                                         <span class="btn-label">
                                             <i class="fa fa-plus"></i>
                                         </span>
-                                        Tambah Data
+                                        Simpan
                                     </button>
                                     <a href=" {{ route('debitors.index') }} " class="btn btn-warning">
                                         <span class="btn-label">
@@ -145,6 +145,7 @@
         dataMasterContainer.classList.add('active')
 
         const token = {{ Js::from(Session::get('token')) }}
+        const url = "{{ env('APP_URL') }}";
 
         function getNotaries(ctx) {
             notaris.disabled = true;
@@ -160,7 +161,7 @@
                 child = notaris.lastElementChild;
             }
 
-            fetch(`http://localhost:8001/api/branches/${ctx.value}/notaris`, {
+            fetch(`${url}/api/branches/${ctx.value}/notaris`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
