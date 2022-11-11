@@ -100,13 +100,13 @@
                                                 <td>
                                                     <div class="action-container d-flex justify-content-center">
                                                         <a href=" {{ route('debitors.edit', $debitor->id) }} "
-                                                            class="btn btn-info mr-1">edit</a>
+                                                            class="btn btn-info mr-1">Edit</a>
                                                         <form action="{{ route('debitors.destroy', $debitor->id) }}"
                                                             method="post">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button onclick="deleteDebitor(this)" type="button"
-                                                                class="btn btn-danger ml-1">delete
+                                                                class="btn btn-danger ml-1">Delete
                                                             </button>
                                                         </form>
                                                     </div>

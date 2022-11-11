@@ -73,13 +73,13 @@
                                                 <td>
                                                     <div class="action-container d-flex justify-content-center">
                                                         <a href=" {{ route('branches.edit', $branch->id) }} "
-                                                            class="btn btn-info mr-1">edit</a>
+                                                            class="btn btn-info mr-1">Edit</a>
                                                         <form action=" {{ route('branches.destroy', $branch->id) }} "
                                                             method="post">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button onclick="deleteUser(this)" type="button"
-                                                                class="btn btn-danger ml-1">delete
+                                                                class="btn btn-danger ml-1">Delete
                                                             </button>
                                                         </form>
                                                     </div>
