@@ -3,11 +3,11 @@
 - ubah dasboard kotak ke bulat, dasboard ubah data pemberkasan ke statistik pemberkasan
 - distribusi berdasarkan daerah ubah dari user ke debitur
 - pemilihan kata di status note, 
-- untuk tombol, textnya awalnya huruf kapital,
+- untuk tombol, textnya awalnya huruf kapital, - Done
 - debitur bagi dua pada bagian edit, mulai dari agunan
 - widget tanggal ubah
 - platform_kredit form to platform kredit 
-- input angka pakai pemisah titik
+- input angka pakai pemisah titik - Done
 - tombol edit & delete ganti pakaian icon
 - status pakai badge
 - tombol pdf buat modal & bisa filter (cabang / notaris), untuk preview & download pdf

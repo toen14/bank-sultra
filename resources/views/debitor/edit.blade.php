@@ -56,16 +56,14 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="nilai_pengikatan">Nilai pengikatan</label>
-                                    <input type="number" value="{{ $debitor->nilai_pengikatan }}"
-                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                        class="form-control" name="nilai_pengikatan" id="nilai_pengikatan"
+                                    <input type="text" value="{{ $debitor->nilai_pengikatan }}"
+                                        class="form-control nilai_pengikatan" name="nilai_pengikatan" id="nilai_pengikatan"
                                         placeholder="Masukan nilai pengikatan">
                                 </div>
                                 <div class="form-group">
                                     <label for="plafond_kredit">Plafound kredit</label>
-                                    <input type="number" value="{{ $debitor->plafond_kredit }}"
-                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                        class="form-control" name="plafond_kredit" id="plafond_kredit"
+                                    <input type="text" value="{{ $debitor->plafond_kredit }}"
+                                        class="form-control plafond_kredit" name="plafond_kredit" id="plafond_kredit"
                                         placeholder="Masukan plafound_kredit">
                                 </div>
                                 <div class="form-group">
@@ -196,5 +194,16 @@
                 })
                 .catch(e => console.log(e))
         }
+
+        new Cleave('.nilai_pengikatan', {
+            numeral: true,
+            numeralDecimalMark: ',',
+            delimiter: '.'
+        })
+        new Cleave('.plafond_kredit', {
+            numeral: true,
+            numeralDecimalMark: ',',
+            delimiter: '.'
+        })
     </script>
 @endsection

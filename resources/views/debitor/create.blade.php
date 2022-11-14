@@ -41,7 +41,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form action=" {{ route('debitors.store') }} " method="POST">
+                            <form action=" {{ route('debitors.store') }} " method="POST" id="form-debior">
                                 @csrf
                                 <div class="form-group">
                                     <label for="name">Nama</label>
@@ -55,17 +55,14 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="nilai_pengikatan">Nilai pengikatan</label>
-                                    <input type="number"
-                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                        class="form-control" name="nilai_pengikatan" id="nilai_pengikatan"
+                                    <input type="text" {{-- oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" --}} class="form-control nilai_pengikatan"
+                                        name="nilai_pengikatan" id="nilai_pengikatan"
                                         placeholder="Masukan nilai pengikatan">
                                 </div>
                                 <div class="form-group">
                                     <label for="plafond_kredit">Plafound kredit</label>
-                                    <input type="number"
-                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                        class="form-control" name="plafond_kredit" id="plafond_kredit"
-                                        placeholder="Masukan plafound_kredit">
+                                    <input type="text" {{-- oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" --}} class="form-control plafond_kredit"
+                                        name="plafond_kredit" id="plafond_kredit" placeholder="Masukan plafound_kredit">
                                 </div>
                                 <div class="form-group">
                                     <label for="data_agunan">Data agunan</label>
@@ -179,5 +176,32 @@
                 })
                 .catch(e => console.log(e))
         }
+
+        new Cleave('.nilai_pengikatan', {
+            numeral: true,
+            numeralDecimalMark: ',',
+            delimiter: '.'
+        })
+        new Cleave('.plafond_kredit', {
+            numeral: true,
+            numeralDecimalMark: ',',
+            delimiter: '.'
+        })
+
+        document.getElementById("form-debior").addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const nilaiPengikatan = document.getElementById("nilai_pengikatan");
+            const plafondKredit = document.getElementById("plafond_kredit");
+
+            nilaiPengikatan.value = +nilaiPengikatan.value
+                .replaceAll(".", "")
+                .replaceAll(",", ".");
+            plafondKredit.value = +plafondKredit.value
+                .replaceAll(".", "")
+                .replaceAll(",", ".");
+
+            e.currentTarget.submit()
+        });
     </script>
 @endsection
