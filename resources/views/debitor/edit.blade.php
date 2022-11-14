@@ -64,7 +64,7 @@
                                     <label for="plafond_kredit">Plafound kredit</label>
                                     <input type="text" value="{{ $debitor->plafond_kredit }}"
                                         class="form-control plafond_kredit" name="plafond_kredit" id="plafond_kredit"
-                                        placeholder="Masukan plafound_kredit">
+                                        placeholder="Masukan plafound kredit">
                                 </div>
                                 <div class="form-group">
                                     <label for="data_agunan">Data agunan</label>

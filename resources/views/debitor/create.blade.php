@@ -62,7 +62,7 @@
                                 <div class="form-group">
                                     <label for="plafond_kredit">Plafound kredit</label>
                                     <input type="text" {{-- oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" --}} class="form-control plafond_kredit"
-                                        name="plafond_kredit" id="plafond_kredit" placeholder="Masukan plafound_kredit">
+                                        name="plafond_kredit" id="plafond_kredit" placeholder="Masukan plafound kredit">
                                 </div>
                                 <div class="form-group">
                                     <label for="data_agunan">Data agunan</label>
