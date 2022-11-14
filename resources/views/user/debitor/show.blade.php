@@ -36,7 +36,7 @@
                                             <button
                                                 class="dropdown-item text-success {{ \App\Enums\DebitorStatus::Done->value === $debitor->status ? 'd-none' : '' }}"
                                                 type="submit">
-                                                Buat done
+                                                Set as done
                                             </button>
                                         </form>
 
@@ -50,7 +50,7 @@
                                             <button
                                                 class="dropdown-item text-warning {{ \App\Enums\DebitorStatus::Progress->value === $debitor->status ? 'd-none' : '' }}"
                                                 type="submit">
-                                                Buat on progress
+                                                Set as on progress
                                             </button>
                                         </form>
                                         <form
@@ -63,7 +63,7 @@
                                             <button
                                                 class="dropdown-item text-danger {{ \App\Enums\DebitorStatus::Pending->value === $debitor->status ? 'd-none' : '' }}"
                                                 type="submit">
-                                                Buat pending
+                                                Set as pending
                                             </button>
                                         </form>
                                     </div>
