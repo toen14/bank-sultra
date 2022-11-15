@@ -72,14 +72,19 @@
                                                 <td> {{ $branch->kabupatenKota->name }} </td>
                                                 <td>
                                                     <div class="action-container d-flex justify-content-center">
-                                                        <a href=" {{ route('branches.edit', $branch->id) }} "
-                                                            class="btn btn-info mr-1">Edit</a>
-                                                        <form action=" {{ route('branches.destroy', $branch->id) }} "
+                                                        <a href="{{ route('branches.edit', $branch->id) }}"
+                                                            data-toggle="tooltip" data-original-title="Edit Cabang"
+                                                            class="btn btn-link btn-primary btn-sm">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                        <form action="{{ route('branches.destroy', $branch->id) }}"
                                                             method="post">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button onclick="deleteUser(this)" type="button"
-                                                                class="btn btn-danger ml-1">Delete
+                                                            <button type="button" onclick="deleteUser(this)"
+                                                                class="btn btn-link btn-danger btn-sm" data-toggle="tooltip"
+                                                                data-original-title="Hapus Cabang">
+                                                                <i class="fa fa-times"></i>
                                                             </button>
                                                         </form>
                                                     </div>

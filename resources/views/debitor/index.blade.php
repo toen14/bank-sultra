@@ -99,14 +99,19 @@
 
                                                 <td>
                                                     <div class="action-container d-flex justify-content-center">
-                                                        <a href=" {{ route('debitors.edit', $debitor->id) }} "
-                                                            class="btn btn-info mr-1">Edit</a>
+                                                        <a href="{{ route('debitors.edit', $debitor->id) }}"
+                                                            data-toggle="tooltip" data-original-title="Edit Debitur"
+                                                            class="btn btn-link btn-primary btn-sm">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
                                                         <form action="{{ route('debitors.destroy', $debitor->id) }}"
                                                             method="post">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button onclick="deleteDebitor(this)" type="button"
-                                                                class="btn btn-danger ml-1">Delete
+                                                            <button type="button" onclick="deleteDebitor(this)"
+                                                                class="btn btn-link btn-danger btn-sm" data-toggle="tooltip"
+                                                                data-original-title="Hapus Debitur">
+                                                                <i class="fa fa-times"></i>
                                                             </button>
                                                         </form>
                                                     </div>

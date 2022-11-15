@@ -8,7 +8,7 @@
 - widget tanggal ubah
 - platform_kredit form to platform kredit - Done
 - input angka pakai pemisah titik - Done
-- tombol edit & delete ganti pakaian icon
+- tombol edit & delete ganti pakaian icon - Done
 - status pakai badge
 - tombol pdf buat modal & bisa filter (cabang / notaris), untuk preview & download pdf
 - all font Rubik - Done
