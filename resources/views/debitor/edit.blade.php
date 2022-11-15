@@ -41,7 +41,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form action=" {{ route('debitors.update', $debitor->id) }} " method="POST">
+                            <form action=" {{ route('debitors.update', $debitor->id) }} " method="POST" id="form-debior">
                                 @csrf
                                 @method('PATCH')
                                 <div class="form-group">
@@ -50,29 +50,40 @@
                                         placeholder="Masukan nama" value=" {{ $debitor->name }} ">
                                 </div>
                                 <div class="form-group">
-                                    <label for="jenis_pengurusan">Jenis pengikatan</label>
+                                    <label for="jenis_pengurusan">Jenis Pengikatan</label>
                                     <input type="text" class="form-control" name="jenis_pengurusan" id="jenis_pengurusan"
                                         placeholder="Masukan jenis pengikatan" value=" {{ $debitor->jenis_pengurusan }} ">
                                 </div>
                                 <div class="form-group">
-                                    <label for="nilai_pengikatan">Nilai pengikatan</label>
+                                    <label for="nilai_pengikatan">Nilai Pengikatan</label>
                                     <input type="text" value="{{ $debitor->nilai_pengikatan }}"
                                         class="form-control nilai_pengikatan" name="nilai_pengikatan" id="nilai_pengikatan"
                                         placeholder="Masukan nilai pengikatan">
                                 </div>
                                 <div class="form-group">
-                                    <label for="plafond_kredit">Plafound kredit</label>
+                                    <label for="plafond_kredit">Plafound Kredit</label>
                                     <input type="text" value="{{ $debitor->plafond_kredit }}"
                                         class="form-control plafond_kredit" name="plafond_kredit" id="plafond_kredit"
                                         placeholder="Masukan plafound kredit">
                                 </div>
                                 <div class="form-group">
-                                    <label for="data_agunan">Data agunan</label>
+                                    <label for="status">Status Debitur</label>
+                                    <select class="form-control" id="status" name="status" required>
+                                        @foreach ($debitorStatus as $status)
+                                            <option value="{{ $status->value }}"
+                                                {{ $status->value === $debitor->status ? 'selected' : '' }}>
+                                                {{ $status->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="data_agunan">Data Agunan</label>
                                     <input type="text" class="form-control" name="data_agunan" id="data_agunan"
                                         placeholder="Masukan agunan" value=" {{ $debitor->data_agunan }} ">
                                 </div>
                                 <div class="form-group">
-                                    <label for="no_surat">Nomor surat</label>
+                                    <label for="no_surat">Nomor Surat</label>
                                     <input type="text" class="form-control" value="{{ $debitor->no_surat }}"
                                         name="no_surat" id="no_surat" placeholder="Masukan nomor surat">
                                 </div>
@@ -111,18 +122,18 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="alamat">Alamat jaminan</label>
+                                    <label for="alamat">Alamat Jaminan</label>
                                     <input type="text" name="alamat" class="form-control" id="alamat"
                                         placeholder="Masukan alamat jaminan" value=" {{ $debitor->alamat }} ">
                                 </div>
                                 <div class="form-group">
-                                    <label for="tanggal_penyerahan">Tanggal order</label>
+                                    <label for="tanggal_penyerahan">Tanggal Order</label>
                                     <input type="date" name="tanggal_penyerahan" class="form-control"
                                         id="tanggal_penyerahan" placeholder="Masukan tanggal order"
                                         value="{{ $debitor->tanggal_penyerahan }}" min="1945-01-01" max="3000-12-28">
                                 </div>
                                 <div class="form-group">
-                                    <label for="tanggal_berakhir">Tanggal berakhir cover note</label>
+                                    <label for="tanggal_berakhir">Tanggal Berakhir Covernote</label>
                                     <input type="date" name="tanggal_berakhir" class="form-control"
                                         id="tanggal_berakhir" placeholder="Masukan tanggal berakhir cover note"
                                         value="{{ $debitor->tanggal_berakhir }}">
@@ -205,5 +216,21 @@
             numeralDecimalMark: ',',
             delimiter: '.'
         })
+
+        document.getElementById("form-debior").addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const nilaiPengikatan = document.getElementById("nilai_pengikatan");
+            const plafondKredit = document.getElementById("plafond_kredit");
+
+            nilaiPengikatan.value = +nilaiPengikatan.value
+                .replaceAll(".", "")
+                .replaceAll(",", ".");
+            plafondKredit.value = +plafondKredit.value
+                .replaceAll(".", "")
+                .replaceAll(",", ".");
+
+            e.currentTarget.submit()
+        });
     </script>
 @endsection

@@ -124,7 +124,9 @@ class DebitorController extends Controller
             ->where('cabang_id', $debitor->cabang_id)->get();
         $selectedNotaris = $debitor->users[0]?->id;
 
-        return view('debitor.edit', compact('debitor', 'branches', 'notaries', 'selectedNotaris'));
+        $debitorStatus = DebitorStatus::cases();
+
+        return view('debitor.edit', compact('debitor', 'branches', 'notaries', 'selectedNotaris', 'debitorStatus'));
     }
 
     /**

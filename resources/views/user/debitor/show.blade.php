@@ -26,46 +26,8 @@
                                     </button>
                                     <div class="dropdown-arrow"></div>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <form
-                                            action="{{ route('user-debitors.status', ['user' => auth()->user()->id, 'debitor' => $debitor->id]) }}"
-                                            method="POST" style="margin: 0px">
-                                            @method('PATCH')
-                                            @csrf
-                                            <input type="hidden" name="status"
-                                                value="{{ \App\Enums\DebitorStatus::Done->value }}">
-                                            <button
-                                                class="dropdown-item text-success {{ \App\Enums\DebitorStatus::Done->value === $debitor->status ? 'd-none' : '' }}"
-                                                type="submit">
-                                                Set as done
-                                            </button>
-                                        </form>
-
-                                        <form
-                                            action="{{ route('user-debitors.status', ['user' => auth()->user()->id, 'debitor' => $debitor->id]) }}"
-                                            method="POST" style="margin: 0px">
-                                            @method('PATCH')
-                                            @csrf
-                                            <input type="hidden" name="status"
-                                                value="{{ \App\Enums\DebitorStatus::Progress->value }}">
-                                            <button
-                                                class="dropdown-item text-warning {{ \App\Enums\DebitorStatus::Progress->value === $debitor->status ? 'd-none' : '' }}"
-                                                type="submit">
-                                                Set as on progress
-                                            </button>
-                                        </form>
-                                        <form
-                                            action="{{ route('user-debitors.status', ['user' => auth()->user()->id, 'debitor' => $debitor->id]) }}"
-                                            method="POST" style="margin: 0px">
-                                            @method('PATCH')
-                                            @csrf
-                                            <input type="hidden" name="status"
-                                                value="{{ \App\Enums\DebitorStatus::Pending->value }}">
-                                            <button
-                                                class="dropdown-item text-danger {{ \App\Enums\DebitorStatus::Pending->value === $debitor->status ? 'd-none' : '' }}"
-                                                type="submit">
-                                                Set as pending
-                                            </button>
-                                        </form>
+                                        <a href="{{ route('debitors.edit', ['debitor' => $debitor->id]) }}"
+                                            class="dropdown-item text-success">Edit Debitur</a>
                                     </div>
                                 </div>
                             </div>
