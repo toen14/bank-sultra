@@ -16,10 +16,10 @@
 - delete debitur jadi arsip (soft delete)
 - tombol restore samping tombol debitur 
 - daftar note ke daftar catatan, tombol titik2 hanya edit & detail, edit mengarah ke data master debitur - Done
-- radio status di note ubah jadi badge 
+- radio status di note ubah jadi badge - Done
 - form ikut susunan excel 
 - nomor surat adalah no surat agunan,  nomor adalah nomor cover note, tambah tanggal akad,
 - buat input date di hp dan web sama
 - tombol edit/tambah data ubah simpan saja - Done
-- ubah status di edit debitur 
+- ubah status di edit debitur - Done
 - di dashboard ubah distribusi user ke distribusi debitur, hitung total done, progress, pending

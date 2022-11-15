@@ -1,5 +1,14 @@
 @extends('layouts.main')
 
+@php
+    $colorStatus = 'danger';
+    if (\App\Enums\DebitorStatus::Done->value === $debitor->status) {
+        $colorStatus = 'success';
+    } elseif (\App\Enums\DebitorStatus::Pending->value === $debitor->status) {
+        $colorStatus = 'warning';
+    }
+@endphp
+
 @section('content')
     <div class="container container-full">
         <div class="page-wrapper has-sidebar">
@@ -14,9 +23,8 @@
                             <div class="user ml-2">
                                 <div class="info-user ml-2">
                                     <span class="name">{{ $debitor->name }}</span>
-                                    <span
-                                        class="status text-{{ (\App\Enums\DebitorStatus::Done->value === $debitor->status ? 'success' : \App\Enums\DebitorStatus::Pending->value === $debitor->status) ? 'danger' : 'warning' }}"
-                                        style="font-size: 11px">{{ $debitor->status }}</span>
+                                    <span class="status text-{{ $colorStatus }}" style="font-size: 11px">{{ $debitor->status }}
+                                    </span>
                                 </div>
                             </div>
                             <div class="list-group-item-figure ml-auto">
@@ -139,12 +147,7 @@
                 </div>
                 <div class="form-check">
                     <label>Status Berkas</label><br />
-                    <label class="form-radio-label ml-1">
-                        <input
-                            class="form-radio-input option-{{ (\App\Enums\DebitorStatus::Done->value === $debitor->status ? 'done' : \App\Enums\DebitorStatus::Pending->value === $debitor->status) ? 'pending' : 'on-progress' }}"
-                            type="radio" name="optionsRadios" value="done" checked>
-                        <span class="form-radio-sign">{{ $debitor->status }}</span>
-                    </label>
+                    <span class="badge badge-{{ $colorStatus }}">{{ $debitor->status }}</span>
                 </div>
                 <div class="form-group">
                     <label for="jenis-pengikatan">Jenis Pengikatan</label>
@@ -152,11 +155,11 @@
                 </div>
                 <div class="form-group">
                     <label for="nilai-pengikatan">Nilai Pengikatan</label>
-                    <p class="form-control" name="nilai-pengikatan">{{ $debitor->nilai_pengikatan }}</p>
+                    <p class="form-control" name="nilai-pengikatan" id="nilai-pengikatan">{{ $debitor->nilai_pengikatan }}</p>
                 </div>
                 <div class="form-group">
                     <label for="plafound-kredit">Plafound Kredit</label>
-                    <p class="form-control" name="plafound-kredit">{{ $debitor->plafond_kredit }}</p>
+                    <p class="form-control" name="plafound-kredit" id="plafound-kredit">{{ $debitor->plafond_kredit }}</p>
                 </div>
                 <div class="form-group">
                     <label for="data-agunan">Data Agunan</label>
@@ -197,6 +200,12 @@
     <script>
         const dataMasterContainer = document.getElementById('daftar-note');
         dataMasterContainer.classList.add('active')
+
+        const nilaiPengikatan = document.getElementById('nilai-pengikatan')
+        const plafoundKredit = document.getElementById('plafound-kredit')
+
+        nilaiPengikatan.innerText = new Intl.NumberFormat('id-ID').format(nilaiPengikatan.innerText)
+        plafoundKredit.innerText = new Intl.NumberFormat('id-ID').format(plafoundKredit.innerText)
     </script>
     <style>
         .hidden-before:before {
