@@ -49,35 +49,35 @@
                                         placeholder="Masukan nama">
                                 </div>
                                 <div class="form-group">
-                                    <label for="jenis_pengurusan">Jenis pengikatan</label>
+                                    <label for="jenis_pengurusan">Jenis Pengikatan</label>
                                     <input type="text" class="form-control" name="jenis_pengurusan" id="jenis_pengurusan"
                                         placeholder="Masukan jenis pengikatan">
                                 </div>
                                 <div class="form-group">
-                                    <label for="nilai_pengikatan">Nilai pengikatan</label>
+                                    <label for="nilai_pengikatan">Nilai Pengikatan</label>
                                     <input type="text" {{-- oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" --}} class="form-control nilai_pengikatan"
                                         name="nilai_pengikatan" id="nilai_pengikatan"
                                         placeholder="Masukan nilai pengikatan">
                                 </div>
                                 <div class="form-group">
-                                    <label for="plafond_kredit">Plafound kredit</label>
+                                    <label for="plafond_kredit">Plafound Kredit</label>
                                     <input type="text" {{-- oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" --}} class="form-control plafond_kredit"
                                         name="plafond_kredit" id="plafond_kredit" placeholder="Masukan plafound kredit">
                                 </div>
                                 <div class="form-group">
-                                    <label for="data_agunan">Data agunan</label>
+                                    <label for="data_agunan">Data Agunan</label>
                                     <input type="text" class="form-control" name="data_agunan" id="data_agunan"
                                         placeholder="Masukan agunan">
                                 </div>
                                 <div class="form-group">
-                                    <label for="no_surat">Nomor surat</label>
+                                    <label for="no_surat">Nomor Surat Agunan</label>
                                     <input type="text" class="form-control" name="no_surat" id="no_surat"
-                                        placeholder="Masukan nomor surat">
+                                        placeholder="Masukan nomor surat agunan">
                                 </div>
                                 <div class="form-group">
-                                    <label for="nomor">Nomor</label>
+                                    <label for="nomor">Nomor Covernote</label>
                                     <input type="text" class="form-control" name="nomor" id="nomor"
-                                        placeholder="Masukan nomor">
+                                        placeholder="Masukan nomor covernote">
                                 </div>
                                 <div class="form-group">
                                     <label for="cabang_id">Cabang</label>
@@ -92,23 +92,28 @@
                                 <div class="form-group">
                                     <label for="notaris_id">Notaris</label>
                                     <select class="form-control" id="notaris_id" name="notaris_id[]" disabled required>
-                                        <option value="" disabled selected> Pilih notaris </option>
+                                        <option value="" disabled selected> Pilih Notaris </option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="alamat">Alamat jaminan</label>
+                                    <label for="alamat">Alamat Jaminan</label>
                                     <input type="text" name="alamat" class="form-control" id="alamat"
                                         placeholder="Masukan alamat jaminan">
                                 </div>
                                 <div class="form-group">
-                                    <label for="tanggal_penyerahan">Tanggal order</label>
+                                    <label for="tanggal_akad">Tanggal Akad</label>
+                                    <input type="date" name="tanggal_akad" class="form-control"
+                                        id="tanggal_akad" placeholder="Masukan tanggal akad">
+                                </div>
+                                <div class="form-group">
+                                    <label for="tanggal_penyerahan">Tanggal Order</label>
                                     <input type="date" name="tanggal_penyerahan" class="form-control"
                                         id="tanggal_penyerahan" placeholder="Masukan tanggal order">
                                 </div>
                                 <div class="form-group">
-                                    <label for="tanggal_berakhir">Tanggal berakhir cover note</label>
+                                    <label for="tanggal_berakhir">Tanggal Berakhir Covernote</label>
                                     <input type="date" name="tanggal_berakhir" class="form-control"
-                                        id="tanggal_berakhir" placeholder="Masukan tanggal berakhir cover note">
+                                        id="tanggal_berakhir" placeholder="Masukan tanggal berakhir covernote">
                                 </div>
                                 <div class="container-button ml-2">
                                     <button type="submit" class="btn btn-success">

@@ -76,7 +76,8 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="status">Status Debitur</label>
-                                            <select class="form-control" id="status" name="status" required style="height: 39.4px !important;">
+                                            <select class="form-control" id="status" name="status" required
+                                                style="height: 39.4px !important;">
                                                 @foreach ($debitorStatus as $status)
                                                     <option value="{{ $status->value }}"
                                                         {{ $status->value === $debitor->status ? 'selected' : '' }}>
@@ -93,14 +94,9 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="no_surat">Nomor Surat</label>
+                                            <label for="no_surat">Nomor Surat Agunan</label>
                                             <input type="text" class="form-control" value="{{ $debitor->no_surat }}"
                                                 name="no_surat" id="no_surat" placeholder="Masukan nomor surat">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="nomor">Nomor</label>
-                                            <input type="text" class="form-control" name="nomor" id="nomor"
-                                                placeholder="Masukan nomor" value=" {{ $debitor->nomor }} ">
                                         </div>
                                         <div class="form-group">
                                             <label for="cabang_id">Cabang</label>
@@ -121,7 +117,8 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="notaris_id">Notaris</label>
-                                            <select class="form-control" id="notaris_id" name="notaris_id[]" required style="height: 39.4px !important;">
+                                            <select class="form-control" id="notaris_id" name="notaris_id[]" required
+                                                style="height: 39.4px !important;">
                                                 <option value="" disabled selected> Pilih notaris </option>
                                                 @foreach ($notaries as $notaris)
                                                     @if ($selectedNotaris === $notaris->id)
@@ -134,6 +131,17 @@
                                                     @endif
                                                 @endforeach
                                             </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="nomor">Nomor Covernote</label>
+                                            <input type="text" class="form-control" name="nomor" id="nomor"
+                                                placeholder="Masukan nomor covernote" value=" {{ $debitor->nomor }} ">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="tanggal_akad">Tanggal Akad</label>
+                                            <input type="date" name="tanggal_akad" class="form-control"
+                                                id="tanggal_akad" placeholder="Masukan tanggal akad"
+                                                value="{{ $debitor->tanggal_akad }}" min="1945-01-01" max="3000-12-28">
                                         </div>
                                         <div class="form-group">
                                             <label for="tanggal_penyerahan">Tanggal Order</label>

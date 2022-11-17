@@ -47,6 +47,7 @@ class UpdateDebitorRequest extends FormRequest
                     }
                 }
             }],
+            'tanggal_akad' => 'date',
             'tanggal_penyerahan' => 'date',
             'tanggal_berakhir' => 'date',
             'nilai_pengikatan' => '',

@@ -64,6 +64,7 @@ class Debitor extends Model
         'nilai_pengikatan',
         'plafond_kredit',
         'no_surat',
+        'tanggal_akad',
     ];
 
     /**
