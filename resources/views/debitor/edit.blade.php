@@ -44,101 +44,113 @@
                             <form action=" {{ route('debitors.update', $debitor->id) }} " method="POST" id="form-debior">
                                 @csrf
                                 @method('PATCH')
-                                <div class="form-group">
-                                    <label for="name">Nama</label>
-                                    <input type="text" class="form-control" name="name" id="name"
-                                        placeholder="Masukan nama" value=" {{ $debitor->name }} ">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="name">Nama</label>
+                                            <input type="text" class="form-control" name="name" id="name"
+                                                placeholder="Masukan nama" value=" {{ $debitor->name }} ">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="alamat">Alamat Jaminan</label>
+                                            <input type="text" name="alamat" class="form-control" id="alamat"
+                                                placeholder="Masukan alamat jaminan" value=" {{ $debitor->alamat }} ">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="jenis_pengurusan">Jenis Pengikatan</label>
+                                            <input type="text" class="form-control" name="jenis_pengurusan"
+                                                id="jenis_pengurusan" placeholder="Masukan jenis pengikatan"
+                                                value=" {{ $debitor->jenis_pengurusan }} ">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="nilai_pengikatan">Nilai Pengikatan</label>
+                                            <input type="text" value="{{ $debitor->nilai_pengikatan }}"
+                                                class="form-control nilai_pengikatan" name="nilai_pengikatan"
+                                                id="nilai_pengikatan" placeholder="Masukan nilai pengikatan">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="plafond_kredit">Plafound Kredit</label>
+                                            <input type="text" value="{{ $debitor->plafond_kredit }}"
+                                                class="form-control plafond_kredit" name="plafond_kredit"
+                                                id="plafond_kredit" placeholder="Masukan plafound kredit">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="status">Status Debitur</label>
+                                            <select class="form-control" id="status" name="status" required style="height: 39.4px !important;">
+                                                @foreach ($debitorStatus as $status)
+                                                    <option value="{{ $status->value }}"
+                                                        {{ $status->value === $debitor->status ? 'selected' : '' }}>
+                                                        {{ $status->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="data_agunan">Data Agunan</label>
+                                            <input type="text" class="form-control" name="data_agunan" id="data_agunan"
+                                                placeholder="Masukan agunan" value=" {{ $debitor->data_agunan }} ">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="no_surat">Nomor Surat</label>
+                                            <input type="text" class="form-control" value="{{ $debitor->no_surat }}"
+                                                name="no_surat" id="no_surat" placeholder="Masukan nomor surat">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="nomor">Nomor</label>
+                                            <input type="text" class="form-control" name="nomor" id="nomor"
+                                                placeholder="Masukan nomor" value=" {{ $debitor->nomor }} ">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cabang_id">Cabang</label>
+                                            <select class="form-control" id="cabang_id" name="cabang_id" required
+                                                onchange="getNotaries(this)" style="height: 39.4px !important;">
+                                                <option value="" disabled selected> Pilih cabang </option>
+                                                @foreach ($branches as $branch)
+                                                    @if ($branch->id === $debitor->cabang_id)
+                                                        <option value=" {{ $branch->id }} " selected>
+                                                            {{ $branch->name }}
+                                                        </option>
+                                                    @else
+                                                        <option value=" {{ $branch->id }} "> {{ $branch->name }}
+                                                        </option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="notaris_id">Notaris</label>
+                                            <select class="form-control" id="notaris_id" name="notaris_id[]" required style="height: 39.4px !important;">
+                                                <option value="" disabled selected> Pilih notaris </option>
+                                                @foreach ($notaries as $notaris)
+                                                    @if ($selectedNotaris === $notaris->id)
+                                                        <option value="{{ $notaris->id }}" selected>
+                                                            {{ $notaris->name }}
+                                                        </option>
+                                                    @else
+                                                        <option value="{{ $notaris->id }}"> {{ $notaris->name }}
+                                                        </option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="tanggal_penyerahan">Tanggal Order</label>
+                                            <input type="date" name="tanggal_penyerahan" class="form-control"
+                                                id="tanggal_penyerahan" placeholder="Masukan tanggal order"
+                                                value="{{ $debitor->tanggal_penyerahan }}" min="1945-01-01"
+                                                max="3000-12-28">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="tanggal_berakhir">Tanggal Berakhir Covernote</label>
+                                            <input type="date" name="tanggal_berakhir" class="form-control"
+                                                id="tanggal_berakhir" placeholder="Masukan tanggal berakhir cover note"
+                                                value="{{ $debitor->tanggal_berakhir }}">
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="jenis_pengurusan">Jenis Pengikatan</label>
-                                    <input type="text" class="form-control" name="jenis_pengurusan" id="jenis_pengurusan"
-                                        placeholder="Masukan jenis pengikatan" value=" {{ $debitor->jenis_pengurusan }} ">
-                                </div>
-                                <div class="form-group">
-                                    <label for="nilai_pengikatan">Nilai Pengikatan</label>
-                                    <input type="text" value="{{ $debitor->nilai_pengikatan }}"
-                                        class="form-control nilai_pengikatan" name="nilai_pengikatan" id="nilai_pengikatan"
-                                        placeholder="Masukan nilai pengikatan">
-                                </div>
-                                <div class="form-group">
-                                    <label for="plafond_kredit">Plafound Kredit</label>
-                                    <input type="text" value="{{ $debitor->plafond_kredit }}"
-                                        class="form-control plafond_kredit" name="plafond_kredit" id="plafond_kredit"
-                                        placeholder="Masukan plafound kredit">
-                                </div>
-                                <div class="form-group">
-                                    <label for="status">Status Debitur</label>
-                                    <select class="form-control" id="status" name="status" required>
-                                        @foreach ($debitorStatus as $status)
-                                            <option value="{{ $status->value }}"
-                                                {{ $status->value === $debitor->status ? 'selected' : '' }}>
-                                                {{ $status->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="data_agunan">Data Agunan</label>
-                                    <input type="text" class="form-control" name="data_agunan" id="data_agunan"
-                                        placeholder="Masukan agunan" value=" {{ $debitor->data_agunan }} ">
-                                </div>
-                                <div class="form-group">
-                                    <label for="no_surat">Nomor Surat</label>
-                                    <input type="text" class="form-control" value="{{ $debitor->no_surat }}"
-                                        name="no_surat" id="no_surat" placeholder="Masukan nomor surat">
-                                </div>
-                                <div class="form-group">
-                                    <label for="nomor">Nomor</label>
-                                    <input type="text" class="form-control" name="nomor" id="nomor"
-                                        placeholder="Masukan nomor" value=" {{ $debitor->nomor }} ">
-                                </div>
-                                <div class="form-group">
-                                    <label for="cabang_id">Cabang</label>
-                                    <select class="form-control" id="cabang_id" name="cabang_id" required
-                                        onchange="getNotaries(this)">
-                                        <option value="" disabled selected> Pilih cabang </option>
-                                        @foreach ($branches as $branch)
-                                            @if ($branch->id === $debitor->cabang_id)
-                                                <option value=" {{ $branch->id }} " selected> {{ $branch->name }}
-                                                </option>
-                                            @else
-                                                <option value=" {{ $branch->id }} "> {{ $branch->name }} </option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="notaris_id">Notaris</label>
-                                    <select class="form-control" id="notaris_id" name="notaris_id[]" required>
-                                        <option value="" disabled selected> Pilih notaris </option>
-                                        @foreach ($notaries as $notaris)
-                                            @if ($selectedNotaris === $notaris->id)
-                                                <option value="{{ $notaris->id }}" selected> {{ $notaris->name }}
-                                                </option>
-                                            @else
-                                                <option value="{{ $notaris->id }}"> {{ $notaris->name }} </option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="alamat">Alamat Jaminan</label>
-                                    <input type="text" name="alamat" class="form-control" id="alamat"
-                                        placeholder="Masukan alamat jaminan" value=" {{ $debitor->alamat }} ">
-                                </div>
-                                <div class="form-group">
-                                    <label for="tanggal_penyerahan">Tanggal Order</label>
-                                    <input type="date" name="tanggal_penyerahan" class="form-control"
-                                        id="tanggal_penyerahan" placeholder="Masukan tanggal order"
-                                        value="{{ $debitor->tanggal_penyerahan }}" min="1945-01-01" max="3000-12-28">
-                                </div>
-                                <div class="form-group">
-                                    <label for="tanggal_berakhir">Tanggal Berakhir Covernote</label>
-                                    <input type="date" name="tanggal_berakhir" class="form-control"
-                                        id="tanggal_berakhir" placeholder="Masukan tanggal berakhir cover note"
-                                        value="{{ $debitor->tanggal_berakhir }}">
-                                </div>
-                                <div class="container-button ml-2">
+                                <div class="container-button ml-2 mt-3">
                                     <button type="submit" class="btn btn-success">
                                         <span class="btn-label">
                                             <i class="far fa-edit"></i>

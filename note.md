@@ -4,12 +4,12 @@
 - distribusi berdasarkan daerah ubah dari user ke debitur
 - pemilihan kata di status note - Done, 
 - untuk tombol, textnya awalnya huruf kapital, - Done
-- debitur bagi dua pada bagian edit, mulai dari agunan
+- debitur bagi dua pada bagian edit, mulai dari agunan - Done
 - widget tanggal ubah
 - platform_kredit form to platform kredit - Done
 - input angka pakai pemisah titik - Done
 - tombol edit & delete ganti pakaian icon - Done
-- status pakai badge
+- status pakai badge - Done
 - tombol pdf buat modal & bisa filter (cabang / notaris), untuk preview & download pdf
 - all font Rubik - Done
 - untuk report pdf: logo bank Sultra, tahun periode export, footer, formal tgl tahun nama bulan & tanggal
