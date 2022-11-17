@@ -5,7 +5,7 @@
 - pemilihan kata di status note - Done, 
 - untuk tombol, textnya awalnya huruf kapital, - Done
 - debitur bagi dua pada bagian edit, mulai dari agunan - Done
-- widget tanggal ubah
+- widget tanggal ubah - Done
 - platform_kredit form to platform kredit - Done
 - input angka pakai pemisah titik - Done
 - tombol edit & delete ganti pakaian icon - Done

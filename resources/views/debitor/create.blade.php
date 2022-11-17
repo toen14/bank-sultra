@@ -102,18 +102,42 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="tanggal_akad">Tanggal Akad</label>
-                                    <input type="date" name="tanggal_akad" class="form-control"
-                                        id="tanggal_akad" placeholder="Masukan tanggal akad">
+                                    <div class="input-group">
+                                        <input type="date" name="tanggal_akad" class="form-control"
+                                            id="tanggal_akad" placeholder="Masukan tanggal akad" min="1945-01-01"
+                                            max="3000-12-28">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                <i class="fa fa-calendar-check"></i>
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="tanggal_penyerahan">Tanggal Order</label>
-                                    <input type="date" name="tanggal_penyerahan" class="form-control"
-                                        id="tanggal_penyerahan" placeholder="Masukan tanggal order">
+                                    <div class="input-group">
+                                        <input type="date" name="tanggal_penyerahan" class="form-control"
+                                            id="tanggal_penyerahan" placeholder="Masukan tanggal order" min="1945-01-01"
+                                            max="3000-12-28">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                <i class="fa fa-calendar-check"></i>
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="tanggal_berakhir">Tanggal Berakhir Covernote</label>
-                                    <input type="date" name="tanggal_berakhir" class="form-control"
-                                        id="tanggal_berakhir" placeholder="Masukan tanggal berakhir covernote">
+                                    <div class="input-group">
+                                        <input type="date" name="tanggal_berakhir" class="form-control"
+                                            id="tanggal_berakhir"
+                                            placeholder="Masukan tanggal berakhir cover note">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                <i class="fa fa-calendar-check"></i>
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="container-button ml-2">
                                     <button type="submit" class="btn btn-success">
