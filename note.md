@@ -13,7 +13,7 @@
 - tombol pdf buat modal & bisa filter (cabang / notaris), untuk preview & download pdf
 - all font Rubik - Done
 - untuk report pdf: logo bank Sultra, tahun periode export, footer, formal tgl tahun nama bulan & tanggal
-- delete debitur jadi arsip (soft delete)
+- delete debitur jadi arsip (soft delete) - Done
 - tombol restore samping tombol debitur 
 - daftar note ke daftar catatan, tombol titik2 hanya edit & detail, edit mengarah ke data master debitur - Done
 - radio status di note ubah jadi badge - Done
