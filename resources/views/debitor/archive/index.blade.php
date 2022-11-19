@@ -23,6 +23,12 @@
                     <li class="nav-item">
                         <a href="#">Data Debitur</a>
                     </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Archives</a>
+                    </li>
                 </ul>
             </div>
             <div class="row">
@@ -30,28 +36,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="d-flex align-items-center justify-content-between">
-                                <h4 class="card-title">List Debitur</h4>
-
-                                <div class="container-button">
-                                    <a href=" {{ route('pdf-debitors') }} " class="btn btn-success" target="__blank">
-                                        <span class="btn-label">
-                                            <i class="fas fa-file-pdf"></i>
-                                        </span>
-                                        PDF
-                                    </a>
-                                    <a href=" {{ route('debitors.create') }} " class="btn btn-primary">
-                                        <span class="btn-label">
-                                            <i class="fa fa-plus"></i>
-                                        </span>
-                                        Tambah Data
-                                    </a>
-                                    <a href=" {{ route('debitors-archives-index') }} " class="btn btn-danger">
-                                        <span class="btn-label">
-                                            <i class="fas fa-archive"></i>
-                                        </span>
-                                        Arsip
-                                    </a>
-                                </div>
+                                <h4 class="card-title">Daftar Arsip Debitur</h4>
                             </div>
                         </div>
                         <div class="card-body">
@@ -69,6 +54,7 @@
                                             <th>Alamat</th>
                                             <th>Tanggal Penyerahan</th>
                                             <th>Tanggal Berakhir</th>
+                                            <th>Tanggal Diarsipkan</th>
                                             <th style="width: 10%">Actions</th>
                                         </tr>
                                     </thead>
@@ -83,7 +69,8 @@
                                             <th>Status</th>
                                             <th>Alamat</th>
                                             <th>Tanggal Penyerahan</th>
-                                            <th>Tanggal Penyerahan</th>
+                                            <th>Tanggal Berakhir</th>
+                                            <th>Tanggal Diarsipkan</th>
                                             <th>Actions</th>
                                         </tr>
                                     </tfoot>
@@ -102,24 +89,15 @@
                                                 <td> {{ $debitor['alamat'] }} </td>
                                                 <td> {{ $debitor['tanggal_penyerahan'] }} </td>
                                                 <td> {{ $debitor['tanggal_berakhir'] }} </td>
+                                                <td> {{ $debitor['deleted_at']->format('Y-m-d') }} </td>
 
                                                 <td>
                                                     <div class="action-container d-flex justify-content-center">
-                                                        <a href="{{ route('debitors.edit', $debitor->id) }}"
-                                                            data-toggle="tooltip" data-original-title="Edit Debitur"
-                                                            class="btn btn-link btn-primary btn-sm">
-                                                            <i class="fa fa-edit"></i>
+                                                        <a href="{{ route('debitors-archives-restore', ['archive' => $debitor['id']]) }}"
+                                                            data-toggle="tooltip" data-original-title="Kembalikan Arsip"
+                                                            class="btn btn-link btn-primary">
+                                                            <i class="fas fa-undo"></i>
                                                         </a>
-                                                        <form action="{{ route('debitors.destroy', $debitor->id) }}"
-                                                            method="post">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="button" onclick="deleteDebitor(this)"
-                                                                class="btn btn-link btn-danger btn-sm" data-toggle="tooltip"
-                                                                data-original-title="Hapus Debitur">
-                                                                <i class="fa fa-times"></i>
-                                                            </button>
-                                                        </form>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -131,42 +109,15 @@
                     </div>
                 </div>
             </div>
+            <div class="container-button ml-2" style="margin-top: -15px !important">
+                <a href=" {{ route('debitors.index') }} " class="btn btn-warning">
+                    <span class="btn-label">
+                        <i class="fas fa-angle-double-left"></i>
+                    </span>
+                    Kembali
+                </a>
+            </div>
         </div>
     </div>
     @include('layouts.footer')
-    <script>
-        $("#debitors-datatables").DataTable({
-            pageLength: 5,
-        });
-
-        const dataMasterContainer = document.getElementById('data-master').parentElement;
-        dataMasterContainer.classList.add('active')
-        // set caret icon to up (^) position
-        dataMasterContainer.children[0].setAttribute('aria-expanded', true);
-
-        const dataMaster = document.getElementById('data-master');
-        // expanse ul list
-        dataMaster.classList.add('show');
-
-        const dataMasterUl = document.getElementById('data-master').children[0];
-        // activete li current page
-        dataMasterUl.children[0].classList.add('active');
-
-        function deleteDebitor(contex) {
-            swal({
-                    title: "Apakah Anda Yakin?",
-                    text: "Data akan terhapus!",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        contex.parentElement.submit();
-                    } else {
-                        swal("Batal menghapus data!");
-                    }
-                });
-        }
-    </script>
 @endsection

@@ -171,9 +171,6 @@ class DebitorController extends Controller
     public function destroy($id)
     {
         $debitor = Debitor::with('users')->findOrFail($id);
-
-        $debitor->users()->sync([]);
-        $debitor->users()->delete();
         $debitor->delete();
 
         return response()->redirectTo(route('debitors.index'));

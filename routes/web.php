@@ -24,7 +24,13 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
     Route::resource('/users', \App\Http\Controllers\UserController::class);
+
+    // debitors archive
+    Route::get('debitors/archives', [App\Http\Controllers\DebitorArchiveController::class, 'index'])->name('debitors-archives-index');
+    Route::get('debitors/archives/{archive}/restore', [App\Http\Controllers\DebitorArchiveController::class, 'restore'])->name('debitors-archives-restore');
+    
     Route::resource('/debitors', \App\Http\Controllers\DebitorController::class);
+
     Route::resource('/branches', \App\Http\Controllers\BranchController::class);
     Route::resource('/administrasi/backup', \App\Http\Controllers\BackupController::class);
 

@@ -1,7 +1,6 @@
 5 November 2022
 - export pdf debitur, sorting by tgl penyerahan, grouping by status, tambahkan footer pencetak oleh nama user yg login dgn tanggalnya.
 - ubah dasboard kotak ke bulat, dasboard ubah data pemberkasan ke statistik pemberkasan
-- distribusi berdasarkan daerah ubah dari user ke debitur
 - pemilihan kata di status note - Done, 
 - untuk tombol, textnya awalnya huruf kapital, - Done
 - debitur bagi dua pada bagian edit, mulai dari agunan - Done
@@ -14,7 +13,7 @@
 - all font Rubik - Done
 - untuk report pdf: logo bank Sultra, tahun periode export, footer, formal tgl tahun nama bulan & tanggal
 - delete debitur jadi arsip (soft delete) - Done
-- tombol restore samping tombol debitur 
+- tombol restore samping tombol debitur - Done
 - daftar note ke daftar catatan, tombol titik2 hanya edit & detail, edit mengarah ke data master debitur - Done
 - radio status di note ubah jadi badge - Done
 - form ikut susunan excel 
