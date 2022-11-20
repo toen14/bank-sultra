@@ -18,7 +18,7 @@
 - radio status di note ubah jadi badge - Done
 - form ikut susunan excel 
 - nomor surat adalah no surat agunan,  nomor adalah nomor cover note, tambah tanggal akad, - Done
-- buat input date di hp dan web sama
+- buat input date di hp dan web sama - Done
 - tombol edit/tambah data ubah simpan saja - Done
 - ubah status di edit debitur - Done
 - di dashboard ubah distribusi user ke distribusi debitur, hitung total done, progress, pending
